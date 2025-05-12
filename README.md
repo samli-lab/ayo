@@ -2,6 +2,11 @@
 
 ## 这是一个基于 Node 的项目
 
+
+# 目录结构说明
+https://docs.adonisjs.com/guides/getting-started/folder-structure
+
+
 # 开发环境设置
 
 本项目使用 [Volta](https://volta.sh/) 来管理 Node.js 版本。
