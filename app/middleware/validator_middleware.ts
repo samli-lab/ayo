@@ -1,13 +1,14 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 import { errors } from '@vinejs/vine'
+import type { SchemaTypes } from '@vinejs/vine/types'
 
 /**
  * 扩展HttpContext接口，添加validated属性
  */
 declare module '@adonisjs/core/http' {
   interface HttpContext {
-    validated: any
+    validated: SchemaTypes
   }
 }
 
