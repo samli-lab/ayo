@@ -17,7 +17,9 @@ router
     })
     router
       .get('/test', '#controllers/user/user_controller.index')
-      .use(middleware.validate([testValidator]))
-    router.post('/test', userController.index).use(middleware.validate([testValidator]))
+      .use(middleware.validate({ bodyParams: testValidator }))
+    router
+      .post('/test/:id', userController.index)
+      .use(middleware.validate({ pathParams: testValidator }))
   })
   .prefix('/api/users')
