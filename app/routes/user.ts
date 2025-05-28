@@ -1,7 +1,7 @@
 import router from '@adonisjs/core/services/router'
 import UserController from '#controllers/user/user_controller'
 import { apiThrottle } from '#start/limiter'
-
+const TranslationController = () => import('#controllers/translation/translation_controller')
 const userController = new UserController()
 // 用户相关路由
 router
@@ -15,5 +15,6 @@ router
     })
     router.get('/test', userController.index)
     router.post('/test/:id', userController.index).use(apiThrottle)
+    router.post('/translation', [TranslationController, 'translate'])
   })
   .prefix('/api/users')

@@ -38,5 +38,9 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   REDIS_HOST: Env.schema.string({ format: 'host' }),
   REDIS_PORT: Env.schema.number(),
-  REDIS_PASSWORD: Env.schema.string.optional()
+  REDIS_PASSWORD: Env.schema.string.optional(),
+
+  BING_TRANSLATION_API_KEY: Env.schema.string(),
+  BAIDU_TRANSLATION_APP_ID: Env.schema.string(),
+  BAIDU_TRANSLATION_APP_SECRET: Env.schema.string(),
 })
