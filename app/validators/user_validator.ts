@@ -12,8 +12,14 @@ const pathParamsSchema = vine.object({
   id: vine.string().uuid(),
 })
 
+const translationSchema = vine.object({
+  text: vine.string().trim().minLength(2).maxLength(50),
+  provider: vine.string().trim().minLength(2).maxLength(50),
+})
+
 export const testValidator = vine.compile(userSchema)
 export const pathParamsValidator = vine.compile(pathParamsSchema)
+export const translationValidator = vine.compile(translationSchema)
 
 export type UserValidation = Infer<typeof userSchema>
 export type PathParamsValidation = Infer<typeof pathParamsSchema>

@@ -4,14 +4,14 @@ import url from 'node:url'
 // ---
 
 export default {
-  path: path.dirname(url.fileURLToPath(import.meta.url)) + '/../doc/swagger/', // 修改输出路径到 doc/swagger
-  title: 'Ayo API Document', // use info instead
+  path: path.dirname(url.fileURLToPath(import.meta.url)) + '/../', // for AdonisJS v6
+  title: 'Foo', // use info instead
   version: '1.0.0', // use info instead
   description: '', // use info instead
   tagIndex: 2,
   productionEnv: 'production', // optional
   info: {
-    title: 'Ayo API Doc',
+    title: 'title',
     version: '1.0.0',
     description: '',
   },
@@ -21,7 +21,22 @@ export default {
   ignore: ['/swagger', '/docs'],
   preferredPutPatch: 'PUT', // if PUT/PATCH are provided for the same route, prefer PUT
   common: {
-    parameters: {}, // OpenAPI conform parameters that are commonly used
+    parameters: {
+      parameters: {
+        sortable: [
+          {
+            in: 'query',
+            name: 'sortBy',
+            schema: { type: 'string', example: 'foo' },
+          },
+          {
+            in: 'query',
+            name: 'sortType',
+            schema: { type: 'string', example: 'ASC' },
+          },
+        ],
+      },
+    }, // OpenAPI conform parameters that are commonly used
     headers: {}, // OpenAPI conform headers that are commonly used
   },
   securitySchemes: {}, // optional

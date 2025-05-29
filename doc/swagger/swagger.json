@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Ayo API Doc",
+    "title": "title",
     "version": "1.0.0",
     "description": ""
   },
@@ -96,6 +96,97 @@
             "nullable": false
           }
         }
+      },
+      "User": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 226
+          },
+          "full_name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "johndoe@example.com",
+            "format": "email"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          }
+        },
+        "description": "User (Model)"
+      },
+      "pathParamsValidator": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          }
+        },
+        "example": {
+          "id": "Lorem Ipsum"
+        },
+        "description": "pathParamsValidator (Validator)"
+      },
+      "testValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "age": {
+            "type": "number",
+            "example": 144,
+            "maximum": 120,
+            "required": true
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "age": 144
+        },
+        "description": "testValidator (Validator)"
+      },
+      "translationValidator": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "provider": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 50
+          }
+        },
+        "example": {
+          "text": "Lorem Ipsum",
+          "provider": "Lorem Ipsum"
+        },
+        "description": "translationValidator (Validator)"
       }
     }
   },
@@ -117,6 +208,168 @@
           }
         },
         "security": []
+      }
+    },
+    "/api/users/test": {
+      "get": {
+        "summary": "获取用户信息 (test)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/user/user_controller.ts_ - **test**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "foo",
+            "description": "Describe the query param",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "USERS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": "验证成功",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 1
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "message": "验证成功",
+                  "data": {
+                    "id": 1
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/users/test/{id}": {
+      "post": {
+        "summary": "获取用户信息 (index)",
+        "description": "获取用户信息的API，这是一个详细的描述\n\n _app/controllers/user/user_controller.ts_ - **index**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "USERS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": "验证成功",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 1
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "message": "验证成功",
+                  "data": {
+                    "id": 1
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "John",
+                  "age": 20
+                }
+              },
+              "example": {
+                "name": "John",
+                "age": 20
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/translation": {
+      "post": {
+        "summary": "Translate text (translate)",
+        "description": "Translate text using specified translation service provider\n\n _app/controllers/translation/translation_controller.ts_ - **translate**",
+        "parameters": [],
+        "tags": [
+          "USERS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "translatedText": "你好",
+                    "provider": "baidu",
+                    "stats": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  }
+                },
+                "example": {
+                  "translatedText": "你好",
+                  "provider": "baidu",
+                  "stats": {}
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/translationValidator"
+              },
+              "example": {
+                "text": "Lorem Ipsum",
+                "provider": "Lorem Ipsum"
+              }
+            }
+          }
+        }
       }
     },
     "/": {

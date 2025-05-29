@@ -1,5 +1,6 @@
 import { HttpContext } from '@adonisjs/core/http'
 import { TranslationService } from '#services/translation/translation_service'
+import { translationValidator } from '#validators/user_validator'
 
 export default class TranslationController {
   private translationService: TranslationService
@@ -8,6 +9,14 @@ export default class TranslationController {
     this.translationService = TranslationService.getInstance()
   }
 
+  /**
+   * @translate
+   * @summary Translate text
+   * @description Translate text using specified translation service provider
+   * @requestBody <translationValidator>
+   * @query {"from": "auto", "to": "en"}
+   * @responseBody 200 - {"translatedText": "你好", "provider": "baidu", "stats": {}}
+   */
   async translate(ctx: HttpContext) {
     const { text, provider } = ctx.request.body()
 
@@ -33,17 +42,6 @@ export default class TranslationController {
     } catch (error) {
       return ctx.response.status(500).json({
         error: error instanceof Error ? error.message : 'Unknown error occurred',
-      })
-    }
-  }
-
-  async getStats({ response }: HttpContext) {
-    try {
-      const stats = this.translationService.getStats()
-      return response.json({ stats })
-    } catch (error) {
-      return response.status(500).json({
-        error: error instanceof Error ? error.message : 'Failed to get translation stats',
       })
     }
   }
