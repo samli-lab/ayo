@@ -43,4 +43,11 @@ export default await Env.create(new URL('../', import.meta.url), {
   BING_TRANSLATION_API_KEY: Env.schema.string(),
   BAIDU_TRANSLATION_APP_ID: Env.schema.string(),
   BAIDU_TRANSLATION_APP_SECRET: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring the lock package
+  |----------------------------------------------------------
+  */
+  LOCK_STORE: Env.schema.enum(['redis', 'memory'] as const)
 })

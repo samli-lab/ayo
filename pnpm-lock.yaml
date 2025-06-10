@@ -23,6 +23,9 @@ importers:
       '@adonisjs/limiter':
         specifier: ^2.4.0
         version: 2.4.0(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@adonisjs/lucid@21.6.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.6.1)(mysql2@3.14.1))(@adonisjs/redis@9.2.0(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1)))
+      '@adonisjs/lock':
+        specifier: ^1.1.1
+        version: 1.1.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@adonisjs/lucid@21.6.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.6.1)(mysql2@3.14.1))(@adonisjs/redis@9.2.0(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1)))(ioredis@5.6.1)(luxon@3.6.1)(tslib@2.8.1)
       '@adonisjs/lucid':
         specifier: ^21.6.0
         version: 21.6.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.6.1)(mysql2@3.14.1)
@@ -252,6 +255,21 @@ packages:
       '@adonisjs/core': ^6.12.1
       '@adonisjs/lucid': ^20.1.0 || ^21.0.0
       '@adonisjs/redis': ^8.0.1 || ^9.0.0
+    peerDependenciesMeta:
+      '@adonisjs/lucid':
+        optional: true
+      '@adonisjs/redis':
+        optional: true
+
+  '@adonisjs/lock@1.1.1':
+    resolution: {integrity: sha512-BiWtY/ie0NL9dW+4MMv7uH40rsNzRSzGu3PbT/Cg167cORWyQC7eX+CWl2VDD1TUNdp5M671yyGHvweTg4/C8w==}
+    engines: {node: '>=20.6.0'}
+    peerDependencies:
+      '@adonisjs/assembler': ^7.0.0
+      '@adonisjs/core': ^6.2.0
+      '@adonisjs/lucid': ^20.0.0 || ^21.0.0
+      '@adonisjs/redis': ^8.0.0 || ^9.0.0
+      luxon: ^3.0.0
     peerDependenciesMeta:
       '@adonisjs/lucid':
         optional: true
@@ -803,6 +821,17 @@ packages:
     resolution: {integrity: sha512-1rYQTCLFFzOI5Nl0c8LUpJT8HxpwVRn9E4CkMsYfuN6ctmQqExjSTzzSk0Tz2apmXy7WU6/6fyaZVVA/thPN+w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@verrou/core@0.5.1':
+    resolution: {integrity: sha512-A/hMtOSBgXKfYWFrLJAsqiE4VwvyaYW0thf7kdkAhBBdDVIr50o45tONjJ21EIjRi7s1G7A2zWwtzhrHnycoiQ==}
+    peerDependencies:
+      '@aws-sdk/client-dynamodb': ^3.484.0
+      ioredis: ^5.3.2
+    peerDependenciesMeta:
+      '@aws-sdk/client-dynamodb':
+        optional: true
+      ioredis:
+        optional: true
+
   '@vinejs/compiler@2.5.1':
     resolution: {integrity: sha512-efiO/SCQSMCqz6LDZTI4R3Ceq1ik3K2IqefEbbch+ko4dZncaYmQWJpX/fXVwgmO78jTZuerzD4I2WphPJUCwg==}
     engines: {node: '>=18.0.0'}
@@ -905,6 +934,9 @@ packages:
   astring@1.9.0:
     resolution: {integrity: sha512-LElXdjswlqjWrPpJFg1Fx4wpkOCxj1TDHlSV4PlaRxHGWko024xICaa97ZkMfs6DRKlCguiAI+rbXv5GWwXIkg==}
     hasBin: true
+
+  async-mutex@0.5.0:
+    resolution: {integrity: sha512-1A94B18jkJ3DYq284ohPxoXbfTA5HsQ7/Mf4DEhcyLx3Bz27Rh59iScbB6EPiP+B+joue6YCxcMXSbFC1tZKwA==}
 
   async-retry@1.3.3:
     resolution: {integrity: sha512-wfr/jstw9xNi/0teMHrRW7dsz3Lt5ARhYNZ2ewpadnhaIp5mbALhOAP+EAdsC7t4Z6wqsDVv9+W6gm1Dk9mEyw==}
@@ -2716,6 +2748,11 @@ packages:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.9.0'
 
+  typescript-log@2.0.0:
+    resolution: {integrity: sha512-TyW8lmURJSo0yjBovEhESpah3haDYBgsnQRocBF4MQSDJSYs/DOmhjo2cpSrGyvD9OaX++dbbonq9TkIQeA+Bw==}
+    peerDependencies:
+      tslib: ^2.0.0
+
   typescript-parser@2.6.1:
     resolution: {integrity: sha512-p4ZC10pu67KO8+WJALsJWhbAq4pRBIcP+ls8Bhl+V8KvzYQDwxw/P5hJhn3rBdLnfS5aGLflfh7WiZpN6yi+5g==}
 
@@ -3083,6 +3120,20 @@ snapshots:
     optionalDependencies:
       '@adonisjs/lucid': 21.6.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.6.1)(mysql2@3.14.1)
       '@adonisjs/redis': 9.2.0(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))
+
+  '@adonisjs/lock@1.1.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@adonisjs/lucid@21.6.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.6.1)(mysql2@3.14.1))(@adonisjs/redis@9.2.0(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1)))(ioredis@5.6.1)(luxon@3.6.1)(tslib@2.8.1)':
+    dependencies:
+      '@adonisjs/assembler': 7.8.2(typescript@5.7.3)
+      '@adonisjs/core': 6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1)
+      '@verrou/core': 0.5.1(ioredis@5.6.1)(tslib@2.8.1)
+      luxon: 3.6.1
+    optionalDependencies:
+      '@adonisjs/lucid': 21.6.1(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.6.1)(mysql2@3.14.1)
+      '@adonisjs/redis': 9.2.0(@adonisjs/core@6.17.2(@adonisjs/assembler@7.8.2(typescript@5.7.3))(@vinejs/vine@3.0.1))
+    transitivePeerDependencies:
+      - '@aws-sdk/client-dynamodb'
+      - ioredis
+      - tslib
 
   '@adonisjs/logger@6.0.6':
     dependencies:
@@ -3693,6 +3744,17 @@ snapshots:
       '@typescript-eslint/types': 8.32.0
       eslint-visitor-keys: 4.2.0
 
+  '@verrou/core@0.5.1(ioredis@5.6.1)(tslib@2.8.1)':
+    dependencies:
+      '@lukeed/ms': 2.0.2
+      '@poppinss/utils': 6.9.3
+      async-mutex: 0.5.0
+      typescript-log: 2.0.0(tslib@2.8.1)
+    optionalDependencies:
+      ioredis: 5.6.1
+    transitivePeerDependencies:
+      - tslib
+
   '@vinejs/compiler@2.5.1': {}
 
   '@vinejs/compiler@3.0.0': {}
@@ -3806,6 +3868,10 @@ snapshots:
       tslib: 2.8.1
 
   astring@1.9.0: {}
+
+  async-mutex@0.5.0:
+    dependencies:
+      tslib: 2.8.1
 
   async-retry@1.3.3:
     dependencies:
@@ -5577,6 +5643,10 @@ snapshots:
       typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
+
+  typescript-log@2.0.0(tslib@2.8.1):
+    dependencies:
+      tslib: 2.8.1
 
   typescript-parser@2.6.1:
     dependencies:

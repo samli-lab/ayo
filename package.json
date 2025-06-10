@@ -58,6 +58,7 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/i18n": "^2.2.0",
     "@adonisjs/limiter": "^2.4.0",
+    "@adonisjs/lock": "^1.1.1",
     "@adonisjs/lucid": "^21.6.0",
     "@adonisjs/redis": "^9.2.0",
     "@vinejs/vine": "^3.0.1",
