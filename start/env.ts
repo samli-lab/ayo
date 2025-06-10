@@ -17,6 +17,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   APP_KEY: Env.schema.string(),
   HOST: Env.schema.string({ format: 'host' }),
   LOG_LEVEL: Env.schema.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']),
+  LOG_TO_FILE: Env.schema.boolean.optional(),
 
   /*
   |----------------------------------------------------------
@@ -49,5 +50,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring the lock package
   |----------------------------------------------------------
   */
-  LOCK_STORE: Env.schema.enum(['redis', 'memory'] as const)
+  LOCK_STORE: Env.schema.enum(['redis', 'memory'] as const),
 })
