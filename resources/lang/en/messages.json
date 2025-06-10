@@ -1,3 +1,4 @@
 {
-  "greeting": "Hello world"
+  "greeting": "Hello world",
+  "test": "Hello {username} {age}"
 }

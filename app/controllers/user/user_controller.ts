@@ -1,5 +1,4 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { translationValidator } from '#validators/user_validator'
 
 export default class UserController {
   /**
@@ -24,7 +23,7 @@ export default class UserController {
    * @responseBody 200 - {"message": "验证成功", "data": {"id": 1}}
    */
   public async test(ctx: HttpContext) {
-    const greeting = ctx.i18n.t('messages.greeting')
+    const greeting = ctx.i18n.t('messages.test', { username: 'John', age: 20 })
     return ctx.response.json({
       message: greeting,
       data: { id: 1 },
