@@ -51,4 +51,10 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   LOCK_STORE: Env.schema.enum(['redis', 'memory'] as const),
+
+  /**
+   * AI API KEYS
+   */
+  OPENAI_API_KEY: Env.schema.string(),
+  GEMINI_API_KEY: Env.schema.string(),
 })

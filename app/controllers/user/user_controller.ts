@@ -1,3 +1,4 @@
+import { AIService } from '#services/ai/service'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UserController {
@@ -24,9 +25,11 @@ export default class UserController {
    */
   public async test(ctx: HttpContext) {
     const greeting = ctx.i18n.t('messages.test', { username: 'John', age: 20 })
+    const ai = new AIService('gpt-3.5-turbo')
+    const response = await ai.chat('Hello, how are you?')
     return ctx.response.json({
       message: greeting,
-      data: { id: 1 },
+      data: { id: 1, response },
     })
   }
 }
