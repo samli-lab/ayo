@@ -25,7 +25,7 @@ export default class UserController {
    */
   public async test(ctx: HttpContext) {
     const greeting = ctx.i18n.t('messages.test', { username: 'John', age: 20 })
-    const ai = new AIService('gpt-3.5-turbo')
+    const ai = new AIService('gemma')
     const response = await ai.chat('Hello, how are you?')
     return ctx.response.json({
       message: greeting,

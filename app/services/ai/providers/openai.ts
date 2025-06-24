@@ -24,6 +24,10 @@ export class OpenAIService implements AIModelService {
       messages: request.messages,
       temperature: request.temperature,
       max_tokens: request.maxTokens,
+      seed: request.seed,
+      top_p: request.topP,
+      frequency_penalty: request.frequencyPenalty,
+      presence_penalty: request.presencePenalty,
     })
 
     return {

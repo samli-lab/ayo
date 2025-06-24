@@ -9,13 +9,28 @@ export class AIService {
   > = {
     'gpt-3.5-turbo': {
       provider: 'openai',
-      apiKeyEnv: env.get('OPENAI_API_KEY'),
+      apiKeyEnv: env.get('OPENAI_API_KEY', ''),
       model: 'gpt-3.5-turbo',
     },
     'gemini-pro': {
       provider: 'gemini',
-      apiKeyEnv: env.get('GEMINI_API_KEY'),
+      apiKeyEnv: env.get('GEMINI_API_KEY', ''),
       model: 'gemini-pro',
+    },
+    'anthropic/claude-2': {
+      provider: 'openrouter',
+      apiKeyEnv: env.get('OPENROUTER_API_KEY', ''),
+      model: 'anthropic/claude-2',
+    },
+    'gemma': {
+      provider: 'openrouter',
+      apiKeyEnv: env.get('OPENROUTER_API_KEY', ''),
+      model: 'google/gemma-3-12b-it',
+    },
+    'deepseek': {
+      provider: 'deepseek',
+      apiKeyEnv: env.get('DEEPSEEK_API_KEY', ''),
+      model: 'deepseek-coder-33b-instruct',
     },
   }
 

@@ -5,6 +5,11 @@ export interface AIModelConfig {
   baseURL?: string
   temperature?: number
   maxTokens?: number
+  seed?: number
+  topP?: number
+  topK?: number
+  frequencyPenalty?: number
+  presencePenalty?: number
 }
 
 export interface Message {
@@ -16,6 +21,11 @@ export interface ChatCompletionRequest {
   messages: Message[]
   temperature?: number
   maxTokens?: number
+  seed?: number
+  topP?: number
+  topK?: number
+  frequencyPenalty?: number
+  presencePenalty?: number
 }
 
 export interface ChatCompletionResponse {
