@@ -36,6 +36,14 @@ export default await Env.create(new URL('../', import.meta.url), {
   AIDB_PROD_USER: Env.schema.string(),
   AIDB_PROD_PASSWORD: Env.schema.string.optional(),
   AIDB_PROD_DATABASE: Env.schema.string(),
+  AIDB_PROD_USE_TUNNEL: Env.schema.boolean.optional(),
+
+  // SSH 跳板机配置（通用配置，可被多个数据库使用）
+  SSH_TUNNEL_HOST: Env.schema.string.optional(),
+  SSH_TUNNEL_PORT: Env.schema.number.optional(),
+  SSH_TUNNEL_USERNAME: Env.schema.string.optional(),
+  SSH_TUNNEL_PRIVATE_KEY: Env.schema.string.optional(),
+  SSH_TUNNEL_PASSWORD: Env.schema.string.optional(),
 
   // AI 数据库 - 开发环境
   AIDB_DEV_HOST: Env.schema.string({ format: 'host' }),

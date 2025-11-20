@@ -33,9 +33,29 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
   .tap((app) => {
     app.booting(async () => {
       await import('#start/env')
+      // 初始化 SSH 隧道（如果需要）
+      try {
+        const { initializeProdDBTunnel } = await import('#services/ssh_tunnel')
+        await initializeProdDBTunnel()
+      } catch (error) {
+        console.error('Failed to initialize SSH tunnel:', error)
+        // 不阻止应用启动，只是警告
+      }
     })
-    app.listen('SIGTERM', () => app.terminate())
-    app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
+    app.listen('SIGTERM', () => {
+      // 关闭所有 SSH 隧道
+      import('#services/ssh_tunnel').then(({ SSHTunnelService }) => {
+        SSHTunnelService.closeAllTunnels()
+      })
+      app.terminate()
+    })
+    app.listenIf(app.managedByPm2, 'SIGINT', () => {
+      // 关闭所有 SSH 隧道
+      import('#services/ssh_tunnel').then(({ SSHTunnelService }) => {
+        SSHTunnelService.closeAllTunnels()
+      })
+      app.terminate()
+    })
   })
   .httpServer()
   .start()

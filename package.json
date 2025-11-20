@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "docs:generate": "node ace docs:generate"
+    "docs:generate": "node ace docs:generate",
+    "test:aidb-prod": "node --loader ts-node-maintained/esm script/test_aidb_prod_connection.ts"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
@@ -49,6 +50,7 @@
     "hot-hook": "^0.4.0",
     "pino-pretty": "^13.0.0",
     "prettier": "^3.5.0",
+    "ssh2": "^1.15.0",
     "ts-node-maintained": "^10.9.5",
     "typescript": "~5.7"
   },
