@@ -13,6 +13,7 @@ import router from '@adonisjs/core/services/router'
 
 // 导入所有路由模块
 import '#routes/user'
+import '#routes/diagnostics'
 // import '#routes/comment'
 
 router.get('/', async () => {

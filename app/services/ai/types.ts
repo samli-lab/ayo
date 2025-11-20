@@ -10,6 +10,8 @@ export interface AIModelConfig {
   topK?: number
   frequencyPenalty?: number
   presencePenalty?: number
+  projectId?: string
+  location?: string
 }
 
 export interface Message {

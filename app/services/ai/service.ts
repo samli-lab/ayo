@@ -1,72 +1,48 @@
-import { AIModelConfig, Message, ChatCompletionResponse, ChatCompletionRequest } from './types.js'
+import { Message, ChatCompletionResponse, ChatCompletionRequest } from './types.js'
 import { AIServiceFactory } from './factory.js'
-import env from '#start/env'
+import { ModelRegistry } from './model_registry.js'
 
 export class AIService {
-  private static readonly MODEL_PROVIDER_MAP: Record<
-    string,
-    { provider: string; apiKeyEnv: string; model: string }
-  > = {
-    'gpt-3.5-turbo': {
-      provider: 'openai',
-      apiKeyEnv: env.get('OPENAI_API_KEY', ''),
-      model: 'gpt-3.5-turbo',
-    },
-    'gemini-pro': {
-      provider: 'gemini',
-      apiKeyEnv: env.get('GEMINI_API_KEY', ''),
-      model: 'gemini-pro',
-    },
-    'anthropic/claude-2': {
-      provider: 'openrouter',
-      apiKeyEnv: env.get('OPENROUTER_API_KEY', ''),
-      model: 'anthropic/claude-2',
-    },
-    'gemma': {
-      provider: 'openrouter',
-      apiKeyEnv: env.get('OPENROUTER_API_KEY', ''),
-      model: 'google/gemma-3-12b-it',
-    },
-    'deepseek': {
-      provider: 'deepseek',
-      apiKeyEnv: env.get('DEEPSEEK_API_KEY', ''),
-      model: 'deepseek-coder-33b-instruct',
-    },
-  }
-
   private service: ReturnType<typeof AIServiceFactory.createService>
 
   constructor(model: string = 'gpt-3.5-turbo') {
-    const modelConfig = AIService.MODEL_PROVIDER_MAP[model]
-    if (!modelConfig) {
+    const modelDefinition = ModelRegistry.get(model)
+    if (!modelDefinition) {
       throw new Error(
-        `Unsupported model: ${model}. Supported models: ${Object.keys(AIService.MODEL_PROVIDER_MAP).join(', ')}`
+        `Unsupported model: ${model}. Supported models: ${ModelRegistry.getAllKeys().join(', ')}`
       )
     }
 
-    const apiKey = modelConfig.apiKeyEnv
-    if (!apiKey) {
-      throw new Error(
-        `Missing API key for ${model}. Please set ${modelConfig.apiKeyEnv} environment variable.`
-      )
+    // 验证模型配置
+    const validation = ModelRegistry.validate(modelDefinition)
+    if (!validation.valid) {
+      throw new Error(`Invalid model configuration for "${model}": ${validation.error}`)
     }
 
-    const config: AIModelConfig = {
-      provider: modelConfig.provider,
-      apiKey: apiKey,
-      model: modelConfig.model,
-    }
+    // 转换为 AIModelConfig
+    const config = ModelRegistry.toAIModelConfig(modelDefinition)
     this.service = AIServiceFactory.createService(config)
   }
 
+  /**
+   * 获取所有支持的模型列表
+   */
   static getSupportedModels(): string[] {
-    return Object.keys(AIService.MODEL_PROVIDER_MAP)
+    return ModelRegistry.getAllKeys()
   }
 
-  static getModelProvider(
-    model: string
-  ): { provider: string; apiKeyEnv: string; model: string } | null {
-    return AIService.MODEL_PROVIDER_MAP[model] || null
+  /**
+   * 获取模型配置信息
+   */
+  static getModelInfo(model: string) {
+    return ModelRegistry.get(model) || null
+  }
+
+  /**
+   * 注册新模型（运行时动态注册）
+   */
+  static registerModel(definition: Parameters<typeof ModelRegistry.register>[0]): void {
+    ModelRegistry.register(definition)
   }
 
   async chat(message: string, systemPrompt?: string): Promise<string> {

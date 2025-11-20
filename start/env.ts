@@ -59,4 +59,14 @@ export default await Env.create(new URL('../', import.meta.url), {
   GEMINI_API_KEY: Env.schema.string(),
   OPENROUTER_API_KEY: Env.schema.string(),
   DEEPSEEK_API_KEY: Env.schema.string(),
+
+  GOOGLE_VERTEX_PROJECT_ID: Env.schema.string.optional(),
+  GOOGLE_VERTEX_LOCATION: Env.schema.string.optional(),
+
+  /*
+  |----------------------------------------------------------
+  | Diagnostics
+  |----------------------------------------------------------
+  */
+  PROFILER_API_SECRET: Env.schema.string.optional(),
 })

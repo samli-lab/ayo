@@ -18,6 +18,10 @@ export const modelConfigs: { [key: string]: Partial<AIModelConfig> } = {
     provider: 'gemini',
     model: 'gemini-pro',
   },
+  'vertex-gemini-pro': {
+    provider: 'vertex',
+    model: 'gemini-1.5-pro',
+  },
 }
 
 export function createModelConfig(

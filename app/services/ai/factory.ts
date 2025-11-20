@@ -3,11 +3,16 @@ import { OpenAIService } from './providers/openai.js'
 import { GeminiService } from './providers/gemini.js'
 import { OpenRouterService } from './providers/openrouter.js'
 import { DeepSeekService } from './providers/deepseek.js'
+import { VertexService } from './providers/vertex.js'
 
 export class AIServiceFactory {
   private static providers = new Map<
     string,
-    typeof OpenAIService | typeof GeminiService | typeof OpenRouterService | typeof DeepSeekService
+    | typeof OpenAIService
+    | typeof GeminiService
+    | typeof OpenRouterService
+    | typeof DeepSeekService
+    | typeof VertexService
   >()
 
   static {
@@ -15,6 +20,7 @@ export class AIServiceFactory {
     AIServiceFactory.providers.set('gemini', GeminiService)
     AIServiceFactory.providers.set('openrouter', OpenRouterService)
     AIServiceFactory.providers.set('deepseek', DeepSeekService)
+    AIServiceFactory.providers.set('vertex', VertexService)
   }
 
   static createService(

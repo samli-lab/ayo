@@ -1,0 +1,48 @@
+{
+  "models": [
+    {
+      "key": "gpt-3.5-turbo",
+      "provider": "openai",
+      "model": "gpt-3.5-turbo",
+      "apiKeyEnv": "OPENAI_API_KEY"
+    },
+    {
+      "key": "gpt-4",
+      "provider": "openai",
+      "model": "gpt-4",
+      "apiKeyEnv": "OPENAI_API_KEY"
+    },
+    {
+      "key": "gemini-pro",
+      "provider": "gemini",
+      "model": "gemini-pro",
+      "apiKeyEnv": "GEMINI_API_KEY"
+    },
+    {
+      "key": "vertex-gemini-pro",
+      "provider": "vertex",
+      "model": "gemini-1.5-pro",
+      "projectIdEnv": "GOOGLE_VERTEX_PROJECT_ID",
+      "locationEnv": "GOOGLE_VERTEX_LOCATION"
+    },
+    {
+      "key": "anthropic/claude-2",
+      "provider": "openrouter",
+      "model": "anthropic/claude-2",
+      "apiKeyEnv": "OPENROUTER_API_KEY"
+    },
+    {
+      "key": "gemma",
+      "provider": "openrouter",
+      "model": "google/gemma-3-12b-it",
+      "apiKeyEnv": "OPENROUTER_API_KEY"
+    },
+    {
+      "key": "deepseek",
+      "provider": "deepseek",
+      "model": "deepseek-coder-33b-instruct",
+      "apiKeyEnv": "DEEPSEEK_API_KEY"
+    }
+  ]
+}
+
