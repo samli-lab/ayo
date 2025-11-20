@@ -30,6 +30,20 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_PASSWORD: Env.schema.string.optional(),
   DB_DATABASE: Env.schema.string(),
 
+  // AI 数据库 - 生产环境
+  AIDB_PROD_HOST: Env.schema.string({ format: 'host' }),
+  AIDB_PROD_PORT: Env.schema.number(),
+  AIDB_PROD_USER: Env.schema.string(),
+  AIDB_PROD_PASSWORD: Env.schema.string.optional(),
+  AIDB_PROD_DATABASE: Env.schema.string(),
+
+  // AI 数据库 - 开发环境
+  AIDB_DEV_HOST: Env.schema.string({ format: 'host' }),
+  AIDB_DEV_PORT: Env.schema.number(),
+  AIDB_DEV_USER: Env.schema.string(),
+  AIDB_DEV_PASSWORD: Env.schema.string.optional(),
+  AIDB_DEV_DATABASE: Env.schema.string(),
+
   /*
   |----------------------------------------------------------
   | Variables for configuring the limiter package
