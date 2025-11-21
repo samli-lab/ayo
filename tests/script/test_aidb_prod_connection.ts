@@ -52,7 +52,7 @@ async function testConnection() {
     const envService = env.default
 
     // 导入服务（在应用启动后）
-    const { initializeProdDBTunnel, SSHTunnelService } = await import('#services/ssh_tunnel')
+    const { initializeProdDBTunnel, SSHTunnelService } = await import('#services/ssh/tunnel')
     const db = await import('@adonisjs/lucid/services/db')
 
     // 检查是否启用 SSH 隧道
@@ -151,7 +151,7 @@ async function testConnection() {
   } finally {
     // 清理 SSH 隧道
     try {
-      const { SSHTunnelService } = await import('#services/ssh_tunnel')
+      const { SSHTunnelService } = await import('#services/ssh/tunnel')
       SSHTunnelService.closeAllTunnels()
     } catch (error) {
       // 忽略清理错误

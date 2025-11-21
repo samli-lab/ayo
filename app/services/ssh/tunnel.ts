@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { createServer } from 'node:net'
+import { homedir } from 'node:os'
+import { join as pathJoin } from 'node:path'
 import env from '#start/env'
 
 // 动态导入 ssh2，避免在生产环境加载
@@ -65,7 +67,18 @@ export class SSHTunnelService {
 
         // 使用私钥或密码认证
         if (config.sshPrivateKey) {
-          sshConfig.privateKey = readFileSync(config.sshPrivateKey)
+          // 展开 ~ 为绝对路径
+          let keyPath: string
+          if (config.sshPrivateKey.startsWith('~/')) {
+            // ~/path -> homedir/path
+            keyPath = pathJoin(homedir(), config.sshPrivateKey.slice(2))
+          } else if (config.sshPrivateKey.startsWith('~')) {
+            // ~path -> homedir/path
+            keyPath = pathJoin(homedir(), config.sshPrivateKey.slice(1))
+          } else {
+            keyPath = config.sshPrivateKey
+          }
+          sshConfig.privateKey = readFileSync(keyPath)
         } else if (config.sshPassword) {
           sshConfig.password = config.sshPassword
         } else {
@@ -138,7 +151,14 @@ export class SSHTunnelService {
         // 连接到跳板机
         sshClient.connect(sshConfig)
       } catch (error: any) {
-        reject(new Error(`Failed to load ssh2 module: ${error.message}`))
+        // 区分不同类型的错误
+        if (error.code === 'ENOENT') {
+          reject(new Error(`SSH private key file not found: ${error.path || error.message}`))
+        } else if (error.message?.includes('ssh2')) {
+          reject(new Error(`Failed to load ssh2 module: ${error.message}`))
+        } else {
+          reject(new Error(`Failed to create SSH tunnel: ${error.message}`))
+        }
       }
     })
   }

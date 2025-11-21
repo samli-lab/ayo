@@ -35,7 +35,7 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
       await import('#start/env')
       // 初始化 SSH 隧道（如果需要）
       try {
-        const { initializeProdDBTunnel } = await import('#services/ssh_tunnel')
+        const { initializeProdDBTunnel } = await import('#services/ssh/tunnel')
         await initializeProdDBTunnel()
       } catch (error) {
         console.error('Failed to initialize SSH tunnel:', error)
@@ -44,14 +44,14 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
     })
     app.listen('SIGTERM', () => {
       // 关闭所有 SSH 隧道
-      import('#services/ssh_tunnel').then(({ SSHTunnelService }) => {
+      import('#services/ssh/tunnel').then(({ SSHTunnelService }) => {
         SSHTunnelService.closeAllTunnels()
       })
       app.terminate()
     })
     app.listenIf(app.managedByPm2, 'SIGINT', () => {
       // 关闭所有 SSH 隧道
-      import('#services/ssh_tunnel').then(({ SSHTunnelService }) => {
+      import('#services/ssh/tunnel').then(({ SSHTunnelService }) => {
         SSHTunnelService.closeAllTunnels()
       })
       app.terminate()

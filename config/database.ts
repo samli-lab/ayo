@@ -1,6 +1,6 @@
 import env from '#start/env'
 import { defineConfig } from '@adonisjs/lucid'
-import { SSHTunnelService } from '#services/ssh_tunnel'
+import { SSHTunnelService } from '#services/ssh/tunnel'
 
 /**
  * 获取生产数据库连接配置
