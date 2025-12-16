@@ -13,9 +13,8 @@ export default class TranslationController {
    * @translate
    * @summary Translate text
    * @description Translate text using specified translation service provider
-   * @requestBody <translationValidator>
-   * @query {"from": "auto", "to": "en"}
-   * @responseBody 200 - {"translatedText": "你好", "provider": "baidu", "stats": {}}
+   * @requestBody {"text": "Hello", "provider": "baidu"}
+   * @responseBody 200 - {"translatedText": "Hello", "provider": "baidu", "stats": {"total": 10, "success": 8}}
    */
   async translate(ctx: HttpContext) {
     const { text, provider } = ctx.request.body()

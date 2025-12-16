@@ -97,13 +97,166 @@
           }
         }
       },
+      "Category": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 574
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Post",
+              "example": null
+            }
+          }
+        },
+        "description": "Category (Model)"
+      },
+      "Post": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 434
+          },
+          "slug": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "excerpt": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "content": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "category_id": {
+            "type": "number",
+            "example": 756
+          },
+          "image_url": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "read_time": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "views": {
+            "type": "number",
+            "example": 459
+          },
+          "likes": {
+            "type": "number",
+            "example": 707
+          },
+          "author_name": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "author_avatar": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "date": {
+            "type": "string",
+            "example": "2021-03-23",
+            "format": "date-time"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category",
+            "example": null
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag",
+              "example": null
+            }
+          }
+        },
+        "description": "Post (Model)"
+      },
+      "Tag": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 534
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Post",
+              "example": null
+            }
+          }
+        },
+        "description": "Tag (Model)"
+      },
       "User": {
         "type": "object",
         "required": [],
         "properties": {
           "id": {
             "type": "number",
-            "example": 226
+            "example": 806
           },
           "full_name": {
             "type": "string",
@@ -126,6 +279,157 @@
           }
         },
         "description": "User (Model)"
+      },
+      "categoryParamsValidator": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          }
+        },
+        "example": {
+          "category": "Lorem Ipsum"
+        },
+        "description": "categoryParamsValidator (Validator)"
+      },
+      "categoryPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "example": {
+          "page": 1,
+          "pageSize": 1
+        },
+        "description": "categoryPostsQueryValidator (Validator)"
+      },
+      "getPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "category": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "tag": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "search": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "page": 1,
+          "pageSize": 1,
+          "category": "Lorem Ipsum",
+          "tag": "Lorem Ipsum",
+          "search": "Lorem Ipsum"
+        },
+        "description": "getPostsQueryValidator (Validator)"
+      },
+      "searchPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "example": {
+          "q": "Lorem Ipsum",
+          "page": 1,
+          "pageSize": 1
+        },
+        "description": "searchPostsQueryValidator (Validator)"
+      },
+      "slugParamsValidator": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          }
+        },
+        "example": {
+          "slug": "Lorem Ipsum"
+        },
+        "description": "slugParamsValidator (Validator)"
+      },
+      "tagParamsValidator": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          }
+        },
+        "example": {
+          "tag": "Lorem Ipsum"
+        },
+        "description": "tagParamsValidator (Validator)"
+      },
+      "tagPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "example": {
+          "page": 1,
+          "pageSize": 1
+        },
+        "description": "tagPostsQueryValidator (Validator)"
       },
       "pathParamsValidator": {
         "type": "object",
@@ -153,14 +457,14 @@
           },
           "age": {
             "type": "number",
-            "example": 144,
+            "example": 441,
             "maximum": 120,
             "required": true
           }
         },
         "example": {
           "name": "Lorem Ipsum",
-          "age": 144
+          "age": 441
         },
         "description": "testValidator (Validator)"
       },
@@ -338,18 +642,24 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "translatedText": "你好",
+                    "translatedText": "Hello",
                     "provider": "baidu",
                     "stats": {
                       "type": "object",
-                      "properties": {}
+                      "properties": {
+                        "total": 10,
+                        "success": 8
+                      }
                     }
                   }
                 },
                 "example": {
-                  "translatedText": "你好",
+                  "translatedText": "Hello",
                   "provider": "baidu",
-                  "stats": {}
+                  "stats": {
+                    "total": 10,
+                    "success": 8
+                  }
                 }
               }
             },
@@ -361,15 +671,627 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/translationValidator"
+                "type": "object",
+                "properties": {
+                  "text": "Hello",
+                  "provider": "baidu"
+                }
               },
               "example": {
-                "text": "Lorem Ipsum",
-                "provider": "Lorem Ipsum"
+                "text": "Hello",
+                "provider": "baidu"
               }
             }
           }
         }
+      }
+    },
+    "/api/posts": {
+      "get": {
+        "summary": "获取文章列表 (getPosts)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPosts**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "页码",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "每页数量",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "description": "分类筛选",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "tag",
+            "description": "标签筛选",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "description": "搜索关键词",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "tags": [
+          "POSTS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "posts": {
+                          "type": "object",
+                          "properties": {
+                            "0": {
+                              "type": "object",
+                              "properties": {
+                                "id": 0
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "page": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "posts": [
+                      {
+                        "id": 0
+                      }
+                    ],
+                    "pagination": {
+                      "page": 0
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/posts/{slug}": {
+      "get": {
+        "summary": "获取文章详情 (getPostBySlug)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPostBySlug**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "description": "文章的唯一标识符",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "POSTS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Article not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Article not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/posts/search": {
+      "get": {
+        "summary": "搜索文章 (searchPosts)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **searchPosts**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "搜索关键词",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "页码",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "每页数量",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "tags": [
+          "POSTS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "posts": {
+                          "type": "object",
+                          "properties": {
+                            "0": {
+                              "type": "object",
+                              "properties": {
+                                "id": 0
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "page": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "posts": [
+                      {
+                        "id": 0
+                      }
+                    ],
+                    "pagination": {
+                      "page": 0
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/sidebar": {
+      "get": {
+        "summary": "获取侧边栏数据 (getSidebar)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getSidebar**",
+        "parameters": [],
+        "tags": [
+          "SIDEBAR"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "summary": "获取分类列表 (getCategories)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getCategories**",
+        "parameters": [],
+        "tags": [
+          "CATEGORIES"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "0": {
+                          "type": "object",
+                          "properties": {
+                            "id": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": [
+                    {
+                      "id": 0
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/tags": {
+      "get": {
+        "summary": "获取标签列表 (getTags)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getTags**",
+        "parameters": [],
+        "tags": [
+          "TAGS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "0": {
+                          "type": "object",
+                          "properties": {
+                            "id": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": [
+                    {
+                      "id": 0
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/categories/{category}/posts": {
+      "get": {
+        "summary": "根据分类获取文章列表 (getPostsByCategory)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPostsByCategory**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "description": "分类名称",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "页码",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "每页数量",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "tags": [
+          "CATEGORIES"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "posts": {
+                          "type": "object",
+                          "properties": {
+                            "0": {
+                              "type": "object",
+                              "properties": {
+                                "id": 0
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "page": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "posts": [
+                      {
+                        "id": 0
+                      }
+                    ],
+                    "pagination": {
+                      "page": 0
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/tags/{tag}/posts": {
+      "get": {
+        "summary": "根据标签获取文章列表 (getPostsByTag)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPostsByTag**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tag",
+            "description": "标签名称",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "页码",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "每页数量",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "tags": [
+          "TAGS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "posts": {
+                          "type": "object",
+                          "properties": {
+                            "0": {
+                              "type": "object",
+                              "properties": {
+                                "id": 0
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "page": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "posts": [
+                      {
+                        "id": 0
+                      }
+                    ],
+                    "pagination": {
+                      "page": 0
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
       }
     },
     "/": {
@@ -394,6 +1316,22 @@
     {
       "name": "USERS",
       "description": "Everything related to USERS"
+    },
+    {
+      "name": "POSTS",
+      "description": "Everything related to POSTS"
+    },
+    {
+      "name": "SIDEBAR",
+      "description": "Everything related to SIDEBAR"
+    },
+    {
+      "name": "CATEGORIES",
+      "description": "Everything related to CATEGORIES"
+    },
+    {
+      "name": "TAGS",
+      "description": "Everything related to TAGS"
     }
   ]
 }

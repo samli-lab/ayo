@@ -35,7 +35,7 @@ function getProdDBConnection() {
 }
 
 const dbConfig = defineConfig({
-  connection: 'aidb_prod', // 默认连接为生产环境 AI 数据库
+  connection: 'mysql', // 设置默认连接的数据库
   connections: {
     mysql: {
       client: 'mysql2',
