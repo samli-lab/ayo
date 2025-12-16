@@ -31,6 +31,36 @@ router
 
     // 根据标签获取文章列表
     router.get('/tags/:tag/posts', [BlogController, 'getPostsByTag']).use(apiThrottle)
+
+    // ========== 文章 CRUD ==========
+    // 创建文章
+    router.post('/posts', [BlogController, 'createPost']).use(apiThrottle)
+
+    // 更新文章
+    router.put('/posts/:id', [BlogController, 'updatePost']).use(apiThrottle)
+
+    // 删除文章
+    router.delete('/posts/:id', [BlogController, 'deletePost']).use(apiThrottle)
+
+    // ========== 分类 CRUD ==========
+    // 创建分类
+    router.post('/categories', [BlogController, 'createCategory']).use(apiThrottle)
+
+    // 更新分类
+    router.put('/categories/:id', [BlogController, 'updateCategory']).use(apiThrottle)
+
+    // 删除分类
+    router.delete('/categories/:id', [BlogController, 'deleteCategory']).use(apiThrottle)
+
+    // ========== 标签 CRUD ==========
+    // 创建标签
+    router.post('/tags', [BlogController, 'createTag']).use(apiThrottle)
+
+    // 更新标签
+    router.put('/tags/:id', [BlogController, 'updateTag']).use(apiThrottle)
+
+    // 删除标签
+    router.delete('/tags/:id', [BlogController, 'deleteTag']).use(apiThrottle)
   })
   .prefix('/api')
 

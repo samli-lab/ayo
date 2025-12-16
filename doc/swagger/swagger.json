@@ -103,7 +103,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 574
+            "example": 652
           },
           "name": {
             "type": "string",
@@ -139,7 +139,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 434
+            "example": 984
           },
           "slug": {
             "type": "string",
@@ -159,7 +159,7 @@
           },
           "category_id": {
             "type": "number",
-            "example": 756
+            "example": 863
           },
           "image_url": {
             "type": "string",
@@ -171,11 +171,11 @@
           },
           "views": {
             "type": "number",
-            "example": 459
+            "example": 746
           },
           "likes": {
             "type": "number",
-            "example": 707
+            "example": 553
           },
           "author_name": {
             "type": "string",
@@ -220,7 +220,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 534
+            "example": 670
           },
           "name": {
             "type": "string",
@@ -256,7 +256,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 806
+            "example": 818
           },
           "full_name": {
             "type": "string",
@@ -279,218 +279,6 @@
           }
         },
         "description": "User (Model)"
-      },
-      "categoryParamsValidator": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "minLength": 1
-          }
-        },
-        "example": {
-          "category": "Lorem Ipsum"
-        },
-        "description": "categoryParamsValidator (Validator)"
-      },
-      "categoryPostsQueryValidator": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1
-          },
-          "pageSize": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1,
-            "maximum": 100
-          }
-        },
-        "example": {
-          "page": 1,
-          "pageSize": 1
-        },
-        "description": "categoryPostsQueryValidator (Validator)"
-      },
-      "getPostsQueryValidator": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1
-          },
-          "pageSize": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1,
-            "maximum": 100
-          },
-          "category": {
-            "type": "string",
-            "example": "Lorem Ipsum"
-          },
-          "tag": {
-            "type": "string",
-            "example": "Lorem Ipsum"
-          },
-          "search": {
-            "type": "string",
-            "example": "Lorem Ipsum"
-          }
-        },
-        "example": {
-          "page": 1,
-          "pageSize": 1,
-          "category": "Lorem Ipsum",
-          "tag": "Lorem Ipsum",
-          "search": "Lorem Ipsum"
-        },
-        "description": "getPostsQueryValidator (Validator)"
-      },
-      "searchPostsQueryValidator": {
-        "type": "object",
-        "properties": {
-          "q": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "minLength": 1
-          },
-          "page": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1
-          },
-          "pageSize": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1,
-            "maximum": 100
-          }
-        },
-        "example": {
-          "q": "Lorem Ipsum",
-          "page": 1,
-          "pageSize": 1
-        },
-        "description": "searchPostsQueryValidator (Validator)"
-      },
-      "slugParamsValidator": {
-        "type": "object",
-        "properties": {
-          "slug": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "minLength": 1
-          }
-        },
-        "example": {
-          "slug": "Lorem Ipsum"
-        },
-        "description": "slugParamsValidator (Validator)"
-      },
-      "tagParamsValidator": {
-        "type": "object",
-        "properties": {
-          "tag": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "minLength": 1
-          }
-        },
-        "example": {
-          "tag": "Lorem Ipsum"
-        },
-        "description": "tagParamsValidator (Validator)"
-      },
-      "tagPostsQueryValidator": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1
-          },
-          "pageSize": {
-            "type": "number",
-            "example": 1,
-            "minimum": 1,
-            "maximum": 100
-          }
-        },
-        "example": {
-          "page": 1,
-          "pageSize": 1
-        },
-        "description": "tagPostsQueryValidator (Validator)"
-      },
-      "pathParamsValidator": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true
-          }
-        },
-        "example": {
-          "id": "Lorem Ipsum"
-        },
-        "description": "pathParamsValidator (Validator)"
-      },
-      "testValidator": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "minLength": 2,
-            "maxLength": 50
-          },
-          "age": {
-            "type": "number",
-            "example": 441,
-            "maximum": 120,
-            "required": true
-          }
-        },
-        "example": {
-          "name": "Lorem Ipsum",
-          "age": 441
-        },
-        "description": "testValidator (Validator)"
-      },
-      "translationValidator": {
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "minLength": 2,
-            "maxLength": 50
-          },
-          "provider": {
-            "type": "string",
-            "example": "Lorem Ipsum",
-            "required": true,
-            "minLength": 2,
-            "maxLength": 50
-          }
-        },
-        "example": {
-          "text": "Lorem Ipsum",
-          "provider": "Lorem Ipsum"
-        },
-        "description": "translationValidator (Validator)"
       }
     }
   },
@@ -798,6 +586,92 @@
           }
         },
         "security": []
+      },
+      "post": {
+        "summary": "创建文章 (createPost)",
+        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **createPost**",
+        "parameters": [],
+        "tags": [
+          "POSTS"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 201,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 201,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **201** (Created) as **application/json**"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 400,
+                    "message": "Validation error",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Invalid data"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Validation error",
+                  "data": {
+                    "error": "Invalid data"
+                  }
+                }
+              }
+            },
+            "description": "Returns **400** (Bad Request) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": "example-post",
+                  "title": "Example Post",
+                  "content": "Content",
+                  "date": "2024-01-01"
+                }
+              },
+              "example": {
+                "slug": "example-post",
+                "title": "Example Post",
+                "content": "Content",
+                "date": "2024-01-01"
+              }
+            }
+          }
+        }
       }
     },
     "/api/posts/{slug}": {
@@ -1057,6 +931,88 @@
           }
         },
         "security": []
+      },
+      "post": {
+        "summary": "创建分类 (createCategory)",
+        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **createCategory**",
+        "parameters": [],
+        "tags": [
+          "CATEGORIES"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 201,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 201,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **201** (Created) as **application/json**"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 400,
+                    "message": "Category already exists",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Invalid data"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Category already exists",
+                  "data": {
+                    "error": "Invalid data"
+                  }
+                }
+              }
+            },
+            "description": "Returns **400** (Bad Request) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "技术",
+                  "description": "技术相关文章"
+                }
+              },
+              "example": {
+                "name": "技术",
+                "description": "技术相关文章"
+              }
+            }
+          }
+        }
       }
     },
     "/api/tags": {
@@ -1104,6 +1060,88 @@
           }
         },
         "security": []
+      },
+      "post": {
+        "summary": "创建标签 (createTag)",
+        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **createTag**",
+        "parameters": [],
+        "tags": [
+          "TAGS"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 201,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 201,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **201** (Created) as **application/json**"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 400,
+                    "message": "Tag already exists",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Invalid data"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Tag already exists",
+                  "data": {
+                    "error": "Invalid data"
+                  }
+                }
+              }
+            },
+            "description": "Returns **400** (Bad Request) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "React",
+                  "description": "React相关文章"
+                }
+              },
+              "example": {
+                "name": "React",
+                "description": "React相关文章"
+              }
+            }
+          }
+        }
       }
     },
     "/api/categories/{category}/posts": {
@@ -1289,6 +1327,519 @@
               }
             },
             "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/posts/{id}": {
+      "put": {
+        "summary": "更新文章 (updatePost)",
+        "description": "更新文章信息\n\n _app/controllers/blog/blog_controller.ts_ - **updatePost**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "文章ID",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "POSTS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Article not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Article not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": "Updated Title",
+                  "content": "Updated Content"
+                }
+              },
+              "example": {
+                "title": "Updated Title",
+                "content": "Updated Content"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "删除文章 (deletePost)",
+        "description": "删除指定文章\n\n _app/controllers/blog/blog_controller.ts_ - **deletePost**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "文章ID",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "POSTS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": true
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "success": true
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Article not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Article not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/categories/{id}": {
+      "put": {
+        "summary": "更新分类 (updateCategory)",
+        "description": "更新分类信息\n\n _app/controllers/blog/blog_controller.ts_ - **updateCategory**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "分类ID",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "CATEGORIES"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Category not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Category not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "Updated Name",
+                  "description": "Updated Description"
+                }
+              },
+              "example": {
+                "name": "Updated Name",
+                "description": "Updated Description"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "删除分类 (deleteCategory)",
+        "description": "删除指定分类\n\n _app/controllers/blog/blog_controller.ts_ - **deleteCategory**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "分类ID",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "CATEGORIES"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": true
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "success": true
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Category not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Category not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/tags/{id}": {
+      "put": {
+        "summary": "更新标签 (updateTag)",
+        "description": "更新标签信息\n\n _app/controllers/blog/blog_controller.ts_ - **updateTag**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "标签ID",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "TAGS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Tag not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Tag not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "Updated Name",
+                  "description": "Updated Description"
+                }
+              },
+              "example": {
+                "name": "Updated Name",
+                "description": "Updated Description"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "删除标签 (deleteTag)",
+        "description": "删除指定标签\n\n _app/controllers/blog/blog_controller.ts_ - **deleteTag**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "标签ID",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "TAGS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": true
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "success": true
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Tag not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Tag not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
           }
         },
         "security": []
