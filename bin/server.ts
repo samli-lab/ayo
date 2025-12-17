@@ -31,9 +31,26 @@ const IMPORTER = (filePath: string) => {
 
 new Ignitor(APP_ROOT, { importer: IMPORTER })
   .tap((app) => {
+    /**
+     * SSH 隧道只会在开发环境启用。这里用一个 flag 统一控制启动/关闭阶段的行为，
+     * 避免在生产环境做无意义的动态 import。
+     */
+    let manageSshTunnels = false
+
     app.booting(async () => {
-      await import('#start/env')
-      // 初始化 SSH 隧道（如果需要）
+      const envModule = await import('#start/env')
+      const env = envModule.default
+      const nodeEnv = env.get('NODE_ENV', 'development')
+      manageSshTunnels = nodeEnv === 'development'
+
+      /**
+       * 仅在开发环境且显式开启时，才初始化 SSH 隧道
+       */
+      const useTunnel = env.get('AIDB_PROD_USE_TUNNEL', false)
+      if (!manageSshTunnels || !useTunnel) {
+        return
+      }
+
       try {
         const { initializeProdDBTunnel } = await import('#services/ssh/tunnel')
         await initializeProdDBTunnel()
@@ -42,20 +59,28 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
         // 不阻止应用启动，只是警告
       }
     })
-    app.listen('SIGTERM', () => {
-      // 关闭所有 SSH 隧道
-      import('#services/ssh/tunnel').then(({ SSHTunnelService }) => {
-        SSHTunnelService.closeAllTunnels()
-      })
+
+    /**
+     * 优雅退出：开发环境关闭 SSH 隧道（如果有），然后终止应用。
+     * 注意：本地开发 Ctrl+C 是 SIGINT，所以需要监听 SIGINT。
+     */
+    const shutdown = () => {
+      if (manageSshTunnels) {
+        import('#services/ssh/tunnel')
+          .then(({ SSHTunnelService }) => {
+            SSHTunnelService.closeAllTunnels()
+          })
+          .finally(() => {
+            app.terminate()
+          })
+        return
+      }
+
       app.terminate()
-    })
-    app.listenIf(app.managedByPm2, 'SIGINT', () => {
-      // 关闭所有 SSH 隧道
-      import('#services/ssh/tunnel').then(({ SSHTunnelService }) => {
-        SSHTunnelService.closeAllTunnels()
-      })
-      app.terminate()
-    })
+    }
+
+    app.listen('SIGTERM', shutdown)
+    app.listen('SIGINT', shutdown)
   })
   .httpServer()
   .start()

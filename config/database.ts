@@ -46,6 +46,10 @@ const dbConfig = defineConfig({
         password: env.get('DB_PASSWORD'),
         database: env.get('DB_DATABASE'),
       },
+      /**
+       * 仅在开发环境打印查询 SQL（包含 bindings）
+       */
+      debug: env.get('NODE_ENV', 'development') === 'development',
       migrations: {
         naturalSort: true,
         paths: ['database/migrations'],
@@ -55,6 +59,10 @@ const dbConfig = defineConfig({
     aidb_prod: {
       client: 'pg',
       connection: getProdDBConnection(),
+      /**
+       * 仅在开发环境打印查询 SQL（包含 bindings）
+       */
+      debug: env.get('NODE_ENV', 'development') === 'development',
       migrations: {
         naturalSort: true,
         paths: ['database/migrations'],
@@ -70,6 +78,10 @@ const dbConfig = defineConfig({
         password: env.get('AIDB_DEV_PASSWORD'),
         database: env.get('AIDB_DEV_DATABASE'),
       },
+      /**
+       * 仅在开发环境打印查询 SQL（包含 bindings）
+       */
+      debug: env.get('NODE_ENV', 'development') === 'development',
       migrations: {
         naturalSort: true,
         paths: ['database/migrations'],

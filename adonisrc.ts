@@ -35,7 +35,7 @@ export default defineConfig({
     () => import('@adonisjs/i18n/i18n_provider'),
     () => import('@adonisjs/limiter/limiter_provider'),
     () => import('@adonisjs/redis/redis_provider'),
-    () => import('@adonisjs/lock/lock_provider')
+    () => import('@adonisjs/lock/lock_provider'),
   ],
 
   /*
@@ -46,7 +46,12 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [() => import('#start/routes'), () => import('#start/kernel'), () => import('#start/ws')],
+  preloads: [
+    () => import('#start/db_debug'),
+    () => import('#start/routes'),
+    () => import('#start/kernel'),
+    () => import('#start/ws'),
+  ],
 
   /*
   |--------------------------------------------------------------------------
