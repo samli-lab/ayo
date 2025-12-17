@@ -4,8 +4,6 @@ import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Post from './post.js'
 
 export default class Category extends BaseModel {
-  static connection = 'mysql'
-
   @column({ isPrimary: true })
   declare id: number
 
@@ -24,4 +22,3 @@ export default class Category extends BaseModel {
   @hasMany(() => Post)
   declare posts: HasMany<typeof Post>
 }
-

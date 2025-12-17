@@ -5,8 +5,6 @@ import Category from './category.js'
 import Tag from './tag.js'
 
 export default class Post extends BaseModel {
-  static connection = 'mysql'
-
   @column({ isPrimary: true })
   declare id: number
 
@@ -51,6 +49,9 @@ export default class Post extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  @column.dateTime()
+  declare deletedAt: DateTime | null
 
   @belongsTo(() => Category)
   declare category: BelongsTo<typeof Category>

@@ -37,7 +37,7 @@ export default class BlogController {
     const page = validated.page || 1
     const pageSize = validated.pageSize || 6
 
-    let query = Post.query().preload('category').preload('tags')
+    let query = Post.query().whereNull('deleted_at').preload('category').preload('tags')
 
     // 分类筛选
     if (validated.category) {
@@ -116,7 +116,12 @@ export default class BlogController {
   async getPostBySlug(ctx: HttpContext) {
     const { slug } = await slugParamsValidator.validate(ctx.params)
 
-    const post = await Post.query().where('slug', slug).preload('category').preload('tags').first()
+    const post = await Post.query()
+      .where('slug', slug)
+      .whereNull('deleted_at')
+      .preload('category')
+      .preload('tags')
+      .first()
 
     if (!post) {
       return ctx.response.status(404).json({
@@ -171,7 +176,11 @@ export default class BlogController {
     const categoriesCount = await Category.query().count('* as total')
 
     // 获取最近5篇文章
-    const recentPosts = await Post.query().orderBy('date', 'desc').limit(5).preload('category')
+    const recentPosts = await Post.query()
+      .whereNull('deleted_at')
+      .orderBy('date', 'desc')
+      .limit(5)
+      .preload('category')
 
     // 获取所有标签（带文章数量）
     const tags = await Tag.query().withCount('posts').orderBy('name', 'asc')
@@ -303,6 +312,7 @@ export default class BlogController {
 
     const posts = await Post.query()
       .where('category_id', categoryRecord.id)
+      .whereNull('deleted_at')
       .preload('category')
       .preload('tags')
       .orderBy('date', 'desc')
@@ -364,6 +374,7 @@ export default class BlogController {
       .whereIn('id', (subQuery) => {
         subQuery.from('post_tags').select('post_id').where('tag_id', tagRecord.id)
       })
+      .whereNull('deleted_at')
       .preload('category')
       .preload('tags')
       .orderBy('date', 'desc')
@@ -411,6 +422,7 @@ export default class BlogController {
     const pageSize = validated.pageSize || 6
 
     const posts = await Post.query()
+      .whereNull('deleted_at')
       .where((builder) => {
         builder
           .whereILike('title', `%${validated.q}%`)
@@ -460,8 +472,8 @@ export default class BlogController {
   async createPost(ctx: HttpContext) {
     const validated = await createPostValidator.validate(ctx.request.body())
 
-    // 检查 slug 是否已存在
-    const existingPost = await Post.findBy('slug', validated.slug)
+    // 检查 slug 是否已存在（包括已删除的）
+    const existingPost = await Post.query().where('slug', validated.slug).first()
     if (existingPost) {
       return ctx.response.status(400).json({
         code: 400,
@@ -537,9 +549,9 @@ export default class BlogController {
       })
     }
 
-    // 如果更新 slug，检查是否已存在
+    // 如果更新 slug，检查是否已存在（包括已删除的）
     if (validated.slug && validated.slug !== post.slug) {
-      const existingPost = await Post.findBy('slug', validated.slug)
+      const existingPost = await Post.query().where('slug', validated.slug).first()
       if (existingPost) {
         return ctx.response.status(400).json({
           code: 400,
@@ -610,7 +622,7 @@ export default class BlogController {
   async deletePost(ctx: HttpContext) {
     const { id } = await idParamsValidator.validate(ctx.params)
 
-    const post = await Post.find(id)
+    const post = await Post.query().where('id', id).whereNull('deleted_at').first()
     if (!post) {
       return ctx.response.status(404).json({
         code: 404,
@@ -619,10 +631,9 @@ export default class BlogController {
       })
     }
 
-    // 删除标签关联
-    await post.related('tags').detach()
-    // 删除文章
-    await post.delete()
+    // 软删除：设置 deleted_at 时间戳
+    post.deletedAt = DateTime.now()
+    await post.save()
 
     return ctx.response.json({
       code: 200,
