@@ -33,6 +33,9 @@ router
     router.get('/tags/:tag/posts', [BlogController, 'getPostsByTag']).use(apiThrottle)
 
     // ========== 文章 CRUD ==========
+    // 上传文件
+    router.post('/posts/upload', [BlogController, 'upload']).use(apiThrottle)
+
     // 创建文章
     router.post('/posts', [BlogController, 'createPost']).use(apiThrottle)
 

@@ -1,7 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import { randomUUID } from 'node:crypto'
 import Post from '#models/blog/post'
 import Category from '#models/blog/category'
 import Tag from '#models/blog/tag'
+import QiniuService from '#services/storage/qiniu_service'
 import {
   getPostsQueryValidator,
   searchPostsQueryValidator,
@@ -926,5 +928,55 @@ export default class BlogController {
       message: 'success',
       data: null,
     })
+  }
+
+  /**
+   * @upload
+   * @summary 上传文件到七牛云
+   * @description 上传文件并返回七牛云地址
+   * @responseBody 200 - {"code": 200, "message": "上传成功", "data": {"url": "...", "key": "..."}}
+   * @responseBody 400 - {"code": 400, "message": "上传失败", "data": null}
+   */
+  async upload(ctx: HttpContext) {
+    const file = ctx.request.file('file', {
+      size: '10mb',
+      extnames: ['jpg', 'png', 'jpeg', 'gif', 'webp', 'pdf', 'md', 'txt', 'zip'],
+    })
+
+    if (!file) {
+      return ctx.response.status(400).json({
+        code: 400,
+        message: '请选择要上传的文件',
+        data: null,
+      })
+    }
+
+    if (!file.isValid) {
+      return ctx.response.status(400).json({
+        code: 400,
+        message: '文件校验失败',
+        data: file.errors,
+      })
+    }
+
+    const qiniuService = new QiniuService()
+    try {
+      const datePath = DateTime.now().toFormat('yyyy-MM-dd')
+      const result = await qiniuService.uploadFile(
+        file.tmpPath!,
+        `blog/uploads/${datePath}/${randomUUID()}`
+      )
+      return ctx.response.json({
+        code: 200,
+        message: '上传成功',
+        data: result,
+      })
+    } catch (error) {
+      return ctx.response.status(500).json({
+        code: 500,
+        message: '上传失败',
+        data: error.message,
+      })
+    }
   }
 }

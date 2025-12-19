@@ -87,6 +87,16 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   /*
   |----------------------------------------------------------
+  | Qiniu Cloud
+  |----------------------------------------------------------
+  */
+  QINIU_ACCESS_KEY: Env.schema.string(),
+  QINIU_SECRET_KEY: Env.schema.string(),
+  QINIU_BUCKET: Env.schema.string(),
+  QINIU_DOMAIN: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
   | Diagnostics
   |----------------------------------------------------------
   */
