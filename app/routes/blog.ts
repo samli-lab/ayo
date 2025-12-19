@@ -37,7 +37,7 @@ router
     router.post('/posts', [BlogController, 'createPost']).use(apiThrottle)
 
     // 更新文章
-    router.put('/posts/:id', [BlogController, 'updatePost']).use(apiThrottle)
+    router.put('/posts/:slug', [BlogController, 'updatePost']).use(apiThrottle)
 
     // 删除文章
     router.delete('/posts/:id', [BlogController, 'deletePost']).use(apiThrottle)
@@ -63,4 +63,3 @@ router
     router.delete('/tags/:id', [BlogController, 'deleteTag']).use(apiThrottle)
   })
   .prefix('/api')
-

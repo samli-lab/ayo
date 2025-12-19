@@ -50,16 +50,12 @@ export const createPostSchema = vine.object({
   title: vine.string().trim().minLength(1),
   excerpt: vine.string().trim().optional(),
   content: vine.string().trim().minLength(1),
-  categoryId: vine.number().optional(),
+  category: vine.string().uuid().optional(),
   imageUrl: vine.string().trim().url().optional(),
   readTime: vine.string().trim().optional(),
   authorName: vine.string().trim().optional(),
   authorAvatar: vine.string().trim().url().optional(),
-  date: vine
-    .string()
-    .trim()
-    .regex(/^\d{4}-\d{2}-\d{2}$/),
-  tagIds: vine.array(vine.number()).optional(),
+  tags: vine.array(vine.string().uuid()).optional(),
 })
 
 // 更新文章请求体验证
@@ -68,17 +64,12 @@ export const updatePostSchema = vine.object({
   title: vine.string().trim().minLength(1).optional(),
   excerpt: vine.string().trim().optional(),
   content: vine.string().trim().minLength(1).optional(),
-  categoryId: vine.number().optional(),
+  category: vine.string().uuid().nullable().optional(),
   imageUrl: vine.string().trim().url().optional(),
   readTime: vine.string().trim().optional(),
   authorName: vine.string().trim().optional(),
   authorAvatar: vine.string().trim().url().optional(),
-  date: vine
-    .string()
-    .trim()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .optional(),
-  tagIds: vine.array(vine.number()).optional(),
+  tags: vine.array(vine.string().uuid()).optional(),
 })
 
 // 创建分类请求体验证
@@ -107,7 +98,7 @@ export const updateTagSchema = vine.object({
 
 // ID 路径参数验证
 export const idParamsSchema = vine.object({
-  id: vine.number(),
+  id: vine.string().uuid(),
 })
 
 export const getPostsQueryValidator = vine.compile(getPostsQuerySchema)

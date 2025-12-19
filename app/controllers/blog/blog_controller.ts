@@ -46,7 +46,7 @@ export default class BlogController {
         query = query.where('category_id', categoryRecord.id)
       } else {
         // 如果分类不存在，返回空结果
-        query = query.where('id', 0)
+        query = query.whereRaw('1 = 0')
       }
     }
 
@@ -55,11 +55,11 @@ export default class BlogController {
       const tagRecord = await Tag.findBy('name', validated.tag)
       if (tagRecord) {
         query = query.whereIn('id', (subQuery) => {
-          subQuery.from('post_tags').select('post_id').where('tag_id', tagRecord.id)
+          subQuery.from('blog_post_tag').select('post_id').where('tag_id', tagRecord.id)
         })
       } else {
         // 如果标签不存在，返回空结果
-        query = query.where('id', 0)
+        query = query.whereRaw('1 = 0')
       }
     }
 
@@ -74,7 +74,7 @@ export default class BlogController {
     }
 
     // 按日期倒序排列
-    query = query.orderBy('date', 'desc')
+    query = query.orderBy('created_at', 'desc')
 
     const posts = await query.paginate(page, pageSize)
 
@@ -83,11 +83,19 @@ export default class BlogController {
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt || '',
-      date: post.date.toFormat('yyyy-MM-dd'),
-      category: post.category?.name || '',
+      date: post.createdAt.toFormat('yyyy-MM-dd'),
+      category: post.category
+        ? {
+            id: post.category.id,
+            name: post.category.name,
+          }
+        : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
-      tags: post.tags.map((tag) => tag.name),
+      tags: post.tags.map((t) => ({
+        id: t.id,
+        name: t.name,
+      })),
     }))
 
     return ctx.response.json({
@@ -139,13 +147,21 @@ export default class BlogController {
       id: post.id,
       slug: post.slug,
       title: post.title,
-      date: post.date.toFormat('yyyy-MM-dd'),
-      category: post.category?.name || '',
+      date: post.createdAt.toFormat('yyyy-MM-dd'),
+      category: post.category
+        ? {
+            id: post.category.id,
+            name: post.category.name,
+          }
+        : null,
       readTime: post.readTime || '',
       imageUrl: post.imageUrl || '',
       content: post.content,
       excerpt: post.excerpt || undefined,
-      tags: post.tags.map((tag) => tag.name),
+      tags: post.tags.map((t) => ({
+        id: t.id,
+        name: t.name,
+      })),
       author: post.authorName
         ? {
             name: post.authorName,
@@ -178,7 +194,7 @@ export default class BlogController {
     // 获取最近5篇文章
     const recentPosts = await Post.query()
       .whereNull('deleted_at')
-      .orderBy('date', 'desc')
+      .orderBy('created_at', 'desc')
       .limit(5)
       .preload('category')
 
@@ -210,8 +226,13 @@ export default class BlogController {
       id: post.id,
       slug: post.slug,
       title: post.title,
-      date: post.date.toFormat('yyyy-MM-dd'),
-      category: post.category?.name || '',
+      date: post.createdAt.toFormat('yyyy-MM-dd'),
+      category: post.category
+        ? {
+            id: post.category.id,
+            name: post.category.name,
+          }
+        : null,
       imageUrl: post.imageUrl || undefined,
     }))
 
@@ -315,7 +336,7 @@ export default class BlogController {
       .whereNull('deleted_at')
       .preload('category')
       .preload('tags')
-      .orderBy('date', 'desc')
+      .orderBy('created_at', 'desc')
       .paginate(page, pageSize)
 
     const postsData = posts.all().map((post) => ({
@@ -323,11 +344,19 @@ export default class BlogController {
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt || '',
-      date: post.date.toFormat('yyyy-MM-dd'),
-      category: post.category?.name || '',
+      date: post.createdAt.toFormat('yyyy-MM-dd'),
+      category: post.category
+        ? {
+            id: post.category.id,
+            name: post.category.name,
+          }
+        : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
-      tags: post.tags.map((tag) => tag.name),
+      tags: post.tags.map((t) => ({
+        id: t.id,
+        name: t.name,
+      })),
     }))
 
     return ctx.response.json({
@@ -372,12 +401,12 @@ export default class BlogController {
 
     const posts = await Post.query()
       .whereIn('id', (subQuery) => {
-        subQuery.from('post_tags').select('post_id').where('tag_id', tagRecord.id)
+        subQuery.from('blog_post_tag').select('post_id').where('tag_id', tagRecord.id)
       })
       .whereNull('deleted_at')
       .preload('category')
       .preload('tags')
-      .orderBy('date', 'desc')
+      .orderBy('created_at', 'desc')
       .paginate(page, pageSize)
 
     const postsData = posts.all().map((post) => ({
@@ -385,11 +414,19 @@ export default class BlogController {
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt || '',
-      date: post.date.toFormat('yyyy-MM-dd'),
-      category: post.category?.name || '',
+      date: post.createdAt.toFormat('yyyy-MM-dd'),
+      category: post.category
+        ? {
+            id: post.category.id,
+            name: post.category.name,
+          }
+        : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
-      tags: post.tags.map((tagItem) => tagItem.name),
+      tags: post.tags.map((t) => ({
+        id: t.id,
+        name: t.name,
+      })),
     }))
 
     return ctx.response.json({
@@ -431,7 +468,7 @@ export default class BlogController {
       })
       .preload('category')
       .preload('tags')
-      .orderBy('date', 'desc')
+      .orderBy('created_at', 'desc')
       .paginate(page, pageSize)
 
     const postsData = posts.all().map((post) => ({
@@ -439,11 +476,19 @@ export default class BlogController {
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt || '',
-      date: post.date.toFormat('yyyy-MM-dd'),
-      category: post.category?.name || '',
+      date: post.createdAt.toFormat('yyyy-MM-dd'),
+      category: post.category
+        ? {
+            id: post.category.id,
+            name: post.category.name,
+          }
+        : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
-      tags: post.tags.map((tag) => tag.name),
+      tags: post.tags.map((t) => ({
+        id: t.id,
+        name: t.name,
+      })),
     }))
 
     return ctx.response.json({
@@ -465,7 +510,7 @@ export default class BlogController {
    * @createPost
    * @summary 创建文章
    * @description 创建新文章
-   * @requestBody {"slug": "example-post", "title": "Example Post", "content": "Content", "date": "2024-01-01"}
+   * @requestBody {"slug": "example-post", "title": "Example Post", "content": "Content"}
    * @responseBody 201 - {"code": 201, "message": "success", "data": {"id": 0}}
    * @responseBody 400 - {"code": 400, "message": "Validation error", "data": {"error": "Invalid data"}}
    */
@@ -483,8 +528,8 @@ export default class BlogController {
     }
 
     // 检查分类是否存在
-    if (validated.categoryId) {
-      const category = await Category.find(validated.categoryId)
+    if (validated.category) {
+      const category = await Category.find(validated.category)
       if (!category) {
         return ctx.response.status(400).json({
           code: 400,
@@ -500,19 +545,18 @@ export default class BlogController {
       title: validated.title,
       excerpt: validated.excerpt || null,
       content: validated.content,
-      categoryId: validated.categoryId || null,
+      categoryId: validated.category || null,
       imageUrl: validated.imageUrl || null,
       readTime: validated.readTime || null,
       authorName: validated.authorName || null,
       authorAvatar: validated.authorAvatar || null,
-      date: DateTime.fromISO(validated.date),
       views: 0,
       likes: 0,
     })
 
     // 关联标签
-    if (validated.tagIds && validated.tagIds.length > 0) {
-      const tags = await Tag.query().whereIn('id', validated.tagIds)
+    if (validated.tags && validated.tags.length > 0) {
+      const tags = await Tag.query().whereIn('id', validated.tags)
       await post.related('tags').attach(tags.map((tag) => tag.id))
     }
 
@@ -531,16 +575,16 @@ export default class BlogController {
    * @updatePost
    * @summary 更新文章
    * @description 更新文章信息
-   * @paramPath id - 文章ID - @type(number) @required
+   * @paramPath slug - 文章slug - @type(string) @required
    * @requestBody {"title": "Updated Title", "content": "Updated Content"}
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"id": 0}}
    * @responseBody 404 - {"code": 404, "message": "Article not found", "data": {"error": "Not found"}}
    */
   async updatePost(ctx: HttpContext) {
-    const { id } = await idParamsValidator.validate(ctx.params)
+    const { slug } = await slugParamsValidator.validate(ctx.params)
     const validated = await updatePostValidator.validate(ctx.request.body())
 
-    const post = await Post.find(id)
+    const post = await Post.query().where('slug', slug).whereNull('deleted_at').first()
     if (!post) {
       return ctx.response.status(404).json({
         code: 404,
@@ -562,9 +606,9 @@ export default class BlogController {
     }
 
     // 检查分类是否存在
-    if (validated.categoryId !== undefined) {
-      if (validated.categoryId !== null) {
-        const category = await Category.find(validated.categoryId)
+    if (validated.category !== undefined) {
+      if (validated.category !== null) {
+        const category = await Category.find(validated.category)
         if (!category) {
           return ctx.response.status(400).json({
             code: 400,
@@ -581,22 +625,33 @@ export default class BlogController {
       title: validated.title || post.title,
       excerpt: validated.excerpt !== undefined ? validated.excerpt : post.excerpt,
       content: validated.content || post.content,
-      categoryId: validated.categoryId !== undefined ? validated.categoryId : post.categoryId,
+      categoryId: validated.category !== undefined ? validated.category : post.categoryId,
       imageUrl: validated.imageUrl !== undefined ? validated.imageUrl : post.imageUrl,
       readTime: validated.readTime !== undefined ? validated.readTime : post.readTime,
       authorName: validated.authorName !== undefined ? validated.authorName : post.authorName,
       authorAvatar:
         validated.authorAvatar !== undefined ? validated.authorAvatar : post.authorAvatar,
-      date: validated.date ? DateTime.fromISO(validated.date) : post.date,
     })
     await post.save()
 
     // 更新标签关联
-    if (validated.tagIds !== undefined) {
+    if (validated.tags !== undefined) {
       await post.related('tags').detach()
-      if (validated.tagIds.length > 0) {
-        const tags = await Tag.query().whereIn('id', validated.tagIds)
-        await post.related('tags').attach(tags.map((tag) => tag.id))
+      if (validated.tags.length > 0) {
+        // 验证所有标签 ID 是否存在
+        const tags = await Tag.query().whereIn('id', validated.tags)
+        const foundTagIds = tags.map((tag) => tag.id)
+        const missingTagIds = validated.tags.filter((id) => !foundTagIds.includes(id))
+
+        if (missingTagIds.length > 0) {
+          return ctx.response.status(400).json({
+            code: 400,
+            message: `标签不存在: ${missingTagIds.join(', ')}`,
+            data: null,
+          })
+        }
+
+        await post.related('tags').attach(foundTagIds)
       }
     }
 

@@ -21,11 +21,11 @@ export const apiThrottle = limiter.define('api', (ctx) => {
    * their user ID
    */
   if (ctx.auth.user) {
-    return limiter.allowRequests(10).every('1 minute').usingKey(`user_${ctx.auth.user.id}`)
+    return limiter.allowRequests(100).every('1 minute').usingKey(`user_${ctx.auth.user.id}`)
   }
 
   /**
    * Allow guest users to make 10 requests by ip address
    */
-  return limiter.allowRequests(10).every('1 minute').usingKey(`ip_${ctx.request.ip()}`)
+  return limiter.allowRequests(100).every('1 minute').usingKey(`ip_${ctx.request.ip()}`)
 })
