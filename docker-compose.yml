@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
@@ -11,7 +9,7 @@ services:
       MYSQL_USER: ayo_user
       MYSQL_PASSWORD: ayo_password
     ports:
-      - '3306:3306'
+      - '3307:3306' # 映射到 3307 端口避免冲突
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/mysql/init:/docker-entrypoint-initdb.d

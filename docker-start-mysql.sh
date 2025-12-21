@@ -12,7 +12,7 @@ if ! docker info > /dev/null 2>&1; then
 fi
 
 # 启动 MySQL 容器
-docker-compose up -d mysql
+docker compose up -d mysql
 
 # 等待 MySQL 启动
 echo "⏳ 等待 MySQL 启动..."
@@ -24,17 +24,17 @@ if docker ps | grep -q ayo_mysql; then
     echo ""
     echo "📋 连接信息:"
     echo "   主机: localhost"
-    echo "   端口: 3306"
+    echo "   端口: 3307"
     echo "   数据库: ayo_blog"
     echo "   用户名: ayo_user"
     echo "   密码: ayo_password"
     echo "   Root 密码: rootpassword"
     echo ""
-    echo "🔍 查看日志: docker-compose logs -f mysql"
-    echo "🛑 停止容器: docker-compose down"
-    echo "🗑️  删除数据: docker-compose down -v"
+    echo "🔍 查看日志: docker compose logs -f mysql"
+    echo "🛑 停止容器: docker compose down"
+    echo "🗑️  删除数据: docker compose down -v"
 else
-    echo "❌ MySQL 容器启动失败，请检查日志: docker-compose logs mysql"
+    echo "❌ MySQL 容器启动失败，请检查日志: docker compose logs mysql"
     exit 1
 fi
 
