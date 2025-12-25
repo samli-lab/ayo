@@ -15,6 +15,7 @@ import router from '@adonisjs/core/services/router'
 import '#routes/user'
 import '#routes/diagnostics'
 import '#routes/blog'
+import '#routes/gallery'
 // import '#routes/comment'
 
 router.get('/', async () => {

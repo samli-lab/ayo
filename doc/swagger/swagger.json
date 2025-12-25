@@ -102,8 +102,8 @@
         "required": [],
         "properties": {
           "id": {
-            "type": "number",
-            "example": 652
+            "type": "string",
+            "example": "Lorem Ipsum"
           },
           "name": {
             "type": "string",
@@ -133,13 +133,55 @@
         },
         "description": "Category (Model)"
       },
+      "Gallery": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem ipsum dolor sit amet"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://example.com"
+          },
+          "sort_order": {
+            "type": "number",
+            "example": 468
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "deleted_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          }
+        },
+        "description": "Gallery (Model)"
+      },
       "Post": {
         "type": "object",
         "required": [],
         "properties": {
           "id": {
-            "type": "number",
-            "example": 984
+            "type": "string",
+            "example": "Lorem Ipsum"
           },
           "slug": {
             "type": "string",
@@ -158,8 +200,8 @@
             "example": "Lorem Ipsum"
           },
           "category_id": {
-            "type": "number",
-            "example": 863
+            "type": "string",
+            "example": "Lorem Ipsum"
           },
           "image_url": {
             "type": "string",
@@ -171,11 +213,11 @@
           },
           "views": {
             "type": "number",
-            "example": 746
+            "example": 287
           },
           "likes": {
             "type": "number",
-            "example": 553
+            "example": 400
           },
           "author_name": {
             "type": "string",
@@ -185,17 +227,17 @@
             "type": "string",
             "example": "Lorem Ipsum"
           },
-          "date": {
-            "type": "string",
-            "example": "2021-03-23",
-            "format": "date-time"
-          },
           "created_at": {
             "type": "string",
             "example": "2021-03-23T16:13:08.489+01:00",
             "format": "date-time"
           },
           "updated_at": {
+            "type": "string",
+            "example": "2021-03-23T16:13:08.489+01:00",
+            "format": "date-time"
+          },
+          "deleted_at": {
             "type": "string",
             "example": "2021-03-23T16:13:08.489+01:00",
             "format": "date-time"
@@ -219,8 +261,8 @@
         "required": [],
         "properties": {
           "id": {
-            "type": "number",
-            "example": 670
+            "type": "string",
+            "example": "Lorem Ipsum"
           },
           "name": {
             "type": "string",
@@ -255,8 +297,8 @@
         "required": [],
         "properties": {
           "id": {
-            "type": "number",
-            "example": 818
+            "type": "string",
+            "example": "Lorem Ipsum"
           },
           "full_name": {
             "type": "string",
@@ -279,6 +321,543 @@
           }
         },
         "description": "User (Model)"
+      },
+      "categoryParamsValidator": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          }
+        },
+        "example": {
+          "category": "Lorem Ipsum"
+        },
+        "description": "categoryParamsValidator (Validator)"
+      },
+      "categoryPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "example": {
+          "page": 1,
+          "pageSize": 1
+        },
+        "description": "categoryPostsQueryValidator (Validator)"
+      },
+      "createCategoryValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "description": "Lorem Ipsum"
+        },
+        "description": "createCategoryValidator (Validator)"
+      },
+      "createPostValidator": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "excerpt": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "content": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "readTime": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "authorName": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "authorAvatar": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "example": 498
+            },
+            "properties": {
+              "items": {
+                "type": "string",
+                "example": "Lorem Ipsum"
+              }
+            }
+          }
+        },
+        "example": {
+          "slug": "Lorem Ipsum",
+          "title": "Lorem Ipsum",
+          "excerpt": "Lorem Ipsum",
+          "content": "Lorem Ipsum",
+          "category": "Lorem Ipsum",
+          "imageUrl": "Lorem Ipsum",
+          "readTime": "Lorem Ipsum",
+          "authorName": "Lorem Ipsum",
+          "authorAvatar": "Lorem Ipsum",
+          "tags": [
+            "Lorem Ipsum"
+          ]
+        },
+        "description": "createPostValidator (Validator)"
+      },
+      "createTagValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "description": "Lorem Ipsum"
+        },
+        "description": "createTagValidator (Validator)"
+      },
+      "getPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "category": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "tag": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "search": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "page": 1,
+          "pageSize": 1,
+          "category": "Lorem Ipsum",
+          "tag": "Lorem Ipsum",
+          "search": "Lorem Ipsum"
+        },
+        "description": "getPostsQueryValidator (Validator)"
+      },
+      "idParamsValidator": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          }
+        },
+        "example": {
+          "id": "Lorem Ipsum"
+        },
+        "description": "idParamsValidator (Validator)"
+      },
+      "searchPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "example": {
+          "q": "Lorem Ipsum",
+          "page": 1,
+          "pageSize": 1
+        },
+        "description": "searchPostsQueryValidator (Validator)"
+      },
+      "slugParamsValidator": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          }
+        },
+        "example": {
+          "slug": "Lorem Ipsum"
+        },
+        "description": "slugParamsValidator (Validator)"
+      },
+      "tagParamsValidator": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          }
+        },
+        "example": {
+          "tag": "Lorem Ipsum"
+        },
+        "description": "tagParamsValidator (Validator)"
+      },
+      "tagPostsQueryValidator": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "example": {
+          "page": 1,
+          "pageSize": 1
+        },
+        "description": "tagPostsQueryValidator (Validator)"
+      },
+      "updateCategoryValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "description": "Lorem Ipsum"
+        },
+        "description": "updateCategoryValidator (Validator)"
+      },
+      "updatePostValidator": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 1
+          },
+          "excerpt": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "content": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "readTime": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "authorName": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "authorAvatar": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "example": 116
+            },
+            "properties": {
+              "items": {
+                "type": "string",
+                "example": "Lorem Ipsum"
+              }
+            }
+          }
+        },
+        "example": {
+          "slug": "Lorem Ipsum",
+          "title": "Lorem Ipsum",
+          "excerpt": "Lorem Ipsum",
+          "content": "Lorem Ipsum",
+          "category": "Lorem Ipsum",
+          "imageUrl": "Lorem Ipsum",
+          "readTime": "Lorem Ipsum",
+          "authorName": "Lorem Ipsum",
+          "authorAvatar": "Lorem Ipsum",
+          "tags": [
+            "Lorem Ipsum"
+          ]
+        },
+        "description": "updatePostValidator (Validator)"
+      },
+      "updateTagValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "description": "Lorem Ipsum"
+        },
+        "description": "updateTagValidator (Validator)"
+      },
+      "createGalleryValidator": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "url": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 651
+          }
+        },
+        "example": {
+          "title": "Lorem Ipsum",
+          "description": "Lorem Ipsum",
+          "url": "Lorem Ipsum",
+          "sortOrder": 651
+        },
+        "description": "createGalleryValidator (Validator)"
+      },
+      "getGalleryQueryValidator": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1
+          },
+          "pageSize": {
+            "type": "number",
+            "example": 1,
+            "minimum": 1,
+            "maximum": 100
+          },
+          "search": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          }
+        },
+        "example": {
+          "page": 1,
+          "pageSize": 1,
+          "search": "Lorem Ipsum"
+        },
+        "description": "getGalleryQueryValidator (Validator)"
+      },
+      "updateGalleryValidator": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "url": {
+            "type": "string",
+            "example": "Lorem Ipsum"
+          },
+          "sortOrder": {
+            "type": "number",
+            "example": 374
+          }
+        },
+        "example": {
+          "title": "Lorem Ipsum",
+          "description": "Lorem Ipsum",
+          "url": "Lorem Ipsum",
+          "sortOrder": 374
+        },
+        "description": "updateGalleryValidator (Validator)"
+      },
+      "pathParamsValidator": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true
+          }
+        },
+        "example": {
+          "id": "Lorem Ipsum"
+        },
+        "description": "pathParamsValidator (Validator)"
+      },
+      "testValidator": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "age": {
+            "type": "number",
+            "example": 970,
+            "maximum": 120,
+            "required": true
+          }
+        },
+        "example": {
+          "name": "Lorem Ipsum",
+          "age": 970
+        },
+        "description": "testValidator (Validator)"
+      },
+      "translationValidator": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "provider": {
+            "type": "string",
+            "example": "Lorem Ipsum",
+            "required": true,
+            "minLength": 2,
+            "maxLength": 50
+          }
+        },
+        "example": {
+          "text": "Lorem Ipsum",
+          "provider": "Lorem Ipsum"
+        },
+        "description": "translationValidator (Validator)"
       }
     }
   },
@@ -476,8 +1055,8 @@
     },
     "/api/posts": {
       "get": {
-        "summary": "获取文章列表 (getPosts)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPosts**",
+        "summary": "获取文章列表 (index)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/posts_controller.ts_ - **index**",
         "parameters": [
           {
             "in": "query",
@@ -588,8 +1167,8 @@
         "security": []
       },
       "post": {
-        "summary": "创建文章 (createPost)",
-        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **createPost**",
+        "summary": "创建文章 (store)",
+        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/posts_controller.ts_ - **store**",
         "parameters": [],
         "tags": [
           "POSTS"
@@ -659,15 +1238,13 @@
                 "properties": {
                   "slug": "example-post",
                   "title": "Example Post",
-                  "content": "Content",
-                  "date": "2024-01-01"
+                  "content": "Content"
                 }
               },
               "example": {
                 "slug": "example-post",
                 "title": "Example Post",
-                "content": "Content",
-                "date": "2024-01-01"
+                "content": "Content"
               }
             }
           }
@@ -676,8 +1253,8 @@
     },
     "/api/posts/{slug}": {
       "get": {
-        "summary": "获取文章详情 (getPostBySlug)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPostBySlug**",
+        "summary": "获取文章详情 (show)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/posts_controller.ts_ - **show**",
         "parameters": [
           {
             "in": "path",
@@ -750,12 +1327,105 @@
           }
         },
         "security": []
+      },
+      "put": {
+        "summary": "更新文章 (update)",
+        "description": "更新文章信息\n\n _app/controllers/blog/posts_controller.ts_ - **update**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "description": "文章slug",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "POSTS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "Article not found",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Article not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": "Updated Title",
+                  "content": "Updated Content"
+                }
+              },
+              "example": {
+                "title": "Updated Title",
+                "content": "Updated Content"
+              }
+            }
+          }
+        }
       }
     },
     "/api/posts/search": {
       "get": {
-        "summary": "搜索文章 (searchPosts)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **searchPosts**",
+        "summary": "搜索文章 (search)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/posts_controller.ts_ - **search**",
         "parameters": [
           {
             "in": "query",
@@ -848,8 +1518,8 @@
     },
     "/api/sidebar": {
       "get": {
-        "summary": "获取侧边栏数据 (getSidebar)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getSidebar**",
+        "summary": "获取侧边栏数据 (sidebar)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/posts_controller.ts_ - **sidebar**",
         "parameters": [],
         "tags": [
           "SIDEBAR"
@@ -886,268 +1556,10 @@
         "security": []
       }
     },
-    "/api/categories": {
-      "get": {
-        "summary": "获取分类列表 (getCategories)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getCategories**",
-        "parameters": [],
-        "tags": [
-          "CATEGORIES"
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": 200,
-                    "message": "success",
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "0": {
-                          "type": "object",
-                          "properties": {
-                            "id": 0
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": [
-                    {
-                      "id": 0
-                    }
-                  ]
-                }
-              }
-            },
-            "description": "Returns **200** (OK) as **application/json**"
-          }
-        },
-        "security": []
-      },
-      "post": {
-        "summary": "创建分类 (createCategory)",
-        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **createCategory**",
-        "parameters": [],
-        "tags": [
-          "CATEGORIES"
-        ],
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": 201,
-                    "message": "success",
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": 0
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "code": 201,
-                  "message": "success",
-                  "data": {
-                    "id": 0
-                  }
-                }
-              }
-            },
-            "description": "Returns **201** (Created) as **application/json**"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": 400,
-                    "message": "Category already exists",
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "error": "Invalid data"
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Category already exists",
-                  "data": {
-                    "error": "Invalid data"
-                  }
-                }
-              }
-            },
-            "description": "Returns **400** (Bad Request) as **application/json**"
-          }
-        },
-        "security": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": "技术",
-                  "description": "技术相关文章"
-                }
-              },
-              "example": {
-                "name": "技术",
-                "description": "技术相关文章"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/tags": {
-      "get": {
-        "summary": "获取标签列表 (getTags)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getTags**",
-        "parameters": [],
-        "tags": [
-          "TAGS"
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": 200,
-                    "message": "success",
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "0": {
-                          "type": "object",
-                          "properties": {
-                            "id": 0
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "code": 200,
-                  "message": "success",
-                  "data": [
-                    {
-                      "id": 0
-                    }
-                  ]
-                }
-              }
-            },
-            "description": "Returns **200** (OK) as **application/json**"
-          }
-        },
-        "security": []
-      },
-      "post": {
-        "summary": "创建标签 (createTag)",
-        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **createTag**",
-        "parameters": [],
-        "tags": [
-          "TAGS"
-        ],
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": 201,
-                    "message": "success",
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": 0
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "code": 201,
-                  "message": "success",
-                  "data": {
-                    "id": 0
-                  }
-                }
-              }
-            },
-            "description": "Returns **201** (Created) as **application/json**"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": 400,
-                    "message": "Tag already exists",
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "error": "Invalid data"
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Tag already exists",
-                  "data": {
-                    "error": "Invalid data"
-                  }
-                }
-              }
-            },
-            "description": "Returns **400** (Bad Request) as **application/json**"
-          }
-        },
-        "security": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": "React",
-                  "description": "React相关文章"
-                }
-              },
-              "example": {
-                "name": "React",
-                "description": "React相关文章"
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/categories/{category}/posts": {
       "get": {
-        "summary": "根据分类获取文章列表 (getPostsByCategory)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPostsByCategory**",
+        "summary": "根据分类获取文章列表 (getByCategory)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/posts_controller.ts_ - **getByCategory**",
         "parameters": [
           {
             "in": "path",
@@ -1240,8 +1652,8 @@
     },
     "/api/tags/{tag}/posts": {
       "get": {
-        "summary": "根据标签获取文章列表 (getPostsByTag)",
-        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/blog_controller.ts_ - **getPostsByTag**",
+        "summary": "根据标签获取文章列表 (getByTag)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/posts_controller.ts_ - **getByTag**",
         "parameters": [
           {
             "in": "path",
@@ -1332,22 +1744,11 @@
         "security": []
       }
     },
-    "/api/posts/{id}": {
-      "put": {
-        "summary": "更新文章 (updatePost)",
-        "description": "更新文章信息\n\n _app/controllers/blog/blog_controller.ts_ - **updatePost**",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "文章ID",
-            "schema": {
-              "example": "",
-              "type": "number"
-            },
-            "required": true
-          }
-        ],
+    "/api/posts/upload": {
+      "post": {
+        "summary": "上传文件到七牛云 (upload)",
+        "description": "上传文件并返回七牛云地址\n\n _app/controllers/blog/posts_controller.ts_ - **upload**",
+        "parameters": [],
         "tags": [
           "POSTS"
         ],
@@ -1359,76 +1760,63 @@
                   "type": "object",
                   "properties": {
                     "code": 200,
-                    "message": "success",
+                    "message": "上传成功",
                     "data": {
                       "type": "object",
                       "properties": {
-                        "id": 0
+                        "url": "http://example.com/file.jpg",
+                        "key": "blog/uploads/file.jpg"
                       }
                     }
                   }
                 },
                 "example": {
                   "code": 200,
-                  "message": "success",
+                  "message": "上传成功",
                   "data": {
-                    "id": 0
+                    "url": "http://example.com/file.jpg",
+                    "key": "blog/uploads/file.jpg"
                   }
                 }
               }
             },
             "description": "Returns **200** (OK) as **application/json**"
           },
-          "404": {
+          "400": {
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "code": 404,
-                    "message": "Article not found",
+                    "code": 400,
+                    "message": "上传失败",
                     "data": {
                       "type": "object",
                       "properties": {
-                        "error": "Not found"
+                        "error": "上传失败"
                       }
                     }
                   }
                 },
                 "example": {
-                  "code": 404,
-                  "message": "Article not found",
+                  "code": 400,
+                  "message": "上传失败",
                   "data": {
-                    "error": "Not found"
+                    "error": "上传失败"
                   }
                 }
               }
             },
-            "description": "Returns **404** (Not Found) as **application/json**"
+            "description": "Returns **400** (Bad Request) as **application/json**"
           }
         },
-        "security": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "title": "Updated Title",
-                  "content": "Updated Content"
-                }
-              },
-              "example": {
-                "title": "Updated Title",
-                "content": "Updated Content"
-              }
-            }
-          }
-        }
-      },
+        "security": []
+      }
+    },
+    "/api/posts/{id}": {
       "delete": {
-        "summary": "删除文章 (deletePost)",
-        "description": "删除指定文章\n\n _app/controllers/blog/blog_controller.ts_ - **deletePost**",
+        "summary": "删除文章 (destroy)",
+        "description": "删除指定文章\n\n _app/controllers/blog/posts_controller.ts_ - **destroy**",
         "parameters": [
           {
             "in": "path",
@@ -1436,7 +1824,7 @@
             "description": "文章ID",
             "schema": {
               "example": "",
-              "type": "number"
+              "type": "string"
             },
             "required": true
           }
@@ -1501,12 +1889,141 @@
           }
         },
         "security": []
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "summary": "获取分类列表 (index)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/categories_controller.ts_ - **index**",
+        "parameters": [],
+        "tags": [
+          "CATEGORIES"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "0": {
+                          "type": "object",
+                          "properties": {
+                            "id": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": [
+                    {
+                      "id": 0
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "创建分类 (store)",
+        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/categories_controller.ts_ - **store**",
+        "parameters": [],
+        "tags": [
+          "CATEGORIES"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 201,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 201,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **201** (Created) as **application/json**"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 400,
+                    "message": "Category already exists",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Invalid data"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Category already exists",
+                  "data": {
+                    "error": "Invalid data"
+                  }
+                }
+              }
+            },
+            "description": "Returns **400** (Bad Request) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "技术",
+                  "description": "技术相关文章"
+                }
+              },
+              "example": {
+                "name": "技术",
+                "description": "技术相关文章"
+              }
+            }
+          }
+        }
       }
     },
     "/api/categories/{id}": {
       "put": {
-        "summary": "更新分类 (updateCategory)",
-        "description": "更新分类信息\n\n _app/controllers/blog/blog_controller.ts_ - **updateCategory**",
+        "summary": "更新分类 (update)",
+        "description": "更新分类信息\n\n _app/controllers/blog/categories_controller.ts_ - **update**",
         "parameters": [
           {
             "in": "path",
@@ -1514,7 +2031,7 @@
             "description": "分类ID",
             "schema": {
               "example": "",
-              "type": "number"
+              "type": "string"
             },
             "required": true
           }
@@ -1598,8 +2115,8 @@
         }
       },
       "delete": {
-        "summary": "删除分类 (deleteCategory)",
-        "description": "删除指定分类\n\n _app/controllers/blog/blog_controller.ts_ - **deleteCategory**",
+        "summary": "删除分类 (destroy)",
+        "description": "删除指定分类\n\n _app/controllers/blog/categories_controller.ts_ - **destroy**",
         "parameters": [
           {
             "in": "path",
@@ -1607,7 +2124,7 @@
             "description": "分类ID",
             "schema": {
               "example": "",
-              "type": "number"
+              "type": "string"
             },
             "required": true
           }
@@ -1674,10 +2191,139 @@
         "security": []
       }
     },
+    "/api/tags": {
+      "get": {
+        "summary": "获取标签列表 (index)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/tags_controller.ts_ - **index**",
+        "parameters": [],
+        "tags": [
+          "TAGS"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "0": {
+                          "type": "object",
+                          "properties": {
+                            "id": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": [
+                    {
+                      "id": 0
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "创建标签 (store)",
+        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/tags_controller.ts_ - **store**",
+        "parameters": [],
+        "tags": [
+          "TAGS"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 201,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 201,
+                  "message": "success",
+                  "data": {
+                    "id": 0
+                  }
+                }
+              }
+            },
+            "description": "Returns **201** (Created) as **application/json**"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 400,
+                    "message": "Tag already exists",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Invalid data"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Tag already exists",
+                  "data": {
+                    "error": "Invalid data"
+                  }
+                }
+              }
+            },
+            "description": "Returns **400** (Bad Request) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": "React",
+                  "description": "React相关文章"
+                }
+              },
+              "example": {
+                "name": "React",
+                "description": "React相关文章"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/tags/{id}": {
       "put": {
-        "summary": "更新标签 (updateTag)",
-        "description": "更新标签信息\n\n _app/controllers/blog/blog_controller.ts_ - **updateTag**",
+        "summary": "更新标签 (update)",
+        "description": "更新标签信息\n\n _app/controllers/blog/tags_controller.ts_ - **update**",
         "parameters": [
           {
             "in": "path",
@@ -1685,7 +2331,7 @@
             "description": "标签ID",
             "schema": {
               "example": "",
-              "type": "number"
+              "type": "string"
             },
             "required": true
           }
@@ -1769,8 +2415,8 @@
         }
       },
       "delete": {
-        "summary": "删除标签 (deleteTag)",
-        "description": "删除指定标签\n\n _app/controllers/blog/blog_controller.ts_ - **deleteTag**",
+        "summary": "删除标签 (destroy)",
+        "description": "删除指定标签\n\n _app/controllers/blog/tags_controller.ts_ - **destroy**",
         "parameters": [
           {
             "in": "path",
@@ -1778,7 +2424,7 @@
             "description": "标签ID",
             "schema": {
               "example": "",
-              "type": "number"
+              "type": "string"
             },
             "required": true
           }
@@ -1833,6 +2479,406 @@
                 "example": {
                   "code": 404,
                   "message": "Tag not found",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/gallery": {
+      "get": {
+        "summary": "获取相册照片列表 (index)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/gallery_controller.ts_ - **index**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "页码",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "每页数量",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "description": "搜索关键词",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "tags": [
+          "GALLERY"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "photos": {
+                          "type": "object",
+                          "properties": {
+                            "0": {
+                              "type": "object",
+                              "properties": {
+                                "id": ""
+                              }
+                            }
+                          }
+                        },
+                        "pagination": {
+                          "type": "object",
+                          "properties": {
+                            "total": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "photos": [
+                      {
+                        "id": ""
+                      }
+                    ],
+                    "pagination": {
+                      "total": 0
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "添加照片 (store)",
+        "description": "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/gallery_controller.ts_ - **store**",
+        "parameters": [],
+        "tags": [
+          "GALLERY"
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 201,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": ""
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 201,
+                  "message": "success",
+                  "data": {
+                    "id": ""
+                  }
+                }
+              }
+            },
+            "description": "Returns **201** (Created) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": "照片标题",
+                  "url": "https://example.com/photo.jpg",
+                  "description": "描述",
+                  "sortOrder": 0
+                }
+              },
+              "example": {
+                "title": "照片标题",
+                "url": "https://example.com/photo.jpg",
+                "description": "描述",
+                "sortOrder": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gallery/{id}": {
+      "get": {
+        "summary": "获取单张照片详情 (show)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/blog/gallery_controller.ts_ - **show**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "照片 ID",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "GALLERY"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": ""
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": ""
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "照片未找到",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "照片未找到",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新照片信息 (update)",
+        "description": "更新指定 ID 的照片信息\n\n _app/controllers/blog/gallery_controller.ts_ - **update**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "照片 ID",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "GALLERY"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": ""
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "id": ""
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "照片未找到",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "照片未找到",
+                  "data": {
+                    "error": "Not found"
+                  }
+                }
+              }
+            },
+            "description": "Returns **404** (Not Found) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": "新标题",
+                  "description": "新描述"
+                }
+              },
+              "example": {
+                "title": "新标题",
+                "description": "新描述"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "删除照片 (destroy)",
+        "description": "软删除指定 ID 的照片\n\n _app/controllers/blog/gallery_controller.ts_ - **destroy**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "照片 ID",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "GALLERY"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 200,
+                    "message": "success",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "success": true
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "message": "success",
+                  "data": {
+                    "success": true
+                  }
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": 404,
+                    "message": "照片未找到",
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "error": "Not found"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 404,
+                  "message": "照片未找到",
                   "data": {
                     "error": "Not found"
                   }
@@ -1883,6 +2929,10 @@
     {
       "name": "TAGS",
       "description": "Everything related to TAGS"
+    },
+    {
+      "name": "GALLERY",
+      "description": "Everything related to GALLERY"
     }
   ]
 }

@@ -14,17 +14,13 @@ import {
   tagPostsQueryValidator,
   createPostValidator,
   updatePostValidator,
-  createCategoryValidator,
-  updateCategoryValidator,
-  createTagValidator,
-  updateTagValidator,
   idParamsValidator,
 } from '#validators/blog_validator'
 import { DateTime } from 'luxon'
 
-export default class BlogController {
+export default class PostsController {
   /**
-   * @getPosts
+   * @index
    * @summary 获取文章列表
    * @description 获取文章列表，支持分页和筛选
    * @paramQuery page - 页码 - @type(number) @optional
@@ -34,7 +30,7 @@ export default class BlogController {
    * @paramQuery search - 搜索关键词 - @type(string) @optional
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"posts": [{"id": 0}], "pagination": {"page": 0}}}
    */
-  async getPosts(ctx: HttpContext) {
+  async index(ctx: HttpContext) {
     const validated = await getPostsQueryValidator.validate(ctx.request.qs())
     const page = validated.page || 1
     const pageSize = validated.pageSize || 6
@@ -116,14 +112,14 @@ export default class BlogController {
   }
 
   /**
-   * @getPostBySlug
+   * @show
    * @summary 获取文章详情
    * @description 根据 slug 获取文章完整内容
    * @paramPath slug - 文章的唯一标识符 - @type(string) @required
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"id": 0}}
    * @responseBody 404 - {"code": 404, "message": "Article not found", "data": {"error": "Not found"}}
    */
-  async getPostBySlug(ctx: HttpContext) {
+  async show(ctx: HttpContext) {
     const { slug } = await slugParamsValidator.validate(ctx.params)
 
     const post = await Post.query()
@@ -182,12 +178,12 @@ export default class BlogController {
   }
 
   /**
-   * @getSidebar
+   * @sidebar
    * @summary 获取侧边栏数据
    * @description 获取侧边栏所需的所有数据（个人信息、统计、最近文章、标签等）
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"id": 0}}
    */
-  async getSidebar(ctx: HttpContext) {
+  async sidebar(ctx: HttpContext) {
     // 获取统计数据
     const articlesCount = await Post.query().count('* as total')
     const tagsCount = await Tag.query().count('* as total')
@@ -265,51 +261,7 @@ export default class BlogController {
   }
 
   /**
-   * @getCategories
-   * @summary 获取分类列表
-   * @description 获取所有分类及其文章数量
-   * @responseBody 200 - {"code": 200, "message": "success", "data": [{"id": 0}]}
-   */
-  async getCategories(ctx: HttpContext) {
-    const categories = await Category.query().withCount('posts').orderBy('name', 'asc')
-
-    const categoriesData = categories.map((category) => ({
-      id: category.id,
-      name: category.name,
-      count: Number(category.$extras.posts_count || 0),
-    }))
-
-    return ctx.response.json({
-      code: 200,
-      message: 'success',
-      data: categoriesData,
-    })
-  }
-
-  /**
-   * @getTags
-   * @summary 获取标签列表
-   * @description 获取所有标签及其使用次数
-   * @responseBody 200 - {"code": 200, "message": "success", "data": [{"id": 0}]}
-   */
-  async getTags(ctx: HttpContext) {
-    const tags = await Tag.query().withCount('posts').orderBy('name', 'asc')
-
-    const tagsData = tags.map((tag) => ({
-      id: tag.id,
-      name: tag.name,
-      count: Number(tag.$extras.posts_count || 0),
-    }))
-
-    return ctx.response.json({
-      code: 200,
-      message: 'success',
-      data: tagsData,
-    })
-  }
-
-  /**
-   * @getPostsByCategory
+   * @getByCategory
    * @summary 根据分类获取文章列表
    * @description 获取指定分类下的文章列表
    * @paramPath category - 分类名称 - @type(string) @required
@@ -317,7 +269,7 @@ export default class BlogController {
    * @paramQuery pageSize - 每页数量 - @type(number) @optional
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"posts": [{"id": 0}], "pagination": {"page": 0}}}
    */
-  async getPostsByCategory(ctx: HttpContext) {
+  async getByCategory(ctx: HttpContext) {
     const { category } = await categoryParamsValidator.validate(ctx.params)
     const validated = await categoryPostsQueryValidator.validate(ctx.request.qs())
     const page = validated.page || 1
@@ -377,7 +329,7 @@ export default class BlogController {
   }
 
   /**
-   * @getPostsByTag
+   * @getByTag
    * @summary 根据标签获取文章列表
    * @description 获取指定标签下的文章列表
    * @paramPath tag - 标签名称 - @type(string) @required
@@ -385,7 +337,7 @@ export default class BlogController {
    * @paramQuery pageSize - 每页数量 - @type(number) @optional
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"posts": [{"id": 0}], "pagination": {"page": 0}}}
    */
-  async getPostsByTag(ctx: HttpContext) {
+  async getByTag(ctx: HttpContext) {
     const { tag } = await tagParamsValidator.validate(ctx.params)
     const validated = await tagPostsQueryValidator.validate(ctx.request.qs())
     const page = validated.page || 1
@@ -447,7 +399,7 @@ export default class BlogController {
   }
 
   /**
-   * @searchPosts
+   * @search
    * @summary 搜索文章
    * @description 根据关键词搜索文章
    * @paramQuery q - 搜索关键词 - @type(string) @required
@@ -455,7 +407,7 @@ export default class BlogController {
    * @paramQuery pageSize - 每页数量 - @type(number) @optional
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"posts": [{"id": 0}], "pagination": {"page": 0}}}
    */
-  async searchPosts(ctx: HttpContext) {
+  async search(ctx: HttpContext) {
     const validated = await searchPostsQueryValidator.validate(ctx.request.qs())
     const page = validated.page || 1
     const pageSize = validated.pageSize || 6
@@ -509,14 +461,14 @@ export default class BlogController {
   }
 
   /**
-   * @createPost
+   * @store
    * @summary 创建文章
    * @description 创建新文章
    * @requestBody {"slug": "example-post", "title": "Example Post", "content": "Content"}
    * @responseBody 201 - {"code": 201, "message": "success", "data": {"id": 0}}
    * @responseBody 400 - {"code": 400, "message": "Validation error", "data": {"error": "Invalid data"}}
    */
-  async createPost(ctx: HttpContext) {
+  async store(ctx: HttpContext) {
     const validated = await createPostValidator.validate(ctx.request.body())
 
     // 检查 slug 是否已存在（包括已删除的）
@@ -574,7 +526,7 @@ export default class BlogController {
   }
 
   /**
-   * @updatePost
+   * @update
    * @summary 更新文章
    * @description 更新文章信息
    * @paramPath slug - 文章slug - @type(string) @required
@@ -582,7 +534,7 @@ export default class BlogController {
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"id": 0}}
    * @responseBody 404 - {"code": 404, "message": "Article not found", "data": {"error": "Not found"}}
    */
-  async updatePost(ctx: HttpContext) {
+  async update(ctx: HttpContext) {
     const { slug } = await slugParamsValidator.validate(ctx.params)
     const validated = await updatePostValidator.validate(ctx.request.body())
 
@@ -669,14 +621,14 @@ export default class BlogController {
   }
 
   /**
-   * @deletePost
+   * @destroy
    * @summary 删除文章
    * @description 删除指定文章
-   * @paramPath id - 文章ID - @type(number) @required
+   * @paramPath id - 文章ID - @type(string) @required
    * @responseBody 200 - {"code": 200, "message": "success", "data": {"success": true}}
    * @responseBody 404 - {"code": 404, "message": "Article not found", "data": {"error": "Not found"}}
    */
-  async deletePost(ctx: HttpContext) {
+  async destroy(ctx: HttpContext) {
     const { id } = await idParamsValidator.validate(ctx.params)
 
     const post = await Post.query().where('id', id).whereNull('deleted_at').first()
@@ -700,242 +652,11 @@ export default class BlogController {
   }
 
   /**
-   * @createCategory
-   * @summary 创建分类
-   * @description 创建新分类
-   * @requestBody {"name": "技术", "description": "技术相关文章"}
-   * @responseBody 201 - {"code": 201, "message": "success", "data": {"id": 0}}
-   * @responseBody 400 - {"code": 400, "message": "Category already exists", "data": {"error": "Invalid data"}}
-   */
-  async createCategory(ctx: HttpContext) {
-    const validated = await createCategoryValidator.validate(ctx.request.body())
-
-    // 检查分类名是否已存在
-    const existingCategory = await Category.findBy('name', validated.name)
-    if (existingCategory) {
-      return ctx.response.status(400).json({
-        code: 400,
-        message: '分类名已存在',
-        data: null,
-      })
-    }
-
-    const category = await Category.create({
-      name: validated.name,
-      description: validated.description || null,
-    })
-
-    return ctx.response.status(201).json({
-      code: 201,
-      message: 'success',
-      data: {
-        id: category.id,
-        name: category.name,
-      },
-    })
-  }
-
-  /**
-   * @updateCategory
-   * @summary 更新分类
-   * @description 更新分类信息
-   * @paramPath id - 分类ID - @type(number) @required
-   * @requestBody {"name": "Updated Name", "description": "Updated Description"}
-   * @responseBody 200 - {"code": 200, "message": "success", "data": {"id": 0}}
-   * @responseBody 404 - {"code": 404, "message": "Category not found", "data": {"error": "Not found"}}
-   */
-  async updateCategory(ctx: HttpContext) {
-    const { id } = await idParamsValidator.validate(ctx.params)
-    const validated = await updateCategoryValidator.validate(ctx.request.body())
-
-    const category = await Category.find(id)
-    if (!category) {
-      return ctx.response.status(404).json({
-        code: 404,
-        message: '分类未找到',
-        data: null,
-      })
-    }
-
-    // 如果更新名称，检查是否已存在
-    if (validated.name && validated.name !== category.name) {
-      const existingCategory = await Category.findBy('name', validated.name)
-      if (existingCategory) {
-        return ctx.response.status(400).json({
-          code: 400,
-          message: '分类名已存在',
-          data: null,
-        })
-      }
-    }
-
-    category.merge({
-      name: validated.name || category.name,
-      description:
-        validated.description !== undefined ? validated.description : category.description,
-    })
-    await category.save()
-
-    return ctx.response.json({
-      code: 200,
-      message: 'success',
-      data: {
-        id: category.id,
-        name: category.name,
-      },
-    })
-  }
-
-  /**
-   * @deleteCategory
-   * @summary 删除分类
-   * @description 删除指定分类
-   * @paramPath id - 分类ID - @type(number) @required
-   * @responseBody 200 - {"code": 200, "message": "success", "data": {"success": true}}
-   * @responseBody 404 - {"code": 404, "message": "Category not found", "data": {"error": "Not found"}}
-   */
-  async deleteCategory(ctx: HttpContext) {
-    const { id } = await idParamsValidator.validate(ctx.params)
-
-    const category = await Category.find(id)
-    if (!category) {
-      return ctx.response.status(404).json({
-        code: 404,
-        message: '分类未找到',
-        data: null,
-      })
-    }
-
-    await category.delete()
-
-    return ctx.response.json({
-      code: 200,
-      message: 'success',
-      data: null,
-    })
-  }
-
-  /**
-   * @createTag
-   * @summary 创建标签
-   * @description 创建新标签
-   * @requestBody {"name": "React", "description": "React相关文章"}
-   * @responseBody 201 - {"code": 201, "message": "success", "data": {"id": 0}}
-   * @responseBody 400 - {"code": 400, "message": "Tag already exists", "data": {"error": "Invalid data"}}
-   */
-  async createTag(ctx: HttpContext) {
-    const validated = await createTagValidator.validate(ctx.request.body())
-
-    // 检查标签名是否已存在
-    const existingTag = await Tag.findBy('name', validated.name)
-    if (existingTag) {
-      return ctx.response.status(400).json({
-        code: 400,
-        message: '标签名已存在',
-        data: null,
-      })
-    }
-
-    const tag = await Tag.create({
-      name: validated.name,
-      description: validated.description || null,
-    })
-
-    return ctx.response.status(201).json({
-      code: 201,
-      message: 'success',
-      data: {
-        id: tag.id,
-        name: tag.name,
-      },
-    })
-  }
-
-  /**
-   * @updateTag
-   * @summary 更新标签
-   * @description 更新标签信息
-   * @paramPath id - 标签ID - @type(number) @required
-   * @requestBody {"name": "Updated Name", "description": "Updated Description"}
-   * @responseBody 200 - {"code": 200, "message": "success", "data": {"id": 0}}
-   * @responseBody 404 - {"code": 404, "message": "Tag not found", "data": {"error": "Not found"}}
-   */
-  async updateTag(ctx: HttpContext) {
-    const { id } = await idParamsValidator.validate(ctx.params)
-    const validated = await updateTagValidator.validate(ctx.request.body())
-
-    const tag = await Tag.find(id)
-    if (!tag) {
-      return ctx.response.status(404).json({
-        code: 404,
-        message: '标签未找到',
-        data: null,
-      })
-    }
-
-    // 如果更新名称，检查是否已存在
-    if (validated.name && validated.name !== tag.name) {
-      const existingTag = await Tag.findBy('name', validated.name)
-      if (existingTag) {
-        return ctx.response.status(400).json({
-          code: 400,
-          message: '标签名已存在',
-          data: null,
-        })
-      }
-    }
-
-    tag.merge({
-      name: validated.name || tag.name,
-      description: validated.description !== undefined ? validated.description : tag.description,
-    })
-    await tag.save()
-
-    return ctx.response.json({
-      code: 200,
-      message: 'success',
-      data: {
-        id: tag.id,
-        name: tag.name,
-      },
-    })
-  }
-
-  /**
-   * @deleteTag
-   * @summary 删除标签
-   * @description 删除指定标签
-   * @paramPath id - 标签ID - @type(number) @required
-   * @responseBody 200 - {"code": 200, "message": "success", "data": {"success": true}}
-   * @responseBody 404 - {"code": 404, "message": "Tag not found", "data": {"error": "Not found"}}
-   */
-  async deleteTag(ctx: HttpContext) {
-    const { id } = await idParamsValidator.validate(ctx.params)
-
-    const tag = await Tag.find(id)
-    if (!tag) {
-      return ctx.response.status(404).json({
-        code: 404,
-        message: '标签未找到',
-        data: null,
-      })
-    }
-
-    await tag.delete()
-
-    return ctx.response.json({
-      code: 200,
-      message: 'success',
-      data: null,
-    })
-  }
-
-  /**
    * @upload
    * @summary 上传文件到七牛云
    * @description 上传文件并返回七牛云地址
-   * @responseBody 200 - {"code": 200, "message": "上传成功", "data": {"url": "...", "key": "..."}}
-   * @responseBody 400 - {"code": 400, "message": "上传失败", "data": null}
+   * @responseBody 200 - {"code": 200, "message": "上传成功", "data": {"url": "http://example.com/file.jpg", "key": "blog/uploads/file.jpg"}}
+   * @responseBody 400 - {"code": 400, "message": "上传失败", "data": {"error": "上传失败"}}
    */
   async upload(ctx: HttpContext) {
     const file = ctx.request.file('file', {
