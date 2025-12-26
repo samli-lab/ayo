@@ -1,5 +1,6 @@
 import router from '@adonisjs/core/services/router'
 import { apiThrottle } from '#start/limiter'
+import { middleware } from '#start/kernel'
 
 const PostsController = () => import('#controllers/blog/posts_controller')
 const CategoriesController = () => import('#controllers/blog/categories_controller')
@@ -27,17 +28,23 @@ router
     // 根据标签获取文章列表
     router.get('/tags/:tag/posts', [PostsController, 'getByTag']).use(apiThrottle)
 
-    // 上传文件
-    router.post('/posts/upload', [PostsController, 'upload']).use(apiThrottle)
+    // 上传文件 - 需要登录
+    router
+      .post('/posts/upload', [PostsController, 'upload'])
+      .use(middleware.auth())
+      .use(apiThrottle)
 
-    // 创建文章
-    router.post('/posts', [PostsController, 'store']).use(apiThrottle)
+    // 创建文章 - 需要登录
+    router.post('/posts', [PostsController, 'store']).use(middleware.auth()).use(apiThrottle)
 
-    // 更新文章
-    router.put('/posts/:slug', [PostsController, 'update']).use(apiThrottle)
+    // 更新文章 - 需要登录
+    router.put('/posts/:slug', [PostsController, 'update']).use(middleware.auth()).use(apiThrottle)
 
-    // 删除文章
-    router.delete('/posts/:id', [PostsController, 'destroy']).use(apiThrottle)
+    // 删除文章 - 需要登录
+    router
+      .delete('/posts/:id', [PostsController, 'destroy'])
+      .use(middleware.auth())
+      .use(apiThrottle)
 
     // ========== 分类 CRUD ==========
     // 获取分类列表

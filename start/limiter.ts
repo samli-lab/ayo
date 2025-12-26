@@ -29,3 +29,11 @@ export const apiThrottle = limiter.define('api', (ctx) => {
    */
   return limiter.allowRequests(100).every('1 minute').usingKey(`ip_${ctx.request.ip()}`)
 })
+
+export const loginThrottle = limiter.define('login', (ctx) => {
+  /**
+   * Allow only 1 login attempt per minute per IP address
+   * This helps prevent brute force attacks
+   */
+  return limiter.allowRequests(100).every('1 minute').usingKey(`login_ip_${ctx.request.ip()}`)
+})

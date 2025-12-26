@@ -2,30 +2,26 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'node:crypto'
 
-export default class Gallery extends BaseModel {
-  public static table = 'gallery'
-
-  public static selfAssignPrimaryKey = true
+export default class AccessToken extends BaseModel {
+  public static table = 'auth_access_token'
 
   @column({ isPrimary: true })
-  declare id: string
-
-  @beforeCreate()
-  public static async assignUuid(gallery: Gallery) {
-    gallery.id = randomUUID()
-  }
+  declare id: number
 
   @column()
-  declare title: string
+  declare tokenableId: string
 
   @column()
-  declare description: string | null
+  declare type: string
 
   @column()
-  declare url: string
+  declare name: string | null
 
   @column()
-  declare sortOrder: number
+  declare hash: string
+
+  @column()
+  declare abilities: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -34,5 +30,8 @@ export default class Gallery extends BaseModel {
   declare updatedAt: DateTime | null
 
   @column.dateTime()
-  declare deletedAt: DateTime | null
+  declare lastUsedAt: DateTime | null
+
+  @column.dateTime()
+  declare expiresAt: DateTime | null
 }

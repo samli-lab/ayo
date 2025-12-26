@@ -19,7 +19,23 @@ export default class AuthMiddleware {
       guards?: (keyof Authenticators)[]
     } = {}
   ) {
-    await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
-    return next()
+    try {
+      await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
+      return next()
+    } catch (error) {
+      // 记录详细错误信息用于调试
+      console.error('Auth error:', error)
+
+      // For API requests, return JSON response instead of redirecting
+      if (ctx.request.accepts(['json'])) {
+        return ctx.response.status(401).json({
+          code: 401,
+          message: '未授权，请先登录',
+          data: null,
+        })
+      }
+      // For web requests, redirect to login
+      throw error
+    }
   }
 }

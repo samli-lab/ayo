@@ -1,5 +1,5 @@
 import router from '@adonisjs/core/services/router'
-import { apiThrottle } from '#start/limiter'
+import { apiThrottle, loginThrottle } from '#start/limiter'
 
 const UserController = () => import('#controllers/user/user_controller')
 const TranslationController = () => import('#controllers/translation/translation_controller')
@@ -7,6 +7,9 @@ const TranslationController = () => import('#controllers/translation/translation
 // 用户相关路由
 router
   .group(() => {
+    // 用户登录 - 1分钟只能请求1次
+    router.post('/login', [UserController, 'login']).use(loginThrottle)
+
     // 用户注册
     router.get('/register', async ({ params }) => {
       console.log(params)

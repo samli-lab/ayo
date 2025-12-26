@@ -17,9 +17,17 @@ const translationSchema = vine.object({
   provider: vine.string().trim().minLength(2).maxLength(50),
 })
 
+// 登录验证器
+const loginSchema = vine.object({
+  email: vine.string().trim().email(),
+  password: vine.string().minLength(6),
+})
+
 export const testValidator = vine.compile(userSchema)
 export const pathParamsValidator = vine.compile(pathParamsSchema)
 export const translationValidator = vine.compile(translationSchema)
+export const loginValidator = vine.compile(loginSchema)
 
 export type UserValidation = Infer<typeof userSchema>
 export type PathParamsValidation = Infer<typeof pathParamsSchema>
+export type LoginValidation = Infer<typeof loginSchema>
