@@ -34,6 +34,24 @@ jobs:
           ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             set -e  # 遇到错误立即退出
             
+            # 加载环境变量配置
+            if [ -f ~/.bashrc ]; then
+              source ~/.bashrc
+            fi
+            if [ -f ~/.zshrc ]; then
+              source ~/.zshrc
+            fi
+            
+            # 添加宝塔Node.js和pnpm到PATH
+            export PATH="/www/server/nodejs/v24.12.0/bin:$PATH"
+            
+            # 验证pnpm是否可用
+            if ! command -v pnpm &> /dev/null; then
+              echo "❌ pnpm 命令未找到"
+              exit 1
+            fi
+            echo "✅ pnpm 位置: $(command -v pnpm)"
+            
             PROJECT_PATH="${{ secrets.PROJECT_PATH }}"
             cd "$PROJECT_PATH"
             
