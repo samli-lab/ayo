@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
-import { randomUUID } from 'node:crypto'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 export default class AccessToken extends BaseModel {
   public static table = 'auth_access_token'

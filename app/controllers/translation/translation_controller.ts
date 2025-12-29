@@ -1,6 +1,5 @@
 import { HttpContext } from '@adonisjs/core/http'
 import { TranslationService } from '#services/translation/translation_service'
-import { translationValidator } from '#validators/user_validator'
 
 export default class TranslationController {
   private translationService: TranslationService

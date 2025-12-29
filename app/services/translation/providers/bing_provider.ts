@@ -24,6 +24,7 @@ export class BingTranslationProvider extends BaseTranslationProvider {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Ocp-Apim-Subscription-Key': this.apiKey,
         },
         body: JSON.stringify({
           text: [text],
