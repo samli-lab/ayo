@@ -1,0 +1,102 @@
+name: Deploy Ayo Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            set -e  # 遇到错误立即退出
+            
+            PROJECT_PATH="${{ secrets.PROJECT_PATH }}"
+            cd "$PROJECT_PATH"
+            
+            echo "📦 开始部署..."
+            echo "📍 当前目录: $(pwd)"
+            echo "🔍 当前分支: $(git branch --show-current)"
+            echo "📝 最新提交: $(git log -1 --oneline)"
+            
+            # 备份当前版本（用于回滚）
+            echo "💾 备份当前版本..."
+            CURRENT_COMMIT=$(git rev-parse HEAD)
+            echo "当前提交: $CURRENT_COMMIT"
+            
+            # 拉取最新代码
+            echo "⬇️  拉取最新代码..."
+            git fetch origin main
+            git pull origin main || {
+              echo "❌ Git pull 失败"
+              exit 1
+            }
+            
+            # 检查是否有新提交
+            NEW_COMMIT=$(git rev-parse HEAD)
+            if [ "$CURRENT_COMMIT" = "$NEW_COMMIT" ]; then
+              echo "ℹ️  没有新提交，跳过部署"
+              exit 0
+            fi
+            
+            echo "✅ 代码已更新: $CURRENT_COMMIT -> $NEW_COMMIT"
+            
+            # 安装依赖
+            echo "📥 安装依赖..."
+            pnpm install --frozen-lockfile || {
+              echo "❌ pnpm install 失败"
+              exit 1
+            }
+            
+            # 运行数据库迁移
+            echo "🗄️  运行数据库迁移..."
+            node ace migration:run || {
+              echo "⚠️  数据库迁移失败，但继续部署流程"
+            }
+            
+            # 构建项目
+            echo "🔨 构建项目..."
+            pnpm run build || {
+              echo "❌ 构建失败"
+              exit 1
+            }
+            
+            # 检查构建结果
+            if [ ! -d "build" ]; then
+              echo "❌ build 目录不存在，构建可能失败"
+              exit 1
+            fi
+            
+            echo "✅ 构建成功"
+            
+            # 重启应用
+            echo "🔄 重启应用..."
+            pm2 restart all || {
+              echo "❌ PM2 重启失败"
+              exit 1
+            }
+            
+            # 检查应用状态
+            echo "🔍 检查应用状态..."
+            sleep 3
+            pm2 status
+            
+            echo "✅ 部署完成！"
+            echo "📝 部署版本: $NEW_COMMIT"
+            echo "🕐 部署时间: $(date)"
+          EOF
