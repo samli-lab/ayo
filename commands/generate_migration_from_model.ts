@@ -267,27 +267,6 @@ export default class GenerateMigrationFromModel extends BaseCommand {
     return columns
   }
 
-  private extractDecorator(content: string, columnName: string): string {
-    const lines = content.split('\n')
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].includes(`declare ${columnName}:`)) {
-        // 向上查找最近的 @column 装饰器（可能跨多行）
-        let decorator = ''
-        for (let j = i - 1; j >= 0 && j >= i - 3; j--) {
-          if (lines[j].includes('@column')) {
-            decorator = lines[j].trim()
-            // 如果装饰器跨多行，尝试获取更多行
-            if (j > 0 && lines[j - 1].trim().startsWith('@')) {
-              decorator = lines[j - 1].trim() + ' ' + decorator
-            }
-            return decorator
-          }
-        }
-      }
-    }
-    return ''
-  }
-
   private inferType(typeDef: string, decorator: string): string {
     // 优先检查装饰器中的类型提示（如 @column.date(), @column.dateTime()）
     if (decorator.includes('.date()')) return 'date'
