@@ -35,5 +35,5 @@ export const loginThrottle = limiter.define('login', (ctx) => {
    * Allow only 1 login attempt per minute per IP address
    * This helps prevent brute force attacks
    */
-  return limiter.allowRequests(100).every('1 minute').usingKey(`login_ip_${ctx.request.ip()}`)
+  return limiter.allowRequests(5).every('1 minute').usingKey(`login_ip_${ctx.request.ip()}`)
 })

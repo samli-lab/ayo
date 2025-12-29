@@ -48,28 +48,40 @@ router
 
     // ========== 分类 CRUD ==========
     // 获取分类列表
-    router.get('/categories', [CategoriesController, 'index']).use(apiThrottle)
+    router
+      .get('/categories', [CategoriesController, 'index'])
+      .use(middleware.auth())
+      .use(apiThrottle)
 
     // 创建分类
-    router.post('/categories', [CategoriesController, 'store']).use(apiThrottle)
+    router
+      .post('/categories', [CategoriesController, 'store'])
+      .use(middleware.auth())
+      .use(apiThrottle)
 
     // 更新分类
-    router.put('/categories/:id', [CategoriesController, 'update']).use(apiThrottle)
+    router
+      .put('/categories/:id', [CategoriesController, 'update'])
+      .use(middleware.auth())
+      .use(apiThrottle)
 
     // 删除分类
-    router.delete('/categories/:id', [CategoriesController, 'destroy']).use(apiThrottle)
+    router
+      .delete('/categories/:id', [CategoriesController, 'destroy'])
+      .use(middleware.auth())
+      .use(apiThrottle)
 
     // ========== 标签 CRUD ==========
     // 获取标签列表
-    router.get('/tags', [TagsController, 'index']).use(apiThrottle)
+    router.get('/tags', [TagsController, 'index']).use(middleware.auth()).use(apiThrottle)
 
     // 创建标签
-    router.post('/tags', [TagsController, 'store']).use(apiThrottle)
+    router.post('/tags', [TagsController, 'store']).use(middleware.auth()).use(apiThrottle)
 
     // 更新标签
-    router.put('/tags/:id', [TagsController, 'update']).use(apiThrottle)
+    router.put('/tags/:id', [TagsController, 'update']).use(middleware.auth()).use(apiThrottle)
 
     // 删除标签
-    router.delete('/tags/:id', [TagsController, 'destroy']).use(apiThrottle)
+    router.delete('/tags/:id', [TagsController, 'destroy']).use(middleware.auth()).use(apiThrottle)
   })
   .prefix('/api')

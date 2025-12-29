@@ -21,8 +21,16 @@ const loggerConfig = defineConfig({
             target: 'pino-roll',
             level: 'info',
             options: {
-              file: join(process.cwd(), 'logs', 'app.log'),
+              /**
+               * pino-roll v3.1.0 会在文件名上追加轮转编号（例如 .1/.2/...）。
+               * 配合 dateFormat 可让文件名包含日期，避免只看到纯数字后缀。
+               *
+               * 例：logs/app.2025-12-29.1.log
+               */
+              file: join(process.cwd(), 'logs', 'app'),
               frequency: 'daily',
+              dateFormat: 'yyyy-MM-dd',
+              extension: '.log',
               mkdir: true,
             },
           })
