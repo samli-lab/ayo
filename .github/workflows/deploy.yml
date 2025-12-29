@@ -1,9 +1,15 @@
 name: Deploy Ayo Backend
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: '要部署的分支'
+        required: true
+        default: 'main'
+        type: choice
+        options:
+          - main
 
 jobs:
   deploy:
@@ -13,6 +19,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Setup SSH
         run: |
@@ -40,9 +48,14 @@ jobs:
             echo "当前提交: $CURRENT_COMMIT"
             
             # 拉取最新代码
-            echo "⬇️  拉取最新代码..."
-            git fetch origin main
-            git pull origin main || {
+            DEPLOY_BRANCH="${{ github.event.inputs.branch }}"
+            echo "⬇️  拉取最新代码 (分支: $DEPLOY_BRANCH)..."
+            git fetch origin $DEPLOY_BRANCH
+            git checkout $DEPLOY_BRANCH || {
+              echo "❌ 切换分支失败"
+              exit 1
+            }
+            git pull origin $DEPLOY_BRANCH || {
               echo "❌ Git pull 失败"
               exit 1
             }
