@@ -1,8 +1,20 @@
 const path = require('path')
+const fs = require('fs')
 
 // 获取项目根目录的绝对路径
 const projectRoot = path.resolve(__dirname)
-const envPath = path.join(projectRoot, '.env')
+// ENV_PATH 应该是目录路径，而不是 .env 文件路径
+// AdonisJS 会自动在这个目录下查找 .env 文件
+const envDir = projectRoot
+
+// 检查 .env 文件是否存在
+const envFilePath = path.join(envDir, '.env')
+if (!fs.existsSync(envFilePath)) {
+  console.error(`⚠️  .env file not found at: ${envFilePath}`)
+} else {
+  console.log(`✅ .env file found at: ${envFilePath}`)
+  console.log(`✅ ENV_PATH will be set to: ${envDir}`)
+}
 
 module.exports = {
   apps: [
@@ -20,17 +32,17 @@ module.exports = {
       env: {
         NODE_ENV: 'development',
         PORT: 3333,
-        ENV_PATH: envPath, // AdonisJS 官方推荐：使用绝对路径指定 .env 文件
+        ENV_PATH: envDir, // ENV_PATH 是目录路径，AdonisJS 会自动在此目录下查找 .env 文件
       },
       env_production: {
         NODE_ENV: 'production',
         PORT: 3333,
-        ENV_PATH: envPath, // 使用绝对路径
+        ENV_PATH: envDir, // 指向项目根目录
       },
       env_staging: {
         NODE_ENV: 'staging',
         PORT: 3334,
-        ENV_PATH: envPath, // 使用绝对路径
+        ENV_PATH: envDir, // 指向项目根目录
       },
 
       // 日志配置
