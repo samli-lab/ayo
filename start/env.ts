@@ -101,4 +101,11 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   PROFILER_API_SECRET: Env.schema.string.optional(),
+
+  /*
+  |----------------------------------------------------------
+  | WebSocket
+  |----------------------------------------------------------
+  */
+  ENABLE_WEBSOCKET: Env.schema.boolean.optional(),
 })

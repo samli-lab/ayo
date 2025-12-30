@@ -13,6 +13,7 @@ import server from '@adonisjs/core/services/server'
 import { WebSocketServer, WebSocket } from 'ws'
 import { IncomingMessage } from 'node:http'
 import { parse } from 'node:url'
+import env from '#start/env'
 
 let wss: WebSocketServer | null = null
 
@@ -20,6 +21,14 @@ let wss: WebSocketServer | null = null
 const clients = new Map<string, { ws: WebSocket; userId?: number; rooms: Set<string> }>()
 
 app.ready(async () => {
+  // 检查环境变量，决定是否启动 WebSocket
+  const enableWebSocket = env.get('ENABLE_WEBSOCKET', false)
+
+  if (!enableWebSocket) {
+    console.log('WebSocket is disabled (ENABLE_WEBSOCKET=false)')
+    return
+  }
+
   const httpServer = server.getNodeServer()
 
   if (!httpServer) {
@@ -33,7 +42,7 @@ app.ready(async () => {
     path: '/ws',
   })
 
-  console.log('WebSocket server initialized on /ws')
+  console.log('✅ WebSocket server initialized on /ws')
 
   wss.on('connection', (ws: WebSocket, request: IncomingMessage) => {
     const clientId = generateClientId()

@@ -115,6 +115,16 @@ jobs:
             
             echo "✅ 构建成功"
             
+            # 安装生产环境依赖到 build 目录
+            echo "📥 安装生产环境依赖到 build 目录..."
+            cd build
+            pnpm install --prod || {
+              echo "❌ build 目录依赖安装失败"
+              exit 1
+            }
+            cd ..
+            echo "✅ 生产依赖安装完成"
+            
             # 重启应用
             echo "🔄 重启应用..."
             pm2 restart all || {
