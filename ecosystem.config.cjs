@@ -4,7 +4,6 @@ module.exports = {
       name: 'ayo',
       script: './build/bin/server.js',
       cwd: './', // 设置工作目录为项目根目录
-      env_file: './.env', // 明确指定 .env 文件路径
       instances: 'max', // 使用所有可用CPU核心，也可以设置具体数字如 2
       exec_mode: 'cluster', // 集群模式，提高性能
       autorestart: true, // 自动重启
@@ -15,14 +14,17 @@ module.exports = {
       env: {
         NODE_ENV: 'development',
         PORT: 3333,
+        ENV_PATH: './.env', // AdonisJS 官方推荐：指定 .env 文件路径
       },
       env_production: {
         NODE_ENV: 'production',
         PORT: 3333,
+        ENV_PATH: './.env', // 指定生产环境的 .env 文件
       },
       env_staging: {
         NODE_ENV: 'staging',
         PORT: 3334,
+        ENV_PATH: './.env', // 指定预发布环境的 .env 文件
       },
 
       // 日志配置
