@@ -13,7 +13,11 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "docs:generate": "node ace docs:generate",
-    "test:aidb-prod": "node --loader ts-node-maintained/esm script/test_aidb_prod_connection.ts"
+    "test:aidb-prod": "node --loader ts-node-maintained/esm script/test_aidb_prod_connection.ts",
+    "worker": "node ace queue:worker",
+    "worker:email": "node ace queue:worker --workers=email",
+    "worker:image": "node ace queue:worker --workers=image",
+    "queue:delayed": "node ace queue:process-delayed"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
@@ -21,6 +25,7 @@
     "#models/*": "./app/models/*.js",
     "#mails/*": "./app/mails/*.js",
     "#services/*": "./app/services/*.js",
+    "#workers/*": "./app/workers/*.js",
     "#listeners/*": "./app/listeners/*.js",
     "#events/*": "./app/events/*.js",
     "#middleware/*": "./app/middleware/*.js",

@@ -63,6 +63,18 @@ export default await Env.create(new URL('../', import.meta.url), {
   REDIS_PORT: Env.schema.number(),
   REDIS_PASSWORD: Env.schema.string.optional(),
 
+  // Redis Cache 连接配置（可选，默认使用主连接）
+  REDIS_CACHE_HOST: Env.schema.string.optional({ format: 'host' }),
+  REDIS_CACHE_PORT: Env.schema.number.optional(),
+  REDIS_CACHE_PASSWORD: Env.schema.string.optional(),
+  REDIS_CACHE_DB: Env.schema.number.optional(),
+
+  // Redis Lock 连接配置（可选，默认使用主连接）
+  REDIS_LOCK_HOST: Env.schema.string.optional({ format: 'host' }),
+  REDIS_LOCK_PORT: Env.schema.number.optional(),
+  REDIS_LOCK_PASSWORD: Env.schema.string.optional(),
+  REDIS_LOCK_DB: Env.schema.number.optional(),
+
   BING_TRANSLATION_API_KEY: Env.schema.string(),
   BAIDU_TRANSLATION_APP_ID: Env.schema.string(),
   BAIDU_TRANSLATION_APP_SECRET: Env.schema.string(),
@@ -108,6 +120,13 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   ENABLE_WEBSOCKET: Env.schema.boolean.optional(),
+
+  /*
+  |----------------------------------------------------------
+  | Queue Workers
+  |----------------------------------------------------------
+  */
+  ENABLE_QUEUE_WORKERS: Env.schema.boolean.optional(),
 
   /*
   |----------------------------------------------------------

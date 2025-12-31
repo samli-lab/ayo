@@ -16,7 +16,9 @@ const loggerConfig = defineConfig({
       level: env.get('LOG_LEVEL'),
       transport: {
         targets: targets()
-          .pushIf(!env.get('LOG_TO_FILE', false), targets.pretty())
+          // 始终输出到控制台（pretty format）
+          .push(targets.pretty())
+          // 如果启用文件日志，同时输出到文件
           .pushIf(env.get('LOG_TO_FILE', false), {
             target: 'pino-roll',
             level: 'info',
