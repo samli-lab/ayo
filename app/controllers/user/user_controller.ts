@@ -10,7 +10,7 @@ export default class UserController {
    * @description 用户登录接口，通过邮箱和密码进行身份验证
    * @requestBody {"email": "user@example.com", "password": "password123"}
    * @responseBody 200 - {"code": 200, "message": "登录成功", "data": {"user": {}, "token": {}}}
-   * @responseBody 401 - {"code": 401, "message": "邮箱或密码错误", "data": {data: null}}
+   * @responseBody 401 - {"code": 401, "message": "邮箱或密码错误", "data": {}}
    */
   async login(ctx: HttpContext) {
     const { email, password } = await loginValidator.validate(ctx.request.body())
@@ -80,6 +80,41 @@ export default class UserController {
       message: '验证成功',
       data: { id: 1 },
     })
+  }
+
+  /**
+   * @logout
+   * @summary 用户退出登录
+   * @description 退出登录接口，删除当前用户的访问令牌
+   * @responseBody 200 - {"code": 200, "message": "退出登录成功", "data": {}}
+   * @responseBody 401 - {"code": 401, "message": "未授权，请先登录", "data": {}}
+   */
+  async logout(ctx: HttpContext) {
+    try {
+      // 获取当前认证的用户
+      const user = ctx.auth.getUserOrFail()
+
+      // 获取当前的访问令牌
+      const token = ctx.auth.use('api').user?.currentAccessToken
+
+      if (token) {
+        // 删除当前的访问令牌
+        await User.accessTokens.delete(user, token.identifier)
+      }
+
+      return ctx.response.json({
+        code: 200,
+        message: '退出登录成功',
+        data: null,
+      })
+    } catch (error) {
+      console.error('Logout error:', error)
+      return ctx.response.status(401).json({
+        code: 401,
+        message: '退出登录失败',
+        data: null,
+      })
+    }
   }
 
   /**

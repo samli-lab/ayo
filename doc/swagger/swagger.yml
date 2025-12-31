@@ -72,6 +72,45 @@ components:
           type: "string"
           example: "/?page=5"
           nullable: false
+    AccessToken:
+      type: "object"
+      required: []
+      properties:
+        id:
+          type: "number"
+          example: 603
+        tokenable_id:
+          type: "string"
+          example: "Lorem Ipsum"
+        type:
+          type: "string"
+          example: "Lorem Ipsum"
+        name:
+          type: "string"
+          example: "John Doe"
+        hash:
+          type: "string"
+          example: "Lorem Ipsum"
+        abilities:
+          type: "string"
+          example: "Lorem Ipsum"
+        created_at:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+        updated_at:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+        last_used_at:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+        expires_at:
+          type: "string"
+          example: "2021-03-23T16:13:08.489+01:00"
+          format: "date-time"
+      description: "AccessToken (Model)"
     Category:
       type: "object"
       required: []
@@ -117,7 +156,7 @@ components:
           example: "https://example.com"
         sort_order:
           type: "number"
-          example: 468
+          example: 184
         created_at:
           type: "string"
           example: "2021-03-23T16:13:08.489+01:00"
@@ -161,10 +200,10 @@ components:
           example: "Lorem Ipsum"
         views:
           type: "number"
-          example: 287
+          example: 806
         likes:
           type: "number"
-          example: 400
+          example: 611
         author_name:
           type: "string"
           example: "Lorem Ipsum"
@@ -324,7 +363,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 498
+            example: 224
           properties:
             items:
               type: "string"
@@ -506,7 +545,7 @@ components:
           type: "array"
           items:
             type: "number"
-            example: 116
+            example: 469
           properties:
             items:
               type: "string"
@@ -555,12 +594,12 @@ components:
           required: true
         sortOrder:
           type: "number"
-          example: 651
+          example: 0
       example:
         title: "Lorem Ipsum"
         description: "Lorem Ipsum"
         url: "Lorem Ipsum"
-        sortOrder: 651
+        sortOrder: 0
       description: "createGalleryValidator (Validator)"
     getGalleryQueryValidator:
       type: "object"
@@ -597,13 +636,29 @@ components:
           example: "Lorem Ipsum"
         sortOrder:
           type: "number"
-          example: 374
+          example: 363
       example:
         title: "Lorem Ipsum"
         description: "Lorem Ipsum"
         url: "Lorem Ipsum"
-        sortOrder: 374
+        sortOrder: 363
       description: "updateGalleryValidator (Validator)"
+    loginValidator:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+        password:
+          type: "string"
+          example: "Lorem Ipsum"
+          required: true
+          minLength: 6
+      example:
+        email: "Lorem Ipsum"
+        password: "Lorem Ipsum"
+      description: "loginValidator (Validator)"
     pathParamsValidator:
       type: "object"
       properties:
@@ -625,12 +680,12 @@ components:
           maxLength: 50
         age:
           type: "number"
-          example: 970
+          example: 512
           maximum: 120
           required: true
       example:
         name: "Lorem Ipsum"
-        age: 970
+        age: 512
       description: "testValidator (Validator)"
     translationValidator:
       type: "object"
@@ -652,6 +707,111 @@ components:
         provider: "Lorem Ipsum"
       description: "translationValidator (Validator)"
 paths:
+  /api/users/login:
+    post:
+      summary: "用户登录 (login)"
+      description: "用户登录接口，通过邮箱和密码进行身份验证\n\n _app/controllers/user/user_controller.ts_ - **login**"
+      parameters: []
+      tags:
+        - "USERS"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  code: 200
+                  message: "登录成功"
+                  data:
+                    type: "object"
+                    properties:
+                      user:
+                        type: "object"
+                        properties: {}
+                      token:
+                        type: "object"
+                        properties: {}
+              example:
+                code: 200
+                message: "登录成功"
+                data:
+                  user: {}
+                  token: {}
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  code: 401
+                  message: "邮箱或密码错误"
+                  data:
+                    type: "object"
+                    properties: {}
+              example:
+                code: 401
+                message: "邮箱或密码错误"
+                data: {}
+          description: "Returns **401** (Unauthorized) as **application/json**"
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email: "user@example.com"
+                password: "password123"
+            example:
+              email: "user@example.com"
+              password: "password123"
+  /api/users/logout:
+    post:
+      summary: "用户退出登录 (logout)"
+      description: "退出登录接口，删除当前用户的访问令牌\n\n _app/controllers/user/user_controller.ts_ - **logout**"
+      parameters: []
+      tags:
+        - "USERS"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  code: 200
+                  message: "退出登录成功"
+                  data:
+                    type: "object"
+                    properties: {}
+              example:
+                code: 200
+                message: "退出登录成功"
+                data: {}
+          description: "Returns **200** (OK) as **application/json**"
+        401:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  code: 401
+                  message: "未授权，请先登录"
+                  data:
+                    type: "object"
+                    properties: {}
+              example:
+                code: 401
+                message: "未授权，请先登录"
+                data: {}
+          description: "Returns **401** (Unauthorized) as **application/json**"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
   /api/users/register:
     get:
       summary: "route"
@@ -896,7 +1056,13 @@ paths:
                 data:
                   error: "Invalid data"
           description: "Returns **400** (Bad Request) as **application/json**"
-      security: []
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -994,6 +1160,10 @@ paths:
                 data:
                   id: 0
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1012,7 +1182,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -1280,7 +1452,13 @@ paths:
                 data:
                   error: "上传失败"
           description: "Returns **400** (Bad Request) as **application/json**"
-      security: []
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
   /api/posts/{id}:
     delete:
       summary: "删除文章 (destroy)"
@@ -1314,6 +1492,10 @@ paths:
                 data:
                   success: true
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1332,7 +1514,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
   /api/categories:
     get:
       summary: "获取分类列表 (index)"
@@ -1362,7 +1546,13 @@ paths:
                 data:
                   - id: 0
           description: "Returns **200** (OK) as **application/json**"
-      security: []
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
     post:
       summary: "创建分类 (store)"
       description: "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/categories_controller.ts_ - **store**"
@@ -1406,7 +1596,13 @@ paths:
                 data:
                   error: "Invalid data"
           description: "Returns **400** (Bad Request) as **application/json**"
-      security: []
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -1451,6 +1647,10 @@ paths:
                 data:
                   id: 0
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1469,7 +1669,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -1513,6 +1715,10 @@ paths:
                 data:
                   success: true
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1531,7 +1737,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
   /api/tags:
     get:
       summary: "获取标签列表 (index)"
@@ -1561,7 +1769,13 @@ paths:
                 data:
                   - id: 0
           description: "Returns **200** (OK) as **application/json**"
-      security: []
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
     post:
       summary: "创建标签 (store)"
       description: "Returns **201** (Created) as **application/json**\n\n _app/controllers/blog/tags_controller.ts_ - **store**"
@@ -1605,7 +1819,13 @@ paths:
                 data:
                   error: "Invalid data"
           description: "Returns **400** (Bad Request) as **application/json**"
-      security: []
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -1650,6 +1870,10 @@ paths:
                 data:
                   id: 0
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1668,7 +1892,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -1712,6 +1938,10 @@ paths:
                 data:
                   success: true
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1730,7 +1960,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
   /api/gallery:
     get:
       summary: "获取相册照片列表 (index)"
@@ -1817,7 +2049,13 @@ paths:
                 data:
                   id: ""
           description: "Returns **201** (Created) as **application/json**"
-      security: []
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -1917,6 +2155,10 @@ paths:
                 data:
                   id: ""
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1935,7 +2177,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
       requestBody:
         content:
           application/json:
@@ -1979,6 +2223,10 @@ paths:
                 data:
                   success: true
           description: "Returns **200** (OK) as **application/json**"
+        401:
+          description: "Returns **401** (Unauthorized)"
+        403:
+          description: "Returns **403** (Forbidden)"
         404:
           content:
             application/json:
@@ -1997,7 +2245,9 @@ paths:
                 data:
                   error: "Not found"
           description: "Returns **404** (Not Found) as **application/json**"
-      security: []
+      security:
+        - BearerAuth:
+            - "access"
   /:
     get:
       summary: "route"

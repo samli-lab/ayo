@@ -1,4 +1,5 @@
 import router from '@adonisjs/core/services/router'
+import { middleware } from '#start/kernel'
 import { apiThrottle, loginThrottle } from '#start/limiter'
 
 const UserController = () => import('#controllers/user/user_controller')
@@ -9,6 +10,9 @@ router
   .group(() => {
     // 用户登录 - 1分钟只能请求1次
     router.post('/login', [UserController, 'login']).use(loginThrottle)
+
+    // 用户退出登录 - 需要认证
+    router.post('/logout', [UserController, 'logout']).use(middleware.auth())
 
     // 用户注册
     router.get('/register', async ({ params }) => {
