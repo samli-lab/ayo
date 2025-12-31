@@ -48,6 +48,7 @@ export default defineConfig({
   */
   preloads: [
     () => import('#start/db_debug'),
+    () => import('#start/growthbook'),
     () => import('#start/routes'),
     () => import('#start/kernel'),
     () => import('#start/ws'),

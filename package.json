@@ -66,6 +66,7 @@
     "@adonisjs/redis": "^9.2.0",
     "@google/genai": "^1.30.0",
     "@google/generative-ai": "^0.24.1",
+    "@growthbook/growthbook": "^1.6.2",
     "@vinejs/vine": "^3.0.1",
     "adonis-autoswagger": "^3.73.0",
     "luxon": "^3.6.1",

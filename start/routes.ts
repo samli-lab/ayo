@@ -16,6 +16,7 @@ import '#routes/user'
 import '#routes/diagnostics'
 import '#routes/blog'
 import '#routes/gallery'
+import '#routes/growthbook'
 // import '#routes/comment'
 
 router.get('/', async () => {
