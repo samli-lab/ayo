@@ -22,12 +22,6 @@ export default {
   enabled: env.get('GROWTHBOOK_ENABLED', false),
 
   /**
-   * 功能特性更新间隔（秒）
-   * 定期从服务器拉取最新的特性配置
-   */
-  refreshInterval: env.get('GROWTHBOOK_REFRESH_INTERVAL', 60),
-
-  /**
    * 是否启用开发模式
    * 开发模式下会输出更多日志信息
    */
@@ -38,10 +32,4 @@ export default {
    * 用于记录实验曝光和结果
    */
   enableTracking: env.get('GROWTHBOOK_ENABLE_TRACKING', true),
-
-  /**
-   * 是否启用流式更新
-   * 使用 SSE 实时接收特性更新
-   */
-  enableStreaming: env.get('GROWTHBOOK_ENABLE_STREAMING', false),
 }

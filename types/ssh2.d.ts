@@ -13,4 +13,3 @@ declare module 'ssh2' {
     end(): void
   }
 }
-

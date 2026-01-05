@@ -103,7 +103,7 @@
         "properties": {
           "id": {
             "type": "number",
-            "example": 603
+            "example": 568
           },
           "tokenable_id": {
             "type": "string",
@@ -206,7 +206,7 @@
           },
           "sort_order": {
             "type": "number",
-            "example": 184
+            "example": 464
           },
           "created_at": {
             "type": "string",
@@ -264,11 +264,11 @@
           },
           "views": {
             "type": "number",
-            "example": 806
+            "example": 882
           },
           "likes": {
             "type": "number",
-            "example": 611
+            "example": 160
           },
           "author_name": {
             "type": "string",
@@ -478,7 +478,7 @@
             "type": "array",
             "items": {
               "type": "number",
-              "example": 224
+              "example": 243
             },
             "properties": {
               "items": {
@@ -718,7 +718,7 @@
             "type": "array",
             "items": {
               "type": "number",
-              "example": 469
+              "example": 228
             },
             "properties": {
               "items": {
@@ -783,14 +783,14 @@
           },
           "sortOrder": {
             "type": "number",
-            "example": 0
+            "example": 815
           }
         },
         "example": {
           "title": "Lorem Ipsum",
           "description": "Lorem Ipsum",
           "url": "Lorem Ipsum",
-          "sortOrder": 0
+          "sortOrder": 815
         },
         "description": "createGalleryValidator (Validator)"
       },
@@ -838,14 +838,14 @@
           },
           "sortOrder": {
             "type": "number",
-            "example": 363
+            "example": 691
           }
         },
         "example": {
           "title": "Lorem Ipsum",
           "description": "Lorem Ipsum",
           "url": "Lorem Ipsum",
-          "sortOrder": 363
+          "sortOrder": 691
         },
         "description": "updateGalleryValidator (Validator)"
       },
@@ -896,14 +896,14 @@
           },
           "age": {
             "type": "number",
-            "example": 512,
+            "example": 96,
             "maximum": 120,
             "required": true
           }
         },
         "example": {
           "name": "Lorem Ipsum",
-          "age": 512
+          "age": 96
         },
         "description": "testValidator (Validator)"
       },
@@ -934,6 +934,1026 @@
     }
   },
   "paths": {
+    "/api/growthbook/feature/check": {
+      "get": {
+        "summary": " (checkFeature)",
+        "description": "\n\n _app/controllers/growthbook_example_controller.ts_ - **checkFeature**",
+        "parameters": [],
+        "tags": [
+          "GROWTHBOOK"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/growthbook/feature/value": {
+      "get": {
+        "summary": " (getFeatureValue)",
+        "description": "\n\n _app/controllers/growthbook_example_controller.ts_ - **getFeatureValue**",
+        "parameters": [],
+        "tags": [
+          "GROWTHBOOK"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/growthbook/user/features": {
+      "get": {
+        "summary": " (checkUserFeature)",
+        "description": "\n\n _app/controllers/growthbook_example_controller.ts_ - **checkUserFeature**",
+        "parameters": [],
+        "tags": [
+          "GROWTHBOOK"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/growthbook/user/ab-test": {
+      "get": {
+        "summary": " (runABTest)",
+        "description": "\n\n _app/controllers/growthbook_example_controller.ts_ - **runABTest**",
+        "parameters": [],
+        "tags": [
+          "GROWTHBOOK"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/growthbook/user/conditional": {
+      "get": {
+        "summary": "条件性功能展示 (conditionalFeature)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/growthbook_example_controller.ts_ - **conditionalFeature**",
+        "parameters": [],
+        "tags": [
+          "GROWTHBOOK"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": "123",
+                    "canAccessPremium": false,
+                    "features": {
+                      "type": "object",
+                      "properties": {}
+                    }
+                  }
+                },
+                "example": {
+                  "userId": "123",
+                  "canAccessPremium": false,
+                  "features": []
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/growthbook/admin/refresh": {
+      "post": {
+        "summary": "手动刷新功能 (refreshFeatures)",
+        "description": "手动刷新 GrowthBook 的功能配置\n\n _app/controllers/growthbook_example_controller.ts_ - **refreshFeatures**",
+        "parameters": [],
+        "tags": [
+          "GROWTHBOOK"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Features refreshed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Features refreshed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          },
+          "401": {
+            "description": "Returns **401** (Unauthorized)"
+          },
+          "403": {
+            "description": "Returns **403** (Forbidden)"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "access"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/distributed-lock/basic": {
+      "get": {
+        "summary": "基础锁使用示例 (basicLock)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/distributed_lock_example_controller.ts_ - **basicLock**",
+        "parameters": [],
+        "tags": [
+          "DISTRIBUTED-LOCK"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Task completed",
+                    "executionTime": 3000
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Task completed",
+                  "executionTime": 3000
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/distributed-lock/order/{orderId}": {
+      "post": {
+        "summary": " (processOrder)",
+        "description": "\n\n _app/controllers/distributed_lock_example_controller.ts_ - **processOrder**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "DISTRIBUTED-LOCK"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/distributed-lock/cleanup": {
+      "post": {
+        "summary": " (tryCleanup)",
+        "description": "\n\n _app/controllers/distributed_lock_example_controller.ts_ - **tryCleanup**",
+        "parameters": [],
+        "tags": [
+          "DISTRIBUTED-LOCK"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/distributed-lock/user/{userId}/operation": {
+      "post": {
+        "summary": "用户操作锁示例 (userOperation)",
+        "description": "防止用户并发操作（如重复提交）\n\n _app/controllers/distributed_lock_example_controller.ts_ - **userOperation**",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "用户 ID",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "DISTRIBUTED-LOCK"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Operation completed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Operation completed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": "update-profile",
+                  "data": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              },
+              "example": {
+                "action": "update-profile",
+                "data": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/distributed-lock/check": {
+      "get": {
+        "summary": "检查锁状态 (checkLock)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/distributed_lock_example_controller.ts_ - **checkLock**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "description": "锁的键名",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "DISTRIBUTED-LOCK"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "locked": true,
+                    "key": "example:basic-task"
+                  }
+                },
+                "example": {
+                  "locked": true,
+                  "key": "example:basic-task"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/distributed-lock/force-release": {
+      "delete": {
+        "summary": "强制释放锁（管理员功能） (forceRelease)",
+        "description": "强制释放指定的锁，慎用！\n\n _app/controllers/distributed_lock_example_controller.ts_ - **forceRelease**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "description": "锁的键名",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "DISTRIBUTED-LOCK"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Lock released"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Lock released"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/distributed-lock/concurrent-test": {
+      "get": {
+        "summary": "并发测试 (concurrentTest)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/distributed_lock_example_controller.ts_ - **concurrentTest**",
+        "parameters": [],
+        "tags": [
+          "DISTRIBUTED-LOCK"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "executedCount": 1,
+                    "totalRequests": 10
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "executedCount": 1,
+                  "totalRequests": 10
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/queue/push": {
+      "post": {
+        "summary": "推送消息到队列 (pushMessage)",
+        "description": "演示如何向队列推送消息\n\n _app/controllers/queue_example_controller.ts_ - **pushMessage**",
+        "parameters": [],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "messageId": "123-abc",
+                    "message": "Message pushed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "messageId": "123-abc",
+                  "message": "Message pushed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": "Hello Queue",
+                  "priority": 1
+                }
+              },
+              "example": {
+                "message": "Hello Queue",
+                "priority": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/queue/pop": {
+      "get": {
+        "summary": "从队列弹出消息 (popMessage)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/queue_example_controller.ts_ - **popMessage**",
+        "parameters": [],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "hasMore": true
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": {},
+                  "hasMore": true
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/queue/email": {
+      "post": {
+        "summary": " (queueEmail)",
+        "description": "\n\n _app/controllers/queue_example_controller.ts_ - **queueEmail**",
+        "parameters": [],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/queue/delayed": {
+      "post": {
+        "summary": " (pushDelayedMessage)",
+        "description": "\n\n _app/controllers/queue_example_controller.ts_ - **pushDelayedMessage**",
+        "parameters": [],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/queue/process-delayed": {
+      "post": {
+        "summary": "处理延迟消息 (processDelayed)",
+        "description": "手动触发延迟消息处理（通常由定时任务调用）\n\n _app/controllers/queue_example_controller.ts_ - **processDelayed**",
+        "parameters": [],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "processed": 5,
+                    "message": "Processed delayed messages"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "processed": 5,
+                  "message": "Processed delayed messages"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/queue/stats": {
+      "get": {
+        "summary": " (getStats)",
+        "description": "\n\n _app/controllers/queue_example_controller.ts_ - **getStats**",
+        "parameters": [],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/queue/peek": {
+      "get": {
+        "summary": "查看队列消息 (peekQueue)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/queue_example_controller.ts_ - **peekQueue**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "queue",
+            "description": "队列名称",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "查看数量",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "messages": {
+                      "type": "object",
+                      "properties": {}
+                    },
+                    "total": 10
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "messages": [],
+                  "total": 10
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/queue/dlq": {
+      "get": {
+        "summary": " (getDeadLetterQueue)",
+        "description": "\n\n _app/controllers/queue_example_controller.ts_ - **getDeadLetterQueue**",
+        "parameters": [],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/queue/batch-process": {
+      "post": {
+        "summary": "批量处理消息 (batchProcess)",
+        "description": "演示批量处理队列消息\n\n _app/controllers/queue_example_controller.ts_ - **batchProcess**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "batchSize",
+            "description": "批处理数量",
+            "schema": {
+              "example": "",
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "processed": 10,
+                    "failed": 2
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "processed": 10,
+                  "failed": 2
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/queue/clear": {
+      "delete": {
+        "summary": "清空队列 (clearQueue)",
+        "description": "清空指定队列的所有消息\n\n _app/controllers/queue_example_controller.ts_ - **clearQueue**",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "queue",
+            "description": "队列名称",
+            "schema": {
+              "example": "",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "QUEUE"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Queue cleared"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Queue cleared"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/queue": {
+      "get": {
+        "summary": "队列测试 (queueTest)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/test_controller.ts_ - **queueTest**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Queue test completed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Queue test completed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/queue/priority": {
+      "get": {
+        "summary": "优先级队列测试 (priorityQueueTest)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/test_controller.ts_ - **priorityQueueTest**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Priority queue test completed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Priority queue test completed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/queue/delayed": {
+      "get": {
+        "summary": "延迟队列测试 (delayedQueueTest)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/test_controller.ts_ - **delayedQueueTest**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Delayed message pushed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Delayed message pushed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/queue/process-delayed": {
+      "post": {
+        "summary": "处理延迟消息 (processDelayed)",
+        "description": "手动触发处理到期的延迟消息\n\n _app/controllers/test_controller.ts_ - **processDelayed**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "processed": 1
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "processed": 1
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/lock": {
+      "get": {
+        "summary": "分布式锁测试 (lockTest)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/test_controller.ts_ - **lockTest**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Lock test completed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Lock test completed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/cache": {
+      "get": {
+        "summary": "缓存测试 (cacheTest)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/test_controller.ts_ - **cacheTest**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Cache test completed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Cache test completed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/all": {
+      "get": {
+        "summary": "综合测试 (allTest)",
+        "description": "Returns **200** (OK) as **application/json**\n\n _app/controllers/test_controller.ts_ - **allTest**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "All tests completed"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "All tests completed"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/test/cleanup": {
+      "delete": {
+        "summary": "清理测试数据 (cleanupTest)",
+        "description": "清理所有测试产生的数据\n\n _app/controllers/test_controller.ts_ - **cleanupTest**",
+        "parameters": [],
+        "tags": [
+          "TEST"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": true,
+                    "message": "Test data cleaned"
+                  }
+                },
+                "example": {
+                  "success": true,
+                  "message": "Test data cleaned"
+                }
+              }
+            },
+            "description": "Returns **200** (OK) as **application/json**"
+          }
+        },
+        "security": []
+      }
+    },
     "/api/users/login": {
       "post": {
         "summary": "用户登录 (login)",
@@ -3318,6 +4338,22 @@
     }
   },
   "tags": [
+    {
+      "name": "GROWTHBOOK",
+      "description": "Everything related to GROWTHBOOK"
+    },
+    {
+      "name": "DISTRIBUTED-LOCK",
+      "description": "Everything related to DISTRIBUTED-LOCK"
+    },
+    {
+      "name": "QUEUE",
+      "description": "Everything related to QUEUE"
+    },
+    {
+      "name": "TEST",
+      "description": "Everything related to TEST"
+    },
     {
       "name": "USERS",
       "description": "Everything related to USERS"

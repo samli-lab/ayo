@@ -15,6 +15,11 @@ declare module '@adonisjs/core/http' {
 /**
  * GrowthBook 中间件
  * 为每个请求创建 GrowthBook 实例，基于用户属性进行实验分组
+ *
+ * 特性：
+ * - 请求级别刷新：每个新的 HTTP 请求都会创建新的 GrowthBook 实例并从服务器加载最新特征
+ * - 请求内缓存：同一请求中复用实例，保证一致性
+ * - 自动清理：请求结束后自动销毁实例，释放资源
  */
 export default class GrowthBookMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
@@ -46,8 +51,8 @@ export default class GrowthBookMiddleware {
         }),
       }
 
-      // 为当前请求创建 GrowthBook 实例
-      ctx.growthbook = GrowthBookService.createInstance(attributes)
+      // 为当前请求创建 GrowthBook 实例并加载最新特征
+      ctx.growthbook = await GrowthBookService.createInstanceAsync(attributes)
 
       // 继续处理请求
       await next()

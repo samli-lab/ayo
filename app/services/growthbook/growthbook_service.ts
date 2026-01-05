@@ -9,7 +9,6 @@ import logger from '@adonisjs/core/services/logger'
 export class GrowthBookService {
   private static instance: GrowthBook | null = null
   private static isInitialized = false
-  private static refreshTimer: NodeJS.Timeout | null = null
 
   /**
    * 初始化 GrowthBook 实例
@@ -44,15 +43,11 @@ export class GrowthBookService {
             })
           }
         },
+        subscribeToChanges: false,
       })
 
-      // 加载功能特性
-      await this.instance.loadFeatures()
-
-      // 设置自动刷新
-      if (growthbookConfig.refreshInterval > 0) {
-        this.startAutoRefresh()
-      }
+      // 初始化并加载功能
+      await this.instance.init()
 
       this.isInitialized = true
       logger.info('GrowthBook initialized successfully')
@@ -73,8 +68,52 @@ export class GrowthBookService {
   }
 
   /**
-   * 为特定用户创建 GrowthBook 实例
+   * 为特定用户创建 GrowthBook 实例（异步版本，加载最新特征）
    * @param attributes 用户属性（用于实验分组）
+   */
+  static async createInstanceAsync(attributes: Context['attributes'] = {}): Promise<GrowthBook> {
+    const gb = new GrowthBook({
+      apiHost: growthbookConfig.apiHost,
+      clientKey: growthbookConfig.clientKey,
+      enableDevMode: growthbookConfig.debug,
+      attributes,
+      trackingCallback: (experiment, result) => {
+        if (growthbookConfig.enableTracking) {
+          logger.info('GrowthBook experiment tracked', {
+            experimentKey: experiment.key,
+            variationId: result.variationId,
+            value: result.value,
+            userId: attributes.id,
+          })
+        }
+      },
+    })
+
+    // 加载最新的特征数据（请求级别刷新）
+    try {
+      await gb.init({ timeout: 1000 })
+      logger.debug('GrowthBook instance initialized with fresh features', {
+        userId: attributes.id,
+        featureCount: Object.keys(gb.getPayload()?.features || {}).length,
+      })
+    } catch (error) {
+      logger.warn('Failed to load fresh features, using cached data', error)
+      // 如果加载失败，回退到全局实例的缓存数据
+      if (this.instance) {
+        const payload = this.instance.getPayload()
+        if (payload) {
+          gb.setPayload(payload)
+        }
+      }
+    }
+
+    return gb
+  }
+
+  /**
+   * 为特定用户创建 GrowthBook 实例（同步版本，使用缓存数据）
+   * @param attributes 用户属性（用于实验分组）
+   * @deprecated 使用 createInstanceAsync 以获取最新特征数据
    */
   static createInstance(attributes: Context['attributes'] = {}): GrowthBook {
     const gb = new GrowthBook({
@@ -94,9 +133,12 @@ export class GrowthBookService {
       },
     })
 
-    // 使用共享的特性数据
+    // 使用共享的特性数据（使用新 API）
     if (this.instance) {
-      gb.setFeatures(this.instance.getFeatures())
+      const payload = this.instance.getPayload()
+      if (payload) {
+        gb.setPayload(payload)
+      }
     }
 
     return gb
@@ -159,37 +201,9 @@ export class GrowthBookService {
   }
 
   /**
-   * 开始自动刷新
-   */
-  private static startAutoRefresh(): void {
-    if (this.refreshTimer) {
-      return
-    }
-
-    const intervalMs = growthbookConfig.refreshInterval * 1000
-    this.refreshTimer = setInterval(() => {
-      this.refresh()
-    }, intervalMs)
-
-    logger.info(`GrowthBook auto-refresh started (${growthbookConfig.refreshInterval}s)`)
-  }
-
-  /**
-   * 停止自动刷新
-   */
-  static stopAutoRefresh(): void {
-    if (this.refreshTimer) {
-      clearInterval(this.refreshTimer)
-      this.refreshTimer = null
-      logger.info('GrowthBook auto-refresh stopped')
-    }
-  }
-
-  /**
    * 销毁实例
    */
   static async destroy(): Promise<void> {
-    this.stopAutoRefresh()
     if (this.instance) {
       this.instance.destroy()
       this.instance = null

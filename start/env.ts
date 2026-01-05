@@ -136,7 +136,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   GROWTHBOOK_ENABLED: Env.schema.boolean.optional(),
   GROWTHBOOK_CLIENT_KEY: Env.schema.string.optional(),
   GROWTHBOOK_API_HOST: Env.schema.string.optional(),
-  GROWTHBOOK_REFRESH_INTERVAL: Env.schema.number.optional(),
   GROWTHBOOK_ENABLE_TRACKING: Env.schema.boolean.optional(),
-  GROWTHBOOK_ENABLE_STREAMING: Env.schema.boolean.optional(),
 })

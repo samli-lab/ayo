@@ -1,9 +1,12 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { GrowthBookService } from '#services/growthbook/growthbook_service'
 
 /**
  * GrowthBook 示例控制器
  * 展示如何使用 GrowthBook 进行功能标志和 A/B 测试
+ *
+ * 说明：所有方法都使用 ctx.growthbook，实现：
+ * - 请求级别刷新：每个新的 HTTP 请求都会创建新的 GrowthBook 实例并加载最新特征
+ * - 请求内缓存：同一请求中复用实例，保证一致性
  */
 export default class GrowthBookExampleController {
   /**
@@ -13,9 +16,9 @@ export default class GrowthBookExampleController {
    * @responseBody 200 - {"feature": "new-dashboard", "enabled": true, "message": "Feature status"}
    */
   async checkFeature(ctx: HttpContext) {
-    // 使用全局实例检查功能
+    // 使用请求上下文中的 GrowthBook 实例
     const featureKey = 'new-dashboard'
-    const isEnabled = GrowthBookService.isFeatureEnabled(featureKey)
+    const isEnabled = ctx.growthbook.isOn(featureKey)
 
     return ctx.response.json({
       feature: featureKey,
@@ -31,16 +34,27 @@ export default class GrowthBookExampleController {
    * @responseBody 200 - {"feature": "button-color", "value": "blue", "message": "Feature value"}
    */
   async getFeatureValue(ctx: HttpContext) {
-    // 获取功能配置值
-    const buttonColor = GrowthBookService.getFeatureValue('button-color', 'blue')
-    const maxItems = GrowthBookService.getFeatureValue('max-items-per-page', 10)
+    // 使用请求上下文中的 GrowthBook 实例（基于当前用户）
+    // ctx.growthbook 由 GrowthBookMiddleware 创建，包含用户特定属性
+    const buttonColor = ctx.growthbook.getFeatureValue('button-color', 'b')
+    const maxItems = ctx.growthbook.getFeatureValue('max-items-per-page', 10)
+    const userAttributes = ctx.growthbook.getAttributes()
+    const allFeatures = ctx.growthbook.getPayload()
 
     return ctx.response.json({
+      // 用户特定功能值（可能根据用户属性不同）
       features: {
         buttonColor,
         maxItems,
+        attributes: userAttributes, // 显示用户属性
       },
-      message: '功能配置获取成功',
+      debug: {
+        hasPayload: !!allFeatures,
+        featureCount: allFeatures?.features ? Object.keys(allFeatures.features).length : 0,
+        availableFeatures: allFeatures?.features ? Object.keys(allFeatures.features) : [],
+        fullPayload: allFeatures,
+      },
+      message: '功能配置获取成功（请求级别实例，每次请求都会刷新）',
     })
   }
 
@@ -158,24 +172,26 @@ export default class GrowthBookExampleController {
 
   /**
    * @refreshFeatures
-   * @summary 手动刷新功能
-   * @description 手动刷新 GrowthBook 的功能配置
-   * @responseBody 200 - {"success": true, "message": "Features refreshed"}
+   * @summary 功能刷新说明
+   * @description 说明 GrowthBook 的自动刷新机制
+   * @responseBody 200 - {"autoRefresh": true, "message": "Features are auto-refreshed"}
    */
   async refreshFeatures(ctx: HttpContext) {
-    try {
-      await GrowthBookService.refresh()
-      return ctx.response.json({
-        success: true,
-        message: '功能配置已刷新',
-      })
-    } catch (error) {
-      return ctx.response.status(500).json({
-        success: false,
-        message: '刷新功能配置失败',
-        error: error instanceof Error ? error.message : 'Unknown error',
-      })
-    }
+    // 使用请求级别的 GrowthBook 实例，无需手动刷新
+    // 每个新请求都会自动创建新实例并加载最新特征
+    const allFeatures = ctx.growthbook.getPayload()
+
+    return ctx.response.json({
+      autoRefresh: true,
+      message: '每个请求都会自动创建新的 GrowthBook 实例并加载最新特征，无需手动刷新',
+      info: {
+        explanation: '请求级别刷新：每个新的 HTTP 请求都会创建新的 GrowthBook 实例并加载最新特征',
+        consistency: '请求内缓存：同一请求中复用实例，保证一致性',
+      },
+      currentRequest: {
+        featureCount: allFeatures?.features ? Object.keys(allFeatures.features).length : 0,
+        availableFeatures: allFeatures?.features ? Object.keys(allFeatures.features) : [],
+      },
+    })
   }
 }
-

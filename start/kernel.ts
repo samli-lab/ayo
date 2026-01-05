@@ -44,4 +44,5 @@ router.use([
  */
 export const middleware = router.named({
   auth: () => import('#middleware/auth_middleware'),
+  growthbook: () => import('#middleware/growthbook_middleware'),
 })
