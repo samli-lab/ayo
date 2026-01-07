@@ -14,9 +14,17 @@ export interface AIModelConfig {
   location?: string
 }
 
+export interface MessagePart {
+  text?: string
+  inlineData?: {
+    mimeType: string
+    data: string
+  }
+}
+
 export interface Message {
   role: 'system' | 'user' | 'assistant'
-  content: string
+  content: string | MessagePart[]
 }
 
 export interface ChatCompletionRequest {
@@ -28,6 +36,10 @@ export interface ChatCompletionRequest {
   topK?: number
   frequencyPenalty?: number
   presencePenalty?: number
+  /** 图像调节配置 (Vertex AI 特有) */
+  imageConditioning?: {
+    personIdentity?: 'LOCK' | 'DONT_LOCK'
+  }
 }
 
 export interface ChatCompletionResponse {

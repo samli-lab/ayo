@@ -96,6 +96,8 @@ export default await Env.create(new URL('../', import.meta.url), {
 
   GOOGLE_VERTEX_PROJECT_ID: Env.schema.string.optional(),
   GOOGLE_VERTEX_LOCATION: Env.schema.string.optional(),
+  VERTEX_API_KEY: Env.schema.string.optional(),
+  AI_VERTEX_BASE_URL: Env.schema.string.optional(),
 
   /*
   |----------------------------------------------------------

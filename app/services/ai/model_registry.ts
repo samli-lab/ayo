@@ -1,4 +1,5 @@
 import env from '#start/env'
+import logger from '@adonisjs/core/services/logger'
 import { AIModelConfig } from './types.js'
 
 /**
@@ -17,6 +18,8 @@ export interface ModelDefinition {
   projectIdEnv?: string
   /** 位置环境变量名（Vertex AI 等需要） */
   locationEnv?: string
+  /** Base URL 环境变量名（可选） */
+  baseUrlEnv?: string
   /** 默认配置覆盖 */
   defaults?: Partial<AIModelConfig>
 }
@@ -75,16 +78,25 @@ export class ModelRegistry {
   static toAIModelConfig(definition: ModelDefinition): AIModelConfig {
     // 获取 API Key
     let apiKey = ''
-    if (definition.apiKeyEnv) {
-      apiKey = env.get(definition.apiKeyEnv, '')
-    } else {
-      // 如果没有指定 apiKeyEnv，尝试从 provider 默认获取
-      apiKey = this.getDefaultApiKeyForProvider(definition.provider)
-    }
+    const apiKeyEnvName =
+      definition.apiKeyEnv || this.getDefaultApiKeyForProviderEnvName(definition.provider)
+    apiKey = env.get(apiKeyEnvName, '')
 
     // 获取项目 ID 和位置
     const projectId = definition.projectIdEnv ? env.get(definition.projectIdEnv, '') : undefined
     const location = definition.locationEnv ? env.get(definition.locationEnv, '') : undefined
+    const baseURL = definition.baseUrlEnv ? env.get(definition.baseUrlEnv, '') : undefined
+
+    // 诊断日志：打印所有从 env 获取的原始值
+    logger.info('[ModelRegistry] Env Lookup Details:', {
+      modelKey: definition.key,
+      apiKeyEnvName,
+      hasApiKey: !!apiKey,
+      projectIdEnvName: definition.projectIdEnv,
+      hasProjectId: !!projectId,
+      baseUrlEnvName: definition.baseUrlEnv,
+      baseURLValue: baseURL,
+    })
 
     return {
       provider: definition.provider,
@@ -92,6 +104,7 @@ export class ModelRegistry {
       model: definition.model,
       projectId,
       location,
+      baseURL,
       ...definition.defaults,
     }
   }
@@ -99,16 +112,15 @@ export class ModelRegistry {
   /**
    * 根据 provider 获取默认的 API Key 环境变量名
    */
-  private static getDefaultApiKeyForProvider(provider: string): string {
+  private static getDefaultApiKeyForProviderEnvName(provider: string): string {
     const providerApiKeyMap: Record<string, string> = {
       openai: 'OPENAI_API_KEY',
       gemini: 'GEMINI_API_KEY',
       openrouter: 'OPENROUTER_API_KEY',
       deepseek: 'DEEPSEEK_API_KEY',
-      vertex: '', // Vertex AI 通常使用 ADC
+      vertex: 'VERTEX_API_KEY',
     }
-    const envKey = providerApiKeyMap[provider.toLowerCase()]
-    return envKey ? env.get(envKey, '') : ''
+    return providerApiKeyMap[provider.toLowerCase()] || ''
   }
 
   /**
@@ -125,30 +137,14 @@ export class ModelRegistry {
       return { valid: false, error: 'Model name is required' }
     }
 
-    // Vertex AI 需要 projectId 和 location
-    if (definition.provider === 'vertex') {
-      const config = this.toAIModelConfig(definition)
-      if (!config.projectId) {
-        return {
-          valid: false,
-          error: `Vertex AI model "${definition.key}" requires projectId (set ${definition.projectIdEnv || 'GOOGLE_VERTEX_PROJECT_ID'})`,
-        }
-      }
-      if (!config.location) {
-        return {
-          valid: false,
-          error: `Vertex AI model "${definition.key}" requires location (set ${definition.locationEnv || 'GOOGLE_VERTEX_LOCATION'})`,
-        }
-      }
-    } else {
-      // 其他 provider 需要 API Key（除非是 vertex）
-      const config = this.toAIModelConfig(definition)
-      if (!config.apiKey && definition.provider !== 'vertex') {
-        const envKey = definition.apiKeyEnv || this.getDefaultApiKeyForProvider(definition.provider)
-        return {
-          valid: false,
-          error: `API key is required for model "${definition.key}" (set ${envKey || 'API_KEY'})`,
-        }
+    // 只要有 apiKey (或者 vertex 不需要强制校验 apiKey)，就算合法
+    const config = this.toAIModelConfig(definition)
+    if (!config.apiKey && definition.provider !== 'vertex') {
+      const envKey =
+        definition.apiKeyEnv || this.getDefaultApiKeyForProviderEnvName(definition.provider)
+      return {
+        valid: false,
+        error: `API key is required for model "${definition.key}" (set ${envKey || 'API_KEY'})`,
       }
     }
 
@@ -179,10 +175,10 @@ export async function loadModelsFromFile(filePath: string): Promise<void> {
     if (config.models && Array.isArray(config.models)) {
       ModelRegistry.registerMany(config.models as ModelDefinition[])
     } else {
-      console.warn(`Invalid models configuration file format: ${filePath}`)
+      logger.warn(`Invalid models configuration file format: ${filePath}`)
     }
   } catch (error) {
-    console.warn(`Failed to load models from file ${filePath}:`, error)
+    logger.warn(`Failed to load models from file ${filePath}:`, error)
   }
 }
 
@@ -213,8 +209,6 @@ function initializeDefaultModels(): void {
       key: 'vertex-gemini-pro',
       provider: 'vertex',
       model: 'gemini-1.5-pro',
-      projectIdEnv: 'GOOGLE_VERTEX_PROJECT_ID',
-      locationEnv: 'GOOGLE_VERTEX_LOCATION',
     },
     {
       key: 'anthropic/claude-2',
@@ -233,6 +227,20 @@ function initializeDefaultModels(): void {
       provider: 'deepseek',
       model: 'deepseek-coder-33b-instruct',
       apiKeyEnv: 'DEEPSEEK_API_KEY',
+    },
+    {
+      key: 'gemini-3-image',
+      provider: 'vertex',
+      model: 'gemini-3-pro-image-preview',
+      apiKeyEnv: 'VERTEX_API_KEY',
+      baseUrlEnv: 'AI_VERTEX_BASE_URL',
+    },
+    {
+      key: 'gemini-3-flash',
+      provider: 'vertex',
+      model: 'gemini-2.5-flash',
+      apiKeyEnv: 'VERTEX_API_KEY',
+      baseUrlEnv: 'AI_VERTEX_BASE_URL',
     },
   ])
 }

@@ -1,4 +1,5 @@
 import { GoogleGenAI } from '@google/genai'
+import logger from '@adonisjs/core/services/logger'
 import {
   AIModelConfig,
   AIModelService,
@@ -29,43 +30,39 @@ import {
 export class VertexService implements AIModelService {
   private client: GoogleGenAI
   private model: string
-  private projectId: string
-  private location: string
 
   constructor(config: AIModelConfig) {
-    // 验证必需的配置项
-    if (!config.projectId) {
-      throw new Error(
-        'Vertex AI requires projectId. Please set GOOGLE_VERTEX_PROJECT_ID environment variable.'
-      )
-    }
-    if (!config.location) {
-      throw new Error(
-        'Vertex AI requires location. Please set GOOGLE_VERTEX_LOCATION environment variable.'
-      )
-    }
     if (!config.model) {
       throw new Error('Vertex AI requires model name.')
     }
 
-    this.projectId = config.projectId
-    this.location = config.location
     this.model = config.model
 
+    // 调试日志：检查关键配置是否获取成功
+    logger.info('[VertexService] Initializing with:', {
+      model: this.model,
+      hasApiKey: !!config.apiKey,
+      hasBaseUrl: !!config.baseURL,
+    })
+
     // 初始化 Google GenAI 客户端，配置为使用 Vertex AI
-    const clientConfig: ConstructorParameters<typeof GoogleGenAI>[0] = {
+    const clientConfig: any = {
       vertexai: true,
-      project: this.projectId,
-      location: this.location,
+    }
+
+    // 如果提供了 baseURL，配置 httpOptions
+    if (config.baseURL) {
+      clientConfig.httpOptions = {
+        baseUrl: config.baseURL,
+      }
     }
 
     // @google/genai 支持通过 apiKey 进行认证
-    // 如果不提供 apiKey，将使用 Application Default Credentials (ADC)
-    // ADC 可以通过 GOOGLE_APPLICATION_CREDENTIALS 环境变量指向服务账号 keyFile
     if (config.apiKey) {
       clientConfig.apiKey = config.apiKey
     }
 
+    logger.info('[VertexService] clientConfig', clientConfig)
     this.client = new GoogleGenAI(clientConfig)
   }
 
@@ -107,6 +104,11 @@ export class VertexService implements AIModelService {
         generationConfig.topK = request.topK
       }
 
+      // 添加图像调节配置 (Person Identity Lock 等)
+      if (request.imageConditioning) {
+        generationConfig.imageConditioning = request.imageConditioning
+      }
+
       // Vertex AI 不支持 frequencyPenalty 和 presencePenalty
       // 这些参数会被忽略
 
@@ -114,12 +116,12 @@ export class VertexService implements AIModelService {
       // @google/genai 使用 contents 数组，需要将消息转换为正确的格式
       const contents: Array<{ role: string; parts: Array<{ text: string }> }> = []
 
-      // 添加历史消息（除了最后一条）
+      // 处理消息内容
       for (const msg of chatMessages.slice(0, -1)) {
         const role = msg.role === 'assistant' ? 'model' : 'user'
         contents.push({
           role,
-          parts: [{ text: msg.content }],
+          parts: this.convertContentToParts(msg.content),
         })
       }
 
@@ -128,9 +130,10 @@ export class VertexService implements AIModelService {
       if (!lastMessage || lastMessage.role !== 'user') {
         throw new Error('The last message must be from the user')
       }
+
       contents.push({
         role: 'user',
-        parts: [{ text: lastMessage.content }],
+        parts: this.convertContentToParts(lastMessage.content),
       })
 
       // 构建请求参数
@@ -152,16 +155,34 @@ export class VertexService implements AIModelService {
       }
 
       // 调用 API
+      logger.info({ requestParams }, '[VertexService] Final Request')
       const response = await this.client.models.generateContent(requestParams)
 
-      // 提取响应内容
-      const content = response.text || ''
+      // 提取响应内容：遍历所有 parts，合并文本并处理图片数据
+      let content = ''
+      if (response.candidates && response.candidates[0]?.content?.parts) {
+        for (const part of response.candidates[0].content.parts) {
+          if (part.text) {
+            content += part.text
+          } else if (part.inlineData) {
+            // 将生成的图片数据转换为 Markdown 格式的 Data URL
+            const mimeType = part.inlineData.mimeType || 'image/png'
+            const base64Data = part.inlineData.data
+            content += `\n![generated_image](data:${mimeType};base64,${base64Data})`
+          }
+        }
+      }
+
+      // 备选方案：如果上述逻辑没拿到内容，再尝试使用 SDK 自带的 text 属性
+      if (!content.trim()) {
+        content = response.text || ''
+      }
 
       // 检查响应是否成功
       if (!content && response.candidates && response.candidates.length > 0) {
         const finishReason = response.candidates[0].finishReason
         if (finishReason && finishReason !== 'STOP') {
-          console.warn(`Vertex AI response finished with reason: ${finishReason}`)
+          logger.warn(`Vertex AI response finished with reason: ${finishReason}`)
         }
       }
 
@@ -182,5 +203,28 @@ export class VertexService implements AIModelService {
       }
       throw new Error(`Vertex AI completion failed: ${String(error)}`)
     }
+  }
+
+  /**
+   * 将 Message 中的 content 转换为 Google SDK 要求的 parts 格式
+   */
+  private convertContentToParts(content: string | any[]): any[] {
+    if (typeof content === 'string') {
+      return [{ text: content }]
+    }
+    return content.map((part) => {
+      if (part.text) {
+        return { text: part.text }
+      }
+      if (part.inlineData) {
+        return {
+          inlineData: {
+            mimeType: part.inlineData.mimeType,
+            data: part.inlineData.data,
+          },
+        }
+      }
+      return part
+    })
   }
 }
