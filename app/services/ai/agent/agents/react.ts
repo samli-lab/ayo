@@ -3,17 +3,11 @@
  * 基于提示词 + 解析的 Agent，兼容所有 LLM
  */
 
-import {
-  AgentMessage,
-  createSystemMessage,
-  createHumanMessage,
-  createAIMessage,
-} from '../messages.js'
+import { AgentMessage } from '../messages.js'
 import { BaseTool } from '../tool.js'
 import { BaseMemory } from '../memory/base.js'
 import {
   AgentAction,
-  AgentFinish,
   AgentDecision,
   AgentStep,
   ReActAgentConfig,
@@ -231,7 +225,9 @@ export class ReActAgent extends BaseAgent {
 
     // 解析 Action 和 Action Input
     const actionMatch = output.match(/Action:\s*([^\n]+)/i)
-    const actionInputMatch = output.match(/Action Input:\s*([\s\S]*?)(?=\n(?:Observation|Thought|Action|Final)|$)/i)
+    const actionInputMatch = output.match(
+      /Action Input:\s*([\s\S]*?)(?=\n(?:Observation|Thought|Action|Final)|$)/i
+    )
 
     if (actionMatch) {
       const toolName = actionMatch[1].trim()

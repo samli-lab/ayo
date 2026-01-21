@@ -21,7 +21,6 @@ export default class AiTestController {
    */
   async imageGenerationTest(ctx: HttpContext) {
     const prompt = ctx.request.input('prompt')
-    const lockIdentity = ctx.request.input('lockIdentity', false)
     const imageFile = ctx.request.file('image', {
       size: '5mb',
       extnames: ['jpg', 'png', 'jpeg', 'webp'],

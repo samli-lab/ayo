@@ -7,8 +7,6 @@ import { AgentMessage } from '../messages.js'
 import { BaseTool, ToolRegistry } from '../tool.js'
 import { BaseMemory } from '../memory/base.js'
 import {
-  AgentAction,
-  AgentFinish,
   AgentDecision,
   AgentStep,
   AgentConfig,

@@ -3,14 +3,7 @@
  * 参考 LangChain 1.0 Tool 设计
  */
 
-import {
-  ToolSchema,
-  FunctionDefinition,
-  ToolDefinition,
-  ToolContext,
-  ToolResult,
-  generateId,
-} from './types.js'
+import { ToolSchema, FunctionDefinition, ToolDefinition, ToolContext, ToolResult } from './types.js'
 
 // ============== 工具基类 ==============
 

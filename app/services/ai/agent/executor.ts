@@ -3,7 +3,7 @@
  * 负责 Agent 的执行循环、工具调用、人工确认等
  */
 
-import { AgentMessage, createHumanMessage, createAIMessage, createToolMessage } from './messages.js'
+import { AgentMessage, createHumanMessage } from './messages.js'
 import { BaseTool, ToolRegistry, ToolExecutor } from './tool.js'
 import { BaseMemory } from './memory/base.js'
 import { BaseAgent, StopCondition, MaxIterationsStop } from './agents/base.js'
@@ -13,8 +13,6 @@ import {
   ExecutorConfig,
   StreamEvent,
   isAgentFinish,
-  isAgentActions,
-  generateId,
 } from './types.js'
 
 /**

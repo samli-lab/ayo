@@ -3,6 +3,11 @@
 # MySQL Docker 启动脚本
 # 使用方法: ./docker-start-mysql.sh
 
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 echo "🚀 正在启动 MySQL Docker 容器..."
 
 # 检查 Docker 是否运行

@@ -7,7 +7,6 @@ import {
   AgentMessage,
   createSystemMessage,
   toOpenAIMessages,
-  parseToolCallsFromOpenAI,
 } from '../messages.js'
 import { BaseTool } from '../tool.js'
 import { BaseMemory } from '../memory/base.js'

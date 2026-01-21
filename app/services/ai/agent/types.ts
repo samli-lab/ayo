@@ -27,6 +27,11 @@ export interface PropertySchema {
  * 工具参数 Schema（JSON Schema 子集）
  */
 export interface ToolSchema {
+  /**
+   * 为了兼容不同 LLM SDK（如 OpenAI tools.function.parameters 通常被声明为 Record），
+   * 这里增加索引签名，让 ToolSchema 可以被安全地视为普通 JSON 对象。
+   */
+  [key: string]: unknown
   type: 'object'
   properties: Record<string, PropertySchema>
   required?: string[]

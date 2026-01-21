@@ -51,8 +51,6 @@ export class TestWorker {
         content,
         timestamp,
       })
-      const helloWorld = await testController.helloWorld()
-      logger.info(`[TestWorker] Hello World: ${helloWorld}`)
 
       // 模拟处理
       await this.sleep(500)

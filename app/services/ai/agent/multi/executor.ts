@@ -15,7 +15,6 @@ import {
   MultiAgentStreamEvent,
   AgentResult,
   WorkerAgentConfig,
-  SupervisorDecision,
   QAPair,
 } from './types.js'
 import { ReActAgent } from '../agents/react.js'
@@ -187,7 +186,6 @@ export class MultiAgentExecutor {
    * 流式执行
    */
   async *stream(task: string): AsyncGenerator<MultiAgentStreamEvent> {
-    const startTime = Date.now()
     const agentSequence: string[] = []
 
     // 初始化状态
