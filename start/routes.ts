@@ -19,7 +19,6 @@ import '#routes/gallery'
 import '#routes/growthbook'
 import '#routes/distributed_lock'
 import '#routes/queue'
-import '#routes/test'
 import '#routes/ai'
 // import '#routes/comment'
 
