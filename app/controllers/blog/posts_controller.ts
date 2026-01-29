@@ -84,9 +84,9 @@ export default class PostsController {
       date: post.createdAt.toFormat('yyyy-MM-dd'),
       category: post.category
         ? {
-            id: post.category.id,
-            name: post.category.name,
-          }
+          id: post.category.id,
+          name: post.category.name,
+        }
         : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
@@ -148,9 +148,9 @@ export default class PostsController {
       date: post.createdAt.toFormat('yyyy-MM-dd'),
       category: post.category
         ? {
-            id: post.category.id,
-            name: post.category.name,
-          }
+          id: post.category.id,
+          name: post.category.name,
+        }
         : null,
       readTime: post.readTime || '',
       imageUrl: post.imageUrl || '',
@@ -162,9 +162,9 @@ export default class PostsController {
       })),
       author: post.authorName
         ? {
-            name: post.authorName,
-            avatar: post.authorAvatar || undefined,
-          }
+          name: post.authorName,
+          avatar: post.authorAvatar || undefined,
+        }
         : undefined,
       views: post.views,
       likes: post.likes,
@@ -227,9 +227,9 @@ export default class PostsController {
       date: post.createdAt.toFormat('yyyy-MM-dd'),
       category: post.category
         ? {
-            id: post.category.id,
-            name: post.category.name,
-          }
+          id: post.category.id,
+          name: post.category.name,
+        }
         : null,
       imageUrl: post.imageUrl || undefined,
     }))
@@ -301,9 +301,9 @@ export default class PostsController {
       date: post.createdAt.toFormat('yyyy-MM-dd'),
       category: post.category
         ? {
-            id: post.category.id,
-            name: post.category.name,
-          }
+          id: post.category.id,
+          name: post.category.name,
+        }
         : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
@@ -371,9 +371,9 @@ export default class PostsController {
       date: post.createdAt.toFormat('yyyy-MM-dd'),
       category: post.category
         ? {
-            id: post.category.id,
-            name: post.category.name,
-          }
+          id: post.category.id,
+          name: post.category.name,
+        }
         : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
@@ -433,9 +433,9 @@ export default class PostsController {
       date: post.createdAt.toFormat('yyyy-MM-dd'),
       category: post.category
         ? {
-            id: post.category.id,
-            name: post.category.name,
-          }
+          id: post.category.id,
+          name: post.category.name,
+        }
         : null,
       imageUrl: post.imageUrl || undefined,
       readTime: post.readTime || undefined,
@@ -463,8 +463,8 @@ export default class PostsController {
   /**
    * @store
    * @summary 创建文章
-   * @description 创建新文章
-   * @requestBody {"slug": "example-post", "title": "Example Post", "content": "Content"}
+   * @description 创建新文章，支持自定义创建时间
+   * @requestBody {"slug": "example-post", "title": "Example Post", "content": "Content", "createTime": "2024-01-01T00:00:00.000Z"}
    * @responseBody 201 - {"code": 201, "message": "success", "data": {"id": 0}}
    * @responseBody 400 - {"code": 400, "message": "Validation error", "data": {"error": "Invalid data"}}
    */
@@ -494,7 +494,7 @@ export default class PostsController {
     }
 
     // 创建文章
-    const post = await Post.create({
+    const postData: any = {
       slug: validated.slug,
       title: validated.title,
       excerpt: validated.excerpt || null,
@@ -506,7 +506,14 @@ export default class PostsController {
       authorAvatar: validated.authorAvatar || null,
       views: 0,
       likes: 0,
-    })
+    }
+
+    // 如果提供了 createTime，使用它作为 createdAt
+    if (validated.createTime) {
+      postData.createdAt = DateTime.fromJSDate(validated.createTime)
+    }
+
+    const post = await Post.create(postData)
 
     // 关联标签
     if (validated.tags && validated.tags.length > 0) {
@@ -574,7 +581,7 @@ export default class PostsController {
     }
 
     // 更新文章
-    post.merge({
+    const updateData: any = {
       slug: validated.slug || post.slug,
       title: validated.title || post.title,
       excerpt: validated.excerpt !== undefined ? validated.excerpt : post.excerpt,
@@ -585,7 +592,14 @@ export default class PostsController {
       authorName: validated.authorName !== undefined ? validated.authorName : post.authorName,
       authorAvatar:
         validated.authorAvatar !== undefined ? validated.authorAvatar : post.authorAvatar,
-    })
+    }
+
+    // 如果提供了 createTime，更新 createdAt
+    if (validated.createTime) {
+      updateData.createdAt = DateTime.fromJSDate(validated.createTime)
+    }
+
+    post.merge(updateData)
     await post.save()
 
     // 更新标签关联

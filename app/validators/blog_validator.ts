@@ -56,6 +56,7 @@ export const createPostSchema = vine.object({
   authorName: vine.string().trim().optional(),
   authorAvatar: vine.string().trim().url().optional(),
   tags: vine.array(vine.string().uuid()).optional(),
+  createTime: vine.date({ formats: ['iso8601'] }).optional(), // 可选的创建时间，用于导入旧文章等场景
 })
 
 // 更新文章请求体验证
@@ -70,6 +71,7 @@ export const updatePostSchema = vine.object({
   authorName: vine.string().trim().optional(),
   authorAvatar: vine.string().trim().url().optional(),
   tags: vine.array(vine.string().uuid()).optional(),
+  createTime: vine.date().optional(), // 可选的创建时间，用于修正历史数据
 })
 
 // 创建分类请求体验证

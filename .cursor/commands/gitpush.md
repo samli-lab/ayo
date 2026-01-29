@@ -1,4 +1,5 @@
 根据当前 git diff，生成一个简洁的英文 commit message（不超过 72 字符，动词开头）。
+
 ## 提交信息格式（请使用英文）
 
 提交信息必须符合以下格式：
@@ -19,8 +20,7 @@
 - `chore`: 构建过程或辅助工具的变动
 - `revert`: 回滚
 - `ci`: CI配置相关
-- 
-然后依次执行：
-git add .
-git commit -m "<message>"
-git push
+- 然后依次执行：
+  git add .
+  git commit -m "<message>"
+  git push
