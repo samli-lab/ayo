@@ -1,0 +1,27 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: ayo_mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: ayo_blog
+    ports:
+      - '27018:27017' # 映射到 27018 端口避免冲突
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+      - ../../docker/mongodb/init:/docker-entrypoint-initdb.d:ro
+    command: --auth
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongodb_data:
+    driver: local
+  mongodb_config:
+    driver: local
